@@ -3,9 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TCloud Família — Armazenamento para até 5-10 pessoas com Zero‑Knowledge</title>
-  <meta name="description" content="TCloud Família: espaços privados para cada pessoa, pasta compartilhada da família, controles parentais e Zero‑Knowledge de verdade. Funciona no celular, desktop e web." />
+  <title>TCloud Família — Armazenamento para até 5–10 pessoas com Zero-Knowledge</title>
+  <meta name="description" content="TCloud Família: espaços privados para cada pessoa, pasta compartilhada da família, controles parentais e Zero-Knowledge de verdade. Funciona no celular, desktop e web." />
   <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#0B1220">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="TCloud Família — Armazenamento com Zero-Knowledge" />
+  <meta property="og:description" content="Espaços privados por pessoa + pasta da família. Controles parentais e apps para web, desktop e mobile." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.tclouddrive.com.br/familia" />
+  <meta property="og:image" content="https://www.tclouddrive.com.br/og/tcloud-family.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="TCloud Família — Armazenamento com Zero-Knowledge" />
+  <meta name="twitter:description" content="Espaços privados por pessoa + pasta da família. Controles parentais e apps para web, desktop e mobile." />
+  <meta name="twitter:image" content="https://www.tclouddrive.com.br/og/tcloud-family.png" />
+
   <style>
     :root{
       --tc-primary:#00A3FF; --tc-primary-600:#0086D1; --tc-accent:#6EE7FF;
@@ -75,25 +90,28 @@
     @media (max-width:640px){h1{font-size:34px}.calc{grid-template-columns:1fr}.foot{grid-template-columns:1fr}}
   </style>
 
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-<!-- Google tag (GA4) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-9DWZF8HNH3');
-</script>
+  <!-- Google tag (GA4) -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9DWZF8HNH3');
+  </script>
 
-<link rel="canonical" href="https://www.tclouddrive.com.br/familia">
+  <link rel="canonical" href="https://www.tclouddrive.com.br/familia">
 </head>
 <body>
+  <a href="#conteudo" class="note" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Pular para o conteúdo</a>
+
   <!-- ===== NAV ===== -->
-  <nav>
+  <nav role="navigation" aria-label="Principal">
     <div class="container nav-wrap">
       <div class="brand">
         <img src="logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block;"/>
@@ -101,7 +119,7 @@
       </div>
       <div class="nav-links">
         <a class="btn ghost" href="/">Início</a>
-        <a class="btn ghost" href="/zero-knowledge">Zero‑Knowledge</a>
+        <a class="btn ghost" href="/zero-knowledge">Zero-Knowledge</a>
         <a class="btn ghost" href="/sobre">Sobre</a>
         <a class="btn ghost" href="/recursos">Recursos</a>
         <a class="btn ghost" href="/regioes">Regiões</a>
@@ -111,25 +129,25 @@
         <a class="btn ghost" href="/download">Download</a>
         <a class="btn ghost" href="/empresarial">Empresarial</a>
         <a class="btn ghost" href="/pass">Pass</a>
-        <a class="btn ghost active" href="#">Família</a>
+        <a class="btn ghost active" href="#" aria-current="page">Família</a>
         <a class="btn" href="#cta">Começar</a>
       </div>
     </div>
   </nav>
 
   <!-- ===== HERO ===== -->
-  <header class="hero">
+  <header class="hero" id="conteudo">
     <div class="container hero-grid">
       <div>
         <span class="chip">TCloud Família</span>
         <h1>Armazenamento para todos em casa<br/>com espaços privados e uma pasta da família</h1>
-        <p class="lead">Cada pessoa tem seu espaço privado, mais uma pasta compartilhada para fotos, documentos e lembranças. Tudo protegido por Zero‑Knowledge.</p>
+        <p class="lead">Cada pessoa tem seu espaço privado, mais uma pasta compartilhada para fotos, documentos e lembranças. Tudo protegido por Zero-Knowledge.</p>
         <div style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap">
           <a class="btn" href="#calc">Escolher tamanho</a>
           <a class="btn ghost" href="#recursos">Ver recursos</a>
         </div>
       </div>
-      <div class="hero-card">
+      <div class="hero-card" aria-label="Resumo do plano Família">
         <h3 style="margin:0 0 8px">Inclui em TCloud Família</h3>
         <ul style="margin:0; padding-left:18px; color:var(--tc-text-muted)">
           <li>Espaços privados individuais</li>
@@ -152,20 +170,20 @@
         <div class="card"><h3>Controles parentais</h3><p>Limite convites externos, exigindo senha e datas de expiração para menores.</p></div>
         <div class="card"><h3>Histórico e recuperação</h3><p>Restaure versões anteriores e recupere arquivos apagados por engano.</p></div>
         <div class="card"><h3>Sincronize tudo</h3><p>Aplicativos para Windows, macOS, Linux, Android e iOS com favoritos offline.</p></div>
-        <div class="card"><h3>Zero‑Knowledge real</h3><p>Criptografia no dispositivo: só sua família tem as chaves do conteúdo.</p></div>
+        <div class="card"><h3>Zero-Knowledge real</h3><p>Criptografia no dispositivo: só sua família tem as chaves do conteúdo.</p></div>
       </div>
     </div>
   </section>
 
   <!-- ===== CALCULADORA / PLANO ===== -->
-  <section id="calc" class="section">
+  <section id="calc" class="section" aria-labelledby="calc-title">
     <div class="container">
-      <h2>Escolha o tamanho do seu plano</h2>
+      <h2 id="calc-title">Escolha o tamanho do seu plano</h2>
       <p class="subtitle"><code>PRICES_FAMILY</code>.</p>
-      <div class="calc" aria-label="Calculadora de plano família">
+      <div class="calc" role="group" aria-label="Calculadora de plano família">
         <div>
           <label for="members">Quantidade de pessoas</label>
-          <input id="members" type="number" min="2" max="10" step="1" value="5" />
+          <input id="members" type="number" min="2" max="10" step="1" value="5" inputmode="numeric" />
         </div>
         <div>
           <label for="period">Cobrança</label>
@@ -183,8 +201,8 @@
         </div>
         <div class="result" role="status" aria-live="polite">
           <div class="note">Total estimado</div>
-          <div class="amount" id="total">R$ 39/mês</div>
-          <div class="note" id="per">Cobrança anual • ~ <span id="perMember">R$ 8</span>/pessoa</div>
+          <div class="amount" id="total">R$ 39/mês</div>
+          <div class="note" id="per">Cobrança anual • ~ <span id="perMember">R$ 8</span>/pessoa</div>
         </div>
       </div>
       <div style="margin-top:12px">
@@ -199,9 +217,9 @@
       <h2>Como funciona</h2>
       <div class="grid cols-4">
         <div class="card"><h3>1) Crie a família</h3><p>O titular cria o grupo e escolhe o tamanho do plano.</p></div>
-        <div class="card"><h3>2) Convide pessoas</h3><p>Envie convites por e‑mail. Cada convidado terá seu espaço privado.</p></div>
+        <div class="card"><h3>2) Convide pessoas</h3><p>Envie convites por e-mail. Cada convidado terá seu espaço privado.</p></div>
         <div class="card"><h3>3) Use a pasta da família</h3><p>Todos têm acesso a uma pasta comum para fotos, vídeos e documentos.</p></div>
-        <div class="card"><h3>4) Controle e acompanhe</h3><p>Gerencie permissões, links e visualiza um resumo de atividades.</p></div>
+        <div class="card"><h3>4) Controle e acompanhe</h3><p>Gerencie permissões, links e visualize um resumo de atividades.</p></div>
       </div>
     </div>
   </section>
@@ -226,7 +244,7 @@
       <details><summary>Qual o máximo de pessoas?</summary><p>Planos ilustrativos: até 5 pessoas (Família) ou até 10 (Família Plus). Ajuste os limites conforme sua oferta.</p></details>
       <details><summary>Os arquivos são privados entre os membros?</summary><p>Sim. Cada membro tem um espaço privado. Apenas a pasta da família é compartilhada com todos por padrão.</p></details>
       <details><summary>Posso mudar de plano depois?</summary><p>Sim. Você pode aumentar ou reduzir o armazenamento ou a quantidade de pessoas quando quiser.</p></details>
-      <details><summary>Como funciona o Zero‑Knowledge para a família?</summary><p>A criptografia acontece no dispositivo de cada pessoa. Servidores só recebem dados cifrados, sem chaves para leitura.</p></details>
+      <details><summary>Como funciona o Zero-Knowledge para a família?</summary><p>A criptografia acontece no dispositivo de cada pessoa. Servidores só recebem dados cifrados, sem chaves para leitura.</p></details>
     </div>
   </section>
 
@@ -250,13 +268,13 @@
           <img src="logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block;"/>
           <strong>TCloud</strong>
         </div>
-        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero‑Knowledge de verdade.</p>
+        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero-Knowledge de verdade.</p>
       </div>
       <div>
         <strong>Produto</strong>
         <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
           <li><a href="/">Início</a></li>
-          <li><a href="/zero-knowledge">Zero‑Knowledge</a></li>
+          <li><a href="/zero-knowledge">Zero-Knowledge</a></li>
           <li><a href="/sobre">Sobre</a></li>
           <li><a href="/recursos">Recursos</a></li>
           <li><a href="/regioes">Regiões</a></li>
@@ -274,7 +292,7 @@
         <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
           <li><a href="/faq">FAQ</a></li>
           <li><a href="/opcoes-de-privacidade">Opções de Privacidade</a></li>
-          <li><a href="/contato">Contate‑nos</a></li>
+          <li><a href="/contato">Contate-nos</a></li>
           <li><a href="/notas-de-versao">Notas de Versão</a></li>
         </ul>
       </div>
@@ -289,6 +307,7 @@
     </div>
   </footer>
 
+  <!-- Ano + Calculadora -->
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -302,7 +321,7 @@
     const period  = document.getElementById('period');
     const size    = document.getElementById('size');
     const total   = document.getElementById('total');
-    const per     = document.getElementById('per');
+    const perNote = document.getElementById('per');
     const perMember = document.getElementById('perMember');
 
     function price(){
@@ -312,13 +331,31 @@
     function render(){
       const ppl = Math.max(2, Math.min(10, Number(members.value||5)));
       const val = price();
-      const cur = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(val);
-      total.textContent = `${cur}/mês`;
-      const perP = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(Math.ceil(val/ppl));
-      per.innerHTML = `${period.value==='yearly'?'Cobrança anual':'Cobrança mensal'} • ~ <span id="perMember">${perP}</span>/pessoa`;
+      const nf = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});
+      total.textContent = nf.format(val) + '/mês';
+      perMember.textContent = nf.format(Math.ceil(val / ppl));
+      perNote.firstChild.nodeValue = (period.value==='yearly' ? 'Cobrança anual' : 'Cobrança mensal') + ' • ~ ';
     }
     [members, period, size].forEach(el=>el.addEventListener('input', render));
     render();
+  </script>
+
+  <!-- FAQ JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Qual o máximo de pessoas?",
+       "acceptedAnswer":{"@type":"Answer","text":"Planos ilustrativos: até 5 pessoas (Família) ou até 10 (Família Plus). Ajuste os limites conforme sua oferta."}},
+      {"@type":"Question","name":"Os arquivos são privados entre os membros?",
+       "acceptedAnswer":{"@type":"Answer","text":"Sim. Cada membro tem um espaço privado. Apenas a pasta da família é compartilhada com todos por padrão."}},
+      {"@type":"Question","name":"Posso mudar de plano depois?",
+       "acceptedAnswer":{"@type":"Answer","text":"Sim. Você pode aumentar ou reduzir o armazenamento ou a quantidade de pessoas quando quiser."}},
+      {"@type":"Question","name":"Como funciona o Zero-Knowledge para a família?",
+       "acceptedAnswer":{"@type":"Answer","text":"A criptografia acontece no dispositivo de cada pessoa. Servidores só recebem dados cifrados, sem chaves para leitura."}}
+    ]
+  }
   </script>
 </body>
 </html>
