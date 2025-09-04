@@ -1,10 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <script defer src="/include.js"></script>
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9DWZF8HNH3');
+  </script>
+
+  <!-- FAVICONS -->
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TCloud — Armazenamento em Nuvem Criptografado (Zero‑Knowledge)</title>
-  <meta name="description" content="TCloud: armazenamento em nuvem com criptografia de ponta a ponta e Ensure Zero‑Knowledge. Suas chaves ficam só com você. Privacidade total." />
+  <title>TCloud — Armazenamento em Nuvem Criptografado (Zero-Knowledge)</title>
+  <meta name="description" content="TCloud: armazenamento em nuvem com Ensure Zero-Knowledge. Suas chaves ficam só com você. Privacidade total." />
   <meta name="color-scheme" content="dark light">
   <style>
     :root{
@@ -15,8 +31,8 @@
       --tc-success: #22c55e;
       --tc-warning: #f59e0b;
       --tc-danger: #ef4444;
-      --tc-bg: #0B1220;           /* fundo escuro */
-      --tc-surface: #0F172A;      /* cartões/nav */
+      --tc-bg: #0B1220;           /* fundo base */
+      --tc-surface: #0F172A;      /* cartões/elevações */
       --tc-muted: #1F2A44;
       --tc-border: #23304d;
       --tc-text: #E6F0FF;
@@ -32,33 +48,19 @@
       margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial;
       color:var(--tc-text); background: radial-gradient(1200px 600px at 60% -10%, rgba(0,163,255,.15), transparent 60%),
                radial-gradient(800px 500px at 10% 10%, rgba(110,231,255,.08), transparent 55%),
-               linear-gradient(180deg, #0b1220, #0a0f1b 35%, #0b1220);
+               linear-gradient(180deg, #0B1220, #0F172A 35%, #0B1220);
     }
-    a{color:var(--tc-accent); text-decoration:none}
-    a:hover{text-decoration:underline}
-    .container{max-width:var(--grid-max); margin:0 auto; padding:0 20px}
-    /* NAV */
-    nav{
-      position:sticky; top:0; z-index:50; backdrop-filter:saturate(130%) blur(14px);
-      background: color-mix(in oklab, var(--tc-surface) 65%, transparent);
-      border-bottom:1px solid var(--tc-border);
-    }
-    .nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
-    .brand{display:flex; gap:12px; align-items:center}
-    .brand .name{font-weight:800; letter-spacing:.2px; font-size:18px}
-    .nav-links{display:flex; gap:20px; align-items:center}
-    .btn{border:1px solid transparent; background:var(--tc-primary); color:white; padding:10px 16px; border-radius:999px; font-weight:700; box-shadow:var(--shadow-md)}
-    .btn:hover{background:var(--tc-primary-600)}
-    .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text)}
+    a{color:inherit}
+    .container{max-width:var(--grid-max); margin:0 auto; padding:0 18px}
+    .btn{display:inline-flex; align-items:center; gap:10px; padding:12px 18px; border-radius:999px; text-decoration:none; font-weight:800}
+    .btn.primary{background:var(--tc-primary); color:#061427; box-shadow:0 10px 25px rgba(0,163,255,.35)}
+    .btn.ghost{border:1px solid var(--tc-border); color:var(--tc-text); background:rgba(255,255,255,.02)}
     .btn.ghost:hover{border-color:var(--tc-primary)}
-    /* HERO */
-    .hero{padding:64px 0 40px}
-    .hero-grid{display:grid; grid-template-columns:1.2fr .8fr; gap:40px; align-items:center}
-    .chip{display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; background:color-mix(in oklab, var(--tc-muted) 70%, transparent); border:1px solid var(--tc-border); color:var(--tc-text-muted); font-weight:600; font-size:12px}
+    .chip{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px dashed var(--tc-border); color:var(--tc-text-muted); font-weight:600; font-size:12px}
     h1{font-size:42px; line-height:1.1; margin:12px 0 14px}
     .lead{font-size:18px; color:var(--tc-text-muted); max-width:52ch}
     .cta{display:flex; gap:12px; margin-top:22px; flex-wrap:wrap}
-    .hero-card{background:linear-gradient(180deg, #0f172a, #111a30); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-lg)}
+    .hero-card{background:linear-gradient(180deg, #0f172a, #111a2e); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-lg)}
     .stat{display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:start}
     .stat strong{font-size:22px}
     /* FEATURES */
@@ -68,190 +70,116 @@
     .grid{display:grid; gap:20px}
     .grid.cols-3{grid-template-columns:repeat(3, 1fr)}
     .grid.cols-2{grid-template-columns:repeat(2, 1fr)}
-    .card{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px}
-    .icon{width:28px; height:28px; color:var(--tc-accent)}
-    .card h3{margin:8px 0 8px; font-size:18px}
+    .card{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:14px; padding:18px}
+    .card h3{margin:0 0 6px}
     .card p{margin:0; color:var(--tc-text-muted)}
-    /* COMPARE */
-    .compare{display:grid; grid-template-columns:1fr 1fr; gap:20px}
-    .table{border:1px solid var(--tc-border); border-radius:var(--radius); overflow:hidden}
-    table{width:100%; border-collapse:collapse}
-    th, td{padding:14px 16px; border-bottom:1px solid var(--tc-border)}
-    th{background:color-mix(in oklab, var(--tc-muted) 70%, transparent); text-align:left}
-    tr:last-child td{border-bottom:none}
-    .good{color:var(--tc-success); font-weight:700}
-    .bad{color:var(--tc-danger); font-weight:700}
     /* PRICING */
-    .pricing{display:grid; grid-template-columns:repeat(3, 1fr); gap:20px}
-    .price{position:relative}
-    .price .ribbon{position:absolute; top:14px; right:-8px; transform:rotate(6deg); background:var(--tc-primary); color:#001425; padding:6px 10px; font-weight:800; border-radius:10px}
-    .price h3{font-size:20px; margin:6px 0}
-    .price .amount{font-size:34px; font-weight:800}
-    .small{color:var(--tc-text-muted); font-size:14px}
-    /* FAQ */
-    details{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:12px; padding:14px 16px}
-    details+details{margin-top:10px}
-    summary{cursor:pointer; font-weight:700}
+    .pricing{display:grid; gap:18px; grid-template-columns:repeat(3, 1fr)}
+    .price-card{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:16px; padding:18px; position:relative}
+    .price{font-size:34px; font-weight:900; letter-spacing:.5px}
+    .badge{position:absolute; top:14px; right:14px; background:rgba(0,163,255,.1); border:1px solid #0b5fb6; color:#8bd3ff; font-weight:800; padding:4px 8px; border-radius:999px; font-size:11px}
+    .price-desc{color:var(--tc-text-muted); font-size:13px}
+    .features ul{margin:12px 0; padding-left:18px; color:var(--tc-text-muted)}
     /* FOOTER */
-    footer{padding:40px 0; border-top:1px solid var(--tc-border); background:color-mix(in oklab, var(--tc-surface) 65%, transparent)}
-    .foot{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:20px}
-    .credits{color:var(--tc-text-muted); font-size:13px}
-    /* RESPONSIVE */
-    @media (max-width: 1024px){
-      .hero-grid{grid-template-columns:1fr;}
-      .grid.cols-3{grid-template-columns:1fr 1fr}
-      .compare{grid-template-columns:1fr}
-      .pricing{grid-template-columns:1fr 1fr}
-      .foot{grid-template-columns:1fr 1fr}
-    }
-    @media (max-width: 640px){
-      h1{font-size:34px}
-      .grid.cols-3, .pricing{grid-template-columns:1fr}
+    .foot{border-top:1px solid var(--tc-border); margin-top:64px; padding:28px 0}
+    .foot-grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:18px}
+    .foot-grid a{display:block; text-decoration:none; color:var(--tc-text-muted); padding:6px 0}
+    .foot-grid strong{color:var(--tc-text)}
+    @media (max-width:1000px){
+      .grid.cols-3{grid-template-columns:1fr}
+      .pricing{grid-template-columns:1fr}
       .foot{grid-template-columns:1fr}
     }
   </style>
-
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-
-<!-- Google tag (GA4) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-9DWZF8HNH3');
-</script>
-
-<link rel="canonical" href="https://www.tclouddrive.com.br/">
 </head>
 <body>
-  <!-- ===== NAV ===== -->
-  <nav>
-    <div class="container nav-wrap">
-      <div class="brand">
-        <!-- Logo TCloud (imagem real) -->
-        <img src="logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block;"/>
-        <span class="name">TCloud</span>
-      </div>
-      <div class="nav-links">
-        <a class="btn ghost" href="#recursos">Recursos</a>
-        <a class="btn ghost" href="#como-funciona">Como funciona</a>
-        <a class="btn ghost" href="#planos">Planos</a>
-        <a class="btn" href="#cta">Experimente agora</a>
-      </div>
-    </div>
-  </nav>
+  <div id="site-header" data-active="home"></div>
 
   <!-- ===== HERO ===== -->
   <header class="hero">
-    <div class="container hero-grid">
+    <div class="container hero-card" style="display:grid; grid-template-columns:1.2fr .8fr; gap:24px; align-items:center">
       <div>
-        <span class="chip">Ensure Zero‑Knowledge • Criptografia ponta a ponta</span>
-        <h1>Armazenamento em nuvem criptografado.<br/>Privacidade que só você desbloqueia.</h1>
-        <p class="lead">Na TCloud, sua chave nunca sai do seu dispositivo. Nem mesmo nossos servidores conseguem ver o conteúdo. É assim que Zero‑Knowledge deve ser: simples, seguro e seu.</p>
+        <span class="chip">Ensure Zero-Knowledge</span>
+        <h1>Privacidade por padrão, <span style="color:var(--tc-accent)">Zero-Knowledge de verdade</span></h1>
+        <p class="lead">Seus dados são criptografados <strong>no seu dispositivo</strong> antes do upload. Só você tem as chaves. Sem acesso por terceiros.</p>
         <div class="cta">
-          <a class="btn" href="#planos">Ver planos</a>
-          <a class="btn ghost" href="#como-funciona">Entenda o Zero‑Knowledge</a>
+          <a class="btn primary" href="/pricing.html#anual">Começar agora</a>
+          <a class="btn ghost" href="/encrypted.html">Entenda o Zero-Knowledge</a>
         </div>
       </div>
       <div class="hero-card">
         <div class="stat">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1v22M5 8l7-7 7 7"/></svg>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" width="28" height="28" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1v22M5 8l7-7 7 7"/></svg>
           <div>
             <strong>Criptografia no dispositivo</strong>
             <p>Arquivos são protegidos <em>antes</em> do upload. Só quem tem a sua chave abre.</p>
           </div>
         </div>
         <div class="stat" style="margin-top:14px">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/><path d="M12 22v-3"/></svg>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" width="28" height="28" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/><path d="M19.4 15a8 8 0 1 1-14.8-6"/></svg>
           <div>
-            <strong>Zero‑Knowledge real</strong>
-            <p>Servidores veem apenas blocos indecifráveis. Conteúdo e chaves ficam com você.</p>
+            <strong>Controle total de chaves</strong>
+            <p>Zero-Knowledge real: sem cópia das chaves no servidor.</p>
           </div>
         </div>
         <div class="stat" style="margin-top:14px">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21v-7a8 8 0 1 1 16 0v7"/><path d="M12 13v8"/></svg>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" width="28" height="28" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 4v16"/></svg>
           <div>
-            <strong>Compartilhamento privado</strong>
-            <p>Links com senha, validade e permissões. Segurança sem atrito.</p>
+            <strong>Aplicativos nativos</strong>
+            <p>Desktop e Mobile, com sincronização seletiva e rápida.</p>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- ===== FEATURES ===== -->
+  <!-- ===== SEÇÃO RECURSOS ===== -->
   <section id="recursos" class="section">
     <div class="container">
-      <h2>Recursos que importam</h2>
-      <p class="subtitle">Tudo o que você espera de um armazenamento moderno — com Zero‑Knowledge de verdade.</p>
+      <h2>Recursos em destaque</h2>
+      <p class="subtitle">Tudo que você precisa para trabalhar com segurança e velocidade.</p>
       <div class="grid cols-3">
         <div class="card">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 1v6"/><path d="M5 8l7-7 7 7"/><rect x="3" y="11" width="18" height="10" rx="2"/></svg>
-          <h3>Criptografia ponta a ponta</h3>
-          <p>Proteção AES‑256 e curvas elípticas; chaves geradas e mantidas no seu dispositivo.</p>
+          <h3>Gerenciamento de Arquivos</h3>
+          <p>Pastas inteligentes, pesquisa rápida, upload em lote e visualização moderna.</p>
         </div>
         <div class="card">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94"/><path d="M9.69 8h11.48"/><path d="M7.38 12l5.74-9.94"/><path d="M9.69 16L3.95 6.06"/><path d="M14.31 16H2.83"/><path d="M16.62 12l-5.74 9.94"/></svg>
-          <h3>Sincronização multi‑plataforma</h3>
-          <p>Apps para desktop e mobile, seleção de pastas e controle de largura de banda.</p>
+          <h3>Compartilhamento seguro</h3>
+          <p>Links com senha, validade e limitação de downloads.</p>
         </div>
         <div class="card">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
-          <h3>Backup e histórico</h3>
-          <p>Versionamento, recuperação de arquivos e lixeira com retenção configurável.</p>
+          <h3>Backup & Versionamento</h3>
+          <p>Restaure versões antigas e recupere itens excluídos.</p>
         </div>
-        <div class="card">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 17l-5 3 1.9-5.6L4 9.6l5.9-.4L12 4l2.1 5.2 5.9.4-4.9 4.8L17 20z"/></svg>
-          <h3>Links com senha</h3>
-          <p>Compartilhe com proteção por senha, data de expiração e limites de download.</p>
-        </div>
-        <div class="card">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 15V9"/><circle cx="12" cy="6" r="3"/><rect x="3" y="12" width="18" height="8" rx="2"/></svg>
-          <h3>2FA + Passkeys</h3>
-          <p>Autenticação forte com TOTP e chaves de acesso suportadas.</p>
-        </div>
-        <div class="card">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><path d="M12 15V3"/></svg>
-          <h3>Importe de outras nuvens</h3>
-          <p>Migre facilmente do Google Drive, OneDrive e outras plataformas.</p>
-        </div>
+      </div>
+      <div style="margin-top:14px">
+        <a class="btn ghost" href="/features.html">Ver todos os recursos</a>
       </div>
     </div>
   </section>
 
   <!-- ===== COMO FUNCIONA ===== -->
-  <section id="como-funciona" class="section">
+  <section id="como-funciona" class="section" style="background:rgba(255,255,255,.02); border-top:1px solid var(--tc-border); border-bottom:1px solid var(--tc-border)">
     <div class="container">
-      <h2>Como o Zero‑Knowledge funciona</h2>
-      <p class="subtitle">Em três passos simples — com suas chaves sempre sob seu controle.</p>
+      <h2>Como funciona o Ensure Zero-Knowledge?</h2>
+      <p class="subtitle">Criptografia lado-cliente com chaves somente suas.</p>
       <div class="grid cols-3">
-        <div class="card"><h3>1) Geração de chaves</h3><p>Seu app cria pares de chaves seguras localmente. A chave privada nunca sai do seu dispositivo.</p></div>
-        <div class="card"><h3>2) Criptografia local</h3><p>Antes do upload, arquivos são cifrados no seu aparelho. Os servidores recebem apenas dados embaralhados.</p></div>
-        <div class="card"><h3>3) Descriptografia sob demanda</h3><p>Só quem possui a chave correta consegue abrir. Nem equipe TCloud, nem terceiros.</p></div>
-      </div>
-      <div class="compare" style="margin-top:24px">
-        <div class="table">
-          <table aria-label="Comparação de modelos de segurança">
-            <thead>
-              <tr><th>Modelo tradicional</th><th>Zero‑Knowledge (TCloud)</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Servidor acessa conteúdos <span class="bad">(risco)</span></td><td>Servidor armazena dados cifrados <span class="good">(privado)</span></td></tr>
-              <tr><td>Chaves sob controle do provedor</td><td>Chaves sob seu controle</td></tr>
-              <tr><td>Auditoria complexa</td><td>Superfície de ataque reduzida</td></tr>
-              <tr><td>Exposição a insiders</td><td>Sem acesso interno ao conteúdo</td></tr>
-            </tbody>
-          </table>
+        <div class="card">
+          <h3>1) Criptografa no dispositivo</h3>
+          <p>Antes de sair do seu computador, o arquivo já está cifrado. O servidor nunca vê o conteúdo.</p>
         </div>
         <div class="card">
-          <h3>Detalhes de criptografia</h3>
-          <p>Utilize algoritmos modernos (por exemplo, AES‑256‑GCM para dados e ECDH para troca de chaves). As senhas dos usuários devem ser fortalecidas via KDF (ex.: Argon2id) com sal e parâmetros seguros.</p>
-          <p class="small">Observação: ajuste estes detalhes conforme sua implementação real.</p>
+          <h3>2) Sincroniza com segurança</h3>
+          <p>Transmissão cifrada ponta a ponta. Nossos servidores só armazenam dados cifrados.</p>
         </div>
+        <div class="card">
+          <h3>3) Você controla as chaves</h3>
+          <p>Sem cópias no servidor. Rotacione chaves quando quiser e monitore acessos.</p>
+        </div>
+      </div>
+      <div class="cta" style="margin-top:18px">
+        <a class="btn primary" href="/encrypted.html">Saiba mais</a>
+        <a class="btn ghost" href="/security.html">Segurança detalhada</a>
       </div>
     </div>
   </section>
@@ -259,103 +187,102 @@
   <!-- ===== PLANOS ===== -->
   <section id="planos" class="section">
     <div class="container">
-      <h2>Planos e Preços</h2>
-      <p class="subtitle">Escolha o que faz sentido hoje. Escale quando precisar.</p>
+      <h2>Planos para você e sua empresa</h2>
+      <p class="subtitle">Escolha o período e veja os valores.</p>
+
       <div class="pricing">
-        <div class="card price">
-          <span class="ribbon">Popular</span>
-          <h3>Essencial</h3>
-          <div class="amount">R$ 19<span class="small">/mês</span></div>
-          <p class="small">Inclui 200 GB • 1 usuário • Links com senha • Apps móveis</p>
-          <div class="cta"><a class="btn" href="#cta">Começar</a></div>
-        </div>
-        <div class="card price">
-          <h3>Profissional</h3>
-          <div class="amount">R$ 39<span class="small">/mês</span></div>
-          <p class="small">2 TB • 1 usuário • Zero‑Knowledge • Versões e restauração</p>
-          <div class="cta"><a class="btn" href="#cta">Assinar</a></div>
-        </div>
-        <div class="card price">
-          <h3>Equipe</h3>
-          <div class="amount">R$ 129<span class="small">/mês</span></div>
-          <p class="small">5 TB compartilhados • 3+ usuários • SSO/2FA • Controles de acesso</p>
-          <div class="cta"><a class="btn" href="#cta">Falar com vendas</a></div>
-        </div>
-      </div>
-      <p class="small" style="margin-top:10px"></p>
-    </div>
-  </section>
+        <article class="price-card">
+          <span class="badge">Pessoal</span>
+          <div class="price">R$ XX/mês</div>
+          <div class="price-desc">Cobrança mensal • sem fidelidade</div>
+          <div class="features">
+            <ul>
+              <li>Sincronização em 3 dispositivos</li>
+              <li>Links com senha/validade</li>
+              <li>Versionamento 30 dias</li>
+            </ul>
+          </div>
+          <a class="btn primary" href="/pricing.html#mensal">Assinar</a>
+        </article>
 
-  <!-- ===== FAQ ===== -->
-  <section class="section">
-    <div class="container">
-      <h2>Perguntas frequentes</h2>
-      <details>
-        <summary>O que significa Ensure Zero‑Knowledge?</summary>
-        <p>Que apenas você — e as pessoas com quem você compartilha — conseguem abrir seus arquivos. A TCloud não tem como ler seus dados.</p>
-      </details>
-      <details>
-        <summary>Perdi minha senha. Vocês conseguem recuperar meus dados?</summary>
-        <p>Não. Em um modelo Zero‑Knowledge real, a senha e as chaves são essenciais. Ative recursos como passkeys e códigos de recuperação.</p>
-      </details>
-      <details>
-        <summary>Consigo compartilhar arquivos com pessoas de fora?</summary>
-        <p>Sim. Crie links com senha, defina expiração e permissões (somente leitura, download, etc.).</p>
-      </details>
-    </div>
-  </section>
+        <article class="price-card">
+          <span class="badge">Família</span>
+          <div class="price">R$ XX/ano</div>
+          <div class="price-desc">2 TB compartilhados • até 5 membros</div>
+          <div class="features">
+            <ul>
+              <li>Pastas compartilhadas</li>
+              <li>Controles parentais</li>
+              <li>Suporte prioritário</li>
+            </ul>
+          </div>
+          <a class="btn primary" href="/pricing.html#anual">Assinar</a>
+        </article>
 
-  <!-- ===== CTA ===== -->
-  <section id="cta" class="section">
-    <div class="container card" style="display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center">
-      <div>
-        <h2>Experimente a TCloud hoje</h2>
-        <p class="subtitle">Instale os apps, sincronize pastas e ative o Zero‑Knowledge em minutos.</p>
+        <article class="price-card">
+          <span class="badge">Empresarial</span>
+          <div class="price">Fale com vendas</div>
+          <div class="price-desc">Preço por usuário • faturamento anual</div>
+          <div class="features">
+            <ul>
+              <li>SSO/SAML, controle de dispositivos</li>
+              <li>Data Regions dedicadas</li>
+              <li>Auditoria e Logs completos</li>
+            </ul>
+          </div>
+          <a class="btn primary" href="/business.html">Contato comercial</a>
+        </article>
       </div>
-      <div>
-        <a class="btn" href="#">Baixar app</a>
+
+      <div class="cta" style="margin-top:18px">
+        <a class="btn ghost" href="/pricing.html">Ver planos detalhados</a>
+        <a class="btn ghost" href="/data-regions.html">Regiões de Dados</a>
       </div>
     </div>
   </section>
 
-  <footer>
-    <div class="container foot">
+  <!-- ===== CTA FINAL ===== -->
+  <section id="cta" class="section" style="background:rgba(255,255,255,.02); border-top:1px solid var(--tc-border);">
+    <div class="container" style="display:grid; grid-template-columns:1fr auto; gap:18px; align-items:center">
       <div>
-        <div class="brand" style="margin-bottom:10px">
-          <img src="logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block;"/>
-          <strong>TCloud</strong>
-        </div>
-        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero‑Knowledge de verdade.</p>
+        <h2>Pronto para experimentar?</h2>
+        <p class="subtitle">Comece agora, teste sem compromisso. Você pode cancelar quando quiser.</p>
+      </div>
+      <div><a class="btn primary" href="/downloads.html">Baixar apps</a></div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="foot">
+    <div class="container foot-grid">
+      <div>
+        <strong>TCloud</strong>
+        <a href="/downloads.html">Download</a>
+        <a href="/pricing.html">Preços</a>
+        <a href="/business.html">Empresarial</a>
       </div>
       <div>
-        <strong>Produto</strong>
-        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
-          <li><a href="#recursos">Recursos</a></li>
-          <li><a href="#como-funciona">Como funciona</a></li>
-          <li><a href="#planos">Planos</a></li>
-        </ul>
+        <strong>Características</strong>
+        <a href="/features.html">Recursos</a>
+        <a href="/security.html">Segurança</a>
+        <a href="/backup.html">Backup</a>
+        <a href="/dam.html">DAM</a>
       </div>
       <div>
-        <strong>Suporte</strong>
-        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
-          <li><a href="#">Central de ajuda</a></li>
-          <li><a href="#">Status</a></li>
-          <li><a href="#">Segurança</a></li>
-        </ul>
+        <strong>Empresa</strong>
+        <a href="/about.html">Sobre nós</a>
+        <a href="/data-regions.html">Regiões de Dados</a>
       </div>
       <div>
-        <strong>Legal</strong>
-        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
-          <li><a href="#">Termos</a></li>
-          <li><a href="#">Privacidade</a></li>
-          <li><a href="#">DPA</a></li>
-        </ul>
+        <strong>Comunidade</strong>
+        <a href="/affiliate.html">Programa de Afiliados</a>
+        <a href="/reseller.html">Revenda</a>
       </div>
+    </div>
+    <div class="container" style="color:#A7B4D4; margin-top:14px">
+      © TCloud. Alguns nomes e marcas são de seus respectivos proprietários.
     </div>
   </footer>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
