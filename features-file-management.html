@@ -3,49 +3,49 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>TCloud — Gerenciamento de Arquivos: rápido, seguro e sem atritos</title>
-  <meta name="description" content="Conheça os recursos de Gerenciamento de Arquivos da TCloud: upload e sincronização, versões, lixeira, links, pastas compartilhadas, busca avançada e muito mais — com Zero‑Knowledge de verdade." />
+  <meta name="description" content="Conheça os recursos de Gerenciamento de Arquivos da TCloud: upload e sincronização, versões, lixeira, links, pastas compartilhadas, busca avançada e muito mais — com Zero-Knowledge de verdade." />
   <meta name="color-scheme" content="dark light">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="TCloud — Gerenciamento de Arquivos" />
+  <meta property="og:description" content="Upload e sincronização, versões, lixeira, links protegidos, pastas compartilhadas, busca avançada e mais — com Zero-Knowledge." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.tclouddrive.com.br/recursos/gerenciamento-de-arquivos" />
+  <meta property="og:image" content="https://www.tclouddrive.com.br/og-tcloud.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
   <style>
     :root{
-      --tc-primary: #00A3FF;      /* azul principal */
-      --tc-primary-600: #0086D1;  /* azul escuro */
-      --tc-accent: #6EE7FF;       /* ciano destaque */
-      --tc-success: #22c55e;      /* verde ok */
-      --tc-warning: #f59e0b;      /* amarelo */
-      --tc-danger: #ef4444;       /* vermelho */
-      --tc-bg: #0B1220;           /* fundo escuro */
-      --tc-surface: #0F172A;      /* cartões/nav */
-      --tc-muted: #1F2A44;        
-      --tc-border: #23304d;
-      --tc-text: #E6F0FF;
-      --tc-text-muted: #A7B4D4;
-      --radius: 16px;
-      --shadow-lg: 0 20px 50px rgba(0,0,0,.45);
-      --shadow-md: 0 10px 30px rgba(0,0,0,.35);
-      --grid-max: 1200px;
+      --tc-primary:#00A3FF; --tc-primary-600:#0086D1; --tc-accent:#6EE7FF;
+      --tc-success:#22c55e; --tc-warning:#f59e0b; --tc-danger:#ef4444;
+      --tc-bg:#0B1220; --tc-surface:#0F172A; --tc-muted:#1F2A44; --tc-border:#23304d;
+      --tc-text:#E6F0FF; --tc-text-muted:#A7B4D4; --radius:16px;
+      --shadow-lg:0 20px 50px rgba(0,0,0,.45); --shadow-md:0 10px 30px rgba(0,0,0,.35);
+      --grid-max:1200px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial;
-      color:var(--tc-text); background: radial-gradient(1200px 600px at 60% -10%, rgba(0,163,255,.15), transparent 60%),
-               radial-gradient(800px 500px at 10% 10%, rgba(110,231,255,.08), transparent 55%),
-               linear-gradient(180deg, #0b1220, #0a0f1b 35%, #0b1220);
+      margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial; color:var(--tc-text);
+      background:radial-gradient(1200px 600px at 60% -10%, rgba(0,163,255,.15), transparent 60%),
+                 radial-gradient(800px 500px at 10% 10%, rgba(110,231,255,.08), transparent 55%),
+                 linear-gradient(180deg, #0b1220, #0a0f1b 35%, #0b1220);
     }
     a{color:var(--tc-accent); text-decoration:none}
     a:hover{text-decoration:underline}
     .container{max-width:var(--grid-max); margin:0 auto; padding:0 20px}
     /* NAV */
-    nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(130%) blur(14px); background: color-mix(in oklab, var(--tc-surface) 65%, transparent); border-bottom:1px solid var(--tc-border)}
+    nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(130%) blur(14px); background:color-mix(in oklab, var(--tc-surface) 65%, transparent); border-bottom:1px solid var(--tc-border)}
     .nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
     .brand{display:flex; gap:12px; align-items:center}
     .brand .name{font-weight:800; letter-spacing:.2px; font-size:18px}
-    .nav-links{display:flex; gap:20px; align-items:center}
-    .nav-links a.active{color:white; font-weight:800}
-    .btn{border:1px solid transparent; background:var(--tc-primary); color:white; padding:10px 16px; border-radius:999px; font-weight:700; box-shadow:var(--shadow-md)}
-    .btn:hover{background:var(--tc-primary-600)}
-    .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text)}
+    .nav-links{display:flex; gap:20px; align-items:center; flex-wrap:wrap}
+    .nav-links a.active{color:#fff; font-weight:800}
+    .btn{border:1px solid transparent; background:var(--tc-primary); color:#001425; padding:10px 16px; border-radius:999px; font-weight:800; box-shadow:var(--shadow-md); cursor:pointer}
+    .btn:hover{background:var(--tc-primary-600); color:#001425}
+    .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text); font-weight:700}
     .btn.ghost:hover{border-color:var(--tc-primary)}
     /* HERO */
     .hero{padding:64px 0 40px}
@@ -64,9 +64,6 @@
     .grid.cols-2{grid-template-columns:repeat(2, 1fr)}
     .card{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px}
     .icon{width:28px; height:28px; color:var(--tc-accent)}
-    .kpi{display:grid; gap:6px; padding:18px; border:1px solid var(--tc-border); border-radius:14px; background:linear-gradient(180deg, #0f172a, #0d1528)}
-    .kpi strong{font-size:28px}
-    /* TABLE */
     .table{border:1px solid var(--tc-border); border-radius:var(--radius); overflow:hidden}
     table{width:100%; border-collapse:collapse}
     th, td{padding:14px 16px; border-bottom:1px solid var(--tc-border)}
@@ -74,7 +71,6 @@
     tr:last-child td{border-bottom:none}
     .good{color:var(--tc-success); font-weight:700}
     .note{color:var(--tc-text-muted); font-size:14px}
-    /* FAQ */
     details{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:12px; padding:14px 16px}
     details+details{margin-top:10px}
     summary{cursor:pointer; font-weight:700}
@@ -82,49 +78,49 @@
     footer{padding:40px 0; border-top:1px solid var(--tc-border); background:color-mix(in oklab, var(--tc-surface) 65%, transparent)}
     .foot{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:20px}
     .credits{color:var(--tc-text-muted); font-size:13px}
-    /* RESPONSIVE */
-    @media (max-width: 1024px){
+    /* RWD */
+    @media (max-width:1024px){
       .hero-grid{grid-template-columns:1fr}
       .grid.cols-4{grid-template-columns:1fr 1fr}
       .grid.cols-3{grid-template-columns:1fr 1fr}
       .grid.cols-2{grid-template-columns:1fr}
       .foot{grid-template-columns:1fr 1fr}
     }
-    @media (max-width: 640px){
+    @media (max-width:640px){
       h1{font-size:34px}
       .foot{grid-template-columns:1fr}
     }
   </style>
 
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-<!-- Google tag (GA4) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-9DWZF8HNH3');
-</script>
+  <!-- Google tag (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9DWZF8HNH3');
+  </script>
 
-<link rel="canonical" href="https://www.tclouddrive.com.br/recursos/gerenciamento-de-arquivos">
+  <link rel="canonical" href="https://www.tclouddrive.com.br/recursos/gerenciamento-de-arquivos">
 </head>
 <body>
   <!-- ===== NAV ===== -->
-  <nav>
+  <nav role="navigation" aria-label="Navegação principal">
     <div class="container nav-wrap">
       <div class="brand">
-        <img src="logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block;"/>
+        <img src="/logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block"/>
         <span class="name">TCloud</span>
       </div>
       <div class="nav-links">
         <a class="btn ghost" href="/">Início</a>
-        <a class="btn ghost" href="/zero-knowledge">Zero‑Knowledge</a>
+        <a class="btn ghost" href="/zero-knowledge">Zero-Knowledge</a>
         <a class="btn ghost" href="/sobre">Sobre</a>
-        <a class="btn ghost active" href="#">Recursos</a>
+        <a class="btn ghost active" href="/recursos/gerenciamento-de-arquivos">Recursos</a>
         <a class="btn" href="#cta">Experimente</a>
       </div>
     </div>
@@ -135,10 +131,10 @@
     <div class="container hero-grid">
       <div>
         <span class="chip">Recursos TCloud</span>
-        <h1>Gerenciamento de Arquivos<br/>rápido, seguro e sem atritos</h1>
-        <p class="lead">Organize, sincronize e compartilhe com confiança. Todos os recursos essenciais de produtividade — com a privacidade do Zero‑Knowledge.</p>
+        <h1>Gerenciamento de Arquivos<br>rápido, seguro e sem atritos</h1>
+        <p class="lead">Organize, sincronize e compartilhe com confiança. Todos os recursos essenciais de produtividade — com a privacidade do Zero-Knowledge.</p>
       </div>
-      <div class="hero-card">
+      <div class="hero-card" role="complementary" aria-label="Destaques">
         <h3 style="margin:0 0 8px">Destaques</h3>
         <p style="margin:0; color:var(--tc-text-muted)">Upload e sincronização • Sincronização seletiva • Versões e lixeira • Busca avançada • Links e pastas compartilhadas • Solicitação de arquivos • Offline</p>
       </div>
@@ -146,15 +142,15 @@
   </header>
 
   <!-- ===== FUNDAMENTOS ===== -->
-  <section class="section">
+  <section class="section" aria-labelledby="fundamentos">
     <div class="container">
-      <h2>Fundamentos que aceleram seu dia a dia</h2>
+      <h2 id="fundamentos">Fundamentos que aceleram seu dia a dia</h2>
       <p class="subtitle">Ferramentas práticas para mover, copiar, renomear e organizar — do jeito certo.</p>
       <div class="grid cols-3">
         <div class="card">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 3h7v7H3z"/><path d="M14 14h7v7h-7z"/><path d="M10 14 3 21"/><path d="m21 3-7 7"/></svg>
           <h3>Mover, copiar e renomear</h3>
-          <p>Gerencie em lote direto pelo app ou web. Arraste‑e‑solte e ações por atalho.</p>
+          <p>Gerencie em lote direto pelo app ou web. Arraste-e-solte e ações por atalho.</p>
         </div>
         <div class="card">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 1v22"/><path d="M5 8l7-7 7 7"/></svg>
@@ -171,9 +167,9 @@
   </section>
 
   <!-- ===== CONTROLE & PRODUTIVIDADE ===== -->
-  <section class="section">
+  <section class="section" aria-labelledby="controle">
     <div class="container">
-      <h2>Controle total, produtividade real</h2>
+      <h2 id="controle">Controle total, produtividade real</h2>
       <p class="subtitle">Quando algo dá errado, recuperação é simples. Quando precisa achar algo, a busca resolve.</p>
       <div class="grid cols-3">
         <div class="card">
@@ -183,7 +179,7 @@
         </div>
         <div class="card">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6v12"/><path d="M16 10v8"/></svg>
-          <h3>Lixeira & retenção</h3>
+          <h3>Lixeira &amp; retenção</h3>
           <p>Arquivos excluídos não somem de imediato. Restaure quando necessário.</p>
         </div>
         <div class="card">
@@ -196,10 +192,10 @@
   </section>
 
   <!-- ===== COMPARTILHAMENTO ===== -->
-  <section class="section">
+  <section class="section" aria-labelledby="compartilhar">
     <div class="container">
-      <h2>Compartilhe do seu jeito</h2>
-      <p class="subtitle">Links protegidos, pastas colaborativas e solicitações de arquivos — com Zero‑Knowledge no centro.</p>
+      <h2 id="compartilhar">Compartilhe do seu jeito</h2>
+      <p class="subtitle">Links protegidos, pastas colaborativas e solicitações de arquivos — com Zero-Knowledge no centro.</p>
       <div class="grid cols-3">
         <div class="card">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 12a6 6 0 0 1 6-6h2"/><path d="M18 12a6 6 0 0 1-6 6h-2"/><path d="M8 12h8"/></svg>
@@ -221,29 +217,29 @@
   </section>
 
   <!-- ===== OFFLINE & MULTIPLATAFORMA ===== -->
-  <section class="section">
+  <section class="section" aria-labelledby="multiplataforma">
     <div class="container">
-      <h2>Web, Desktop e Mobile</h2>
+      <h2 id="multiplataforma">Web, Desktop e Mobile</h2>
       <p class="subtitle">Acesse seus arquivos de onde estiver — inclusive offline.</p>
       <div class="grid cols-3">
         <div class="card"><h3>Favoritos offline</h3><p>Marque arquivos e pastas para acesso sem internet no desktop e no app móvel.</p></div>
-        <div class="card"><h3>Pré‑visualizações</h3><p>Abra imagens, PDFs e vídeos direto no navegador antes de baixar.</p></div>
+        <div class="card"><h3>Pré-visualizações</h3><p>Abra imagens, PDFs e vídeos direto no navegador antes de baixar.</p></div>
         <div class="card"><h3>Upload remoto</h3><p>Envie arquivos por URL quando não puder subir localmente.</p></div>
       </div>
     </div>
   </section>
 
   <!-- ===== TABELA DE RECURSOS ===== -->
-  <section class="section">
+  <section class="section" aria-labelledby="tabela">
     <div class="container">
-      <h2>Tabela rápida de recursos</h2>
+      <h2 id="tabela">Tabela rápida de recursos</h2>
       <div class="table">
         <table aria-label="Tabela de recursos de gerenciamento de arquivos">
           <thead>
             <tr><th>Recurso</th><th>Disponibilidade</th><th>Observações</th></tr>
           </thead>
           <tbody>
-            <tr><td>Mover/copiar/renomear em lote</td><td class="good">Sim</td><td>Ações por atalho e arraste‑e‑solte</td></tr>
+            <tr><td>Mover/copiar/renomear em lote</td><td class="good">Sim</td><td>Ações por atalho e arraste-e-solte</td></tr>
             <tr><td>Sincronização seletiva</td><td class="good">Sim</td><td>Baixe sob demanda</td></tr>
             <tr><td>Versionamento</td><td class="good">Sim</td><td>Retenção por plano</td></tr>
             <tr><td>Lixeira</td><td class="good">Sim</td><td>Restaure com poucos cliques</td></tr>
@@ -251,79 +247,70 @@
             <tr><td>Pastas compartilhadas</td><td class="good">Sim</td><td>Leitura/edição por convidado</td></tr>
             <tr><td>Solicitação de arquivos</td><td class="good">Sim</td><td>Receba uploads externos</td></tr>
             <tr><td>Upload remoto por URL</td><td class="good">Sim</td><td>Útil em servidores/VMs</td></tr>
-            <tr><td>Pré‑visualização de mídia</td><td class="good">Sim</td><td>Imagens, PDF e vídeo</td></tr>
+            <tr><td>Pré-visualização de mídia</td><td class="good">Sim</td><td>Imagens, PDF e vídeo</td></tr>
             <tr><td>Favoritos offline</td><td class="good">Sim</td><td>Desktop e mobile</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="note" style="margin-top:8px">* Alguns recursos podem variar conforme o plano TCloud contratado.</p>
+      <p class="note" id="plans-note" style="margin-top:8px">* Alguns recursos podem variar conforme o plano TCloud contratado.</p>
     </div>
   </section>
 
   <!-- ===== FAQ ===== -->
-  <section class="section">
+  <section class="section" aria-labelledby="faq">
     <div class="container">
-      <h2>Perguntas frequentes</h2>
-      <details>
-        <summary>Como funciona a sincronização seletiva?</summary>
-        <p>Você escolhe quais pastas ficam no dispositivo e quais permanecem na nuvem. Itens não sincronizados continuam visíveis e baixam sob demanda.</p>
-      </details>
-      <details>
-        <summary>Quanto tempo as versões ficam guardadas?</summary>
-        <p>Depende do plano. Em geral, mantemos versões recentes por períodos definidos para equilibrar custo e utilidade.</p>
-      </details>
-      <details>
-        <summary>Posso colaborar com pessoas que não têm conta?</summary>
-        <p>Sim. Use links com senha/expiração ou a funcionalidade de Solicitação de Arquivos para receber conteúdos com segurança.</p>
-      </details>
+      <h2 id="faq">Perguntas frequentes</h2>
+      <details><summary>Como funciona a sincronização seletiva?</summary><p>Você escolhe quais pastas ficam no dispositivo e quais permanecem na nuvem. Itens não sincronizados continuam visíveis e baixam sob demanda.</p></details>
+      <details><summary>Quanto tempo as versões ficam guardadas?</summary><p>Depende do plano. Em geral, mantemos versões recentes por períodos definidos para equilibrar custo e utilidade.</p></details>
+      <details><summary>Posso colaborar com pessoas que não têm conta?</summary><p>Sim. Use links com senha/expiração ou a funcionalidade de Solicitação de Arquivos para receber conteúdos com segurança.</p></details>
     </div>
   </section>
 
   <!-- ===== CTA ===== -->
-  <section id="cta" class="section">
+  <section id="cta" class="section" aria-labelledby="cta-title">
     <div class="container card" style="display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center">
       <div>
-        <h2>Gerencie seus arquivos com confiança</h2>
-        <p class="subtitle">Instale os apps, sincronize suas pastas e ative o Zero‑Knowledge em minutos.</p>
+        <h2 id="cta-title">Gerencie seus arquivos com confiança</h2>
+        <p class="subtitle">Instale os apps, sincronize suas pastas e ative o Zero-Knowledge em minutos.</p>
       </div>
       <div>
-        <a class="btn" href="#">Baixar app</a>
+        <a class="btn" href="/download" aria-label="Baixar aplicativos TCloud">Baixar app</a>
       </div>
     </div>
   </section>
 
-  <footer>
+  <footer role="contentinfo">
     <div class="container foot">
       <div>
         <div class="brand" style="margin-bottom:10px">
-          <img src="logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block;"/>
+          <img src="/logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block"/>
           <strong>TCloud</strong>
         </div>
-        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero‑Knowledge de verdade.</p>
+        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero-Knowledge de verdade.</p>
       </div>
       <div>
         <strong>Produto</strong>
         <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
           <li><a href="/">Início</a></li>
-          <li><a href="/zero-knowledge">Zero‑Knowledge</a></li>
+          <li><a href="/zero-knowledge">Zero-Knowledge</a></li>
           <li><a href="/sobre">Sobre</a></li>
-          <li><a href="#">Recursos</a></li>
+          <li><a href="/recursos/gerenciamento-de-arquivos">Recursos</a></li>
         </ul>
       </div>
       <div>
         <strong>Suporte</strong>
         <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
-          <li><a href="#">Central de ajuda</a></li>
-          <li><a href="#">Status</a></li>
-          <li><a href="#">Segurança</a></li>
+          <li><a href="/faq">Central de ajuda</a></li>
+          <li><a href="/status">Status</a></li>
+          <li><a href="/seguranca">Segurança</a></li>
         </ul>
       </div>
       <div>
         <strong>Legal</strong>
         <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
-          <li><a href="#">Termos</a></li>
-          <li><a href="#">Privacidade</a></li>
-          <li><a href="#">DPA</a></li>
+          <li><a href="/termos">Termos</a></li>
+          <li><a href="/privacidade">Privacidade</a></li>
+          <li><a href="/dpa">DPA</a></li>
         </ul>
       </div>
     </div>
