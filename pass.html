@@ -3,9 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TCloud Pass — Gerenciador de Senhas com Zero‑Knowledge</title>
-  <meta name="description" content="TCloud Pass: gerenciador de senhas com criptografia no dispositivo, preenchimento automático e gerador de senhas forte. Importação de outros gerenciadores, notas seguras, OTP e compartilhamento." />
+  <title>TCloud Pass — Gerenciador de Senhas com Zero-Knowledge</title>
+  <meta name="description" content="TCloud Pass: gerenciador de senhas com criptografia no dispositivo, preenchimento automático e gerador de senhas forte. Importação, notas seguras, OTP e compartilhamento." />
   <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#0B1220">
+
+  <!-- Canonical & Social -->
+  <link rel="canonical" href="https://www.tclouddrive.com.br/pass">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TCloud">
+  <meta property="og:title" content="TCloud Pass — Gerenciador de Senhas com Zero-Knowledge">
+  <meta property="og:description" content="Criptografia no dispositivo, preenchimento automático, OTP e compartilhamento. Suas chaves, seus dados.">
+  <meta property="og:url" content="https://www.tclouddrive.com.br/pass">
+  <meta property="og:image" content="https://www.tclouddrive.com.br/og-pass.png">
+  <meta name="twitter:card" content="summary_large_image">
+
   <style>
     :root{
       --tc-primary:#00A3FF; --tc-primary-600:#0086D1; --tc-accent:#6EE7FF;
@@ -30,9 +42,9 @@
     .nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
     .brand{display:flex; gap:12px; align-items:center}
     .brand .name{font-weight:800; letter-spacing:.2px; font-size:18px}
-    .nav-links{display:flex; gap:20px; align-items:center}
+    .nav-links{display:flex; gap:20px; align-items:center; flex-wrap:wrap}
     .nav-links a.active{color:#fff; font-weight:800}
-    .btn{border:1px solid transparent; background:var(--tc-primary); color:#001425; padding:10px 16px; border-radius:999px; font-weight:800; box-shadow:var(--shadow-md)}
+    .btn{border:1px solid transparent; background:var(--tc-primary); color:#001425; padding:10px 16px; border-radius:999px; font-weight:800; box-shadow:var(--shadow-md); cursor:pointer}
     .btn:hover{background:var(--tc-primary-600); color:#001425}
     .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text); font-weight:700}
     .btn.ghost:hover{border-color:var(--tc-primary)}
@@ -68,8 +80,8 @@
     /* GENERATOR */
     .gen{display:grid; grid-template-columns:1fr; gap:12px}
     .gen .row{display:grid; grid-template-columns:1fr auto; gap:10px; align-items:center}
-    .gen input[type="text"]{width:100%; padding:12px; border-radius:12px; border:1px solid var(--tc-border); background:transparent; color:var(--tc-text); font-family:monospace}
-    .gen .opts{display:grid; grid-template-columns:repeat(5, auto); gap:10px; align-items:center; flex-wrap:wrap}
+    .gen input[type="text"]{width:100%; padding:12px; border-radius:12px; border:1px solid var(--tc-border); background:transparent; color:var(--tc-text); font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+    .gen .opts{display:grid; grid-template-columns:repeat(5, auto); gap:10px; align-items:center}
     .gen .meter{height:10px; border-radius:999px; background:#1b2740; overflow:hidden; border:1px solid var(--tc-border)}
     .gen .bar{height:100%; width:20%; background:linear-gradient(90deg,#ef4444,#f59e0b,#22c55e); transform-origin:left;}
     .badge{display:inline-block; padding:4px 8px; border-radius:999px; border:1px solid var(--tc-border); font-size:12px; color:var(--tc-text-muted)}
@@ -82,33 +94,32 @@
     @media (max-width:640px){h1{font-size:34px}.foot{grid-template-columns:1fr}}
   </style>
 
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-<!-- Google tag (GA4) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-9DWZF8HNH3');
-</script>
-
-<link rel="canonical" href="https://www.tclouddrive.com.br/pass">
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9DWZF8HNH3');
+  </script>
 </head>
 <body>
   <!-- ===== NAV ===== -->
-  <nav>
+  <nav role="navigation" aria-label="Principal">
     <div class="container nav-wrap">
       <div class="brand">
-        <img src="logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block;"/>
+        <img src="logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block;" loading="lazy"/>
         <span class="name">TCloud</span>
       </div>
       <div class="nav-links">
         <a class="btn ghost" href="/">Início</a>
-        <a class="btn ghost" href="/zero-knowledge">Zero‑Knowledge</a>
+        <a class="btn ghost" href="/zero-knowledge">Zero-Knowledge</a>
         <a class="btn ghost" href="/sobre">Sobre</a>
         <a class="btn ghost" href="/recursos">Recursos</a>
         <a class="btn ghost" href="/regioes">Regiões</a>
@@ -128,17 +139,17 @@
     <div class="container hero-grid">
       <div>
         <span class="chip">TCloud Pass</span>
-        <h1>Suas senhas, cofres e notas seguras<br/>com Zero‑Knowledge de verdade</h1>
+        <h1>Suas senhas, cofres e notas seguras<br/>com Zero-Knowledge de verdade</h1>
         <p class="lead">Armazene e preencha senhas com criptografia no dispositivo. Gere credenciais fortes, guarde OTP, compartilhe com segurança e sincronize entre todos os dispositivos.</p>
-        <div style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap">
+        <div style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap" role="group" aria-label="Ações principais">
           <a class="btn" href="#generator">Gerar senha forte</a>
           <a class="btn ghost" href="#apps">Baixar extensões e apps</a>
         </div>
       </div>
-      <div class="hero-card">
+      <div class="hero-card" aria-label="Por que usar TCloud Pass">
         <h3 style="margin:0 0 8px">Por que o TCloud Pass?</h3>
         <ul style="margin:0; padding-left:18px; color:var(--tc-text-muted)">
-          <li>Criptografia no dispositivo (Ensure Zero‑Knowledge)</li>
+          <li>Criptografia no dispositivo (Ensure Zero-Knowledge)</li>
           <li>Preenchimento automático em navegadores e apps</li>
           <li>Gerador de senhas + medidor de força</li>
           <li>Notas seguras e anexos confidenciais</li>
@@ -153,7 +164,7 @@
     <div class="container">
       <h2>Recursos principais</h2>
       <div class="grid cols-3">
-        <div class="card"><h3>Criptografia local</h3><p>As chaves ficam com você. O servidor vê apenas dados cifrados. Senha‑mestra derivada via KDF robusto (ex.: Argon2id).* </p><p class="note">* Ajuste para refletir sua implementação.</p></div>
+        <div class="card"><h3>Criptografia local</h3><p>As chaves ficam com você. O servidor vê apenas dados cifrados. Senha-mestra derivada via KDF robusto (ex.: Argon2id).*</p><p class="note">* Ajuste para refletir sua implementação.</p></div>
         <div class="card"><h3>Preenchimento automático</h3><p>Extensões para navegadores e apps móveis preenchem logins com um toque.</p></div>
         <div class="card"><h3>OTP & passkeys</h3><p>Armazene códigos TOTP e use passkeys compatíveis com WebAuthn (quando disponível).</p></div>
         <div class="card"><h3>Notas e cartões</h3><p>Guarde notas seguras, cartões e documentos confidenciais com campos personalizados.</p></div>
@@ -168,28 +179,28 @@
     <div class="container">
       <h2>Gerador de senhas</h2>
       <p class="subtitle">Crie senhas únicas e aleatórias. Evite reutilização.</p>
-      <div class="card gen">
+      <div class="card gen" role="region" aria-label="Gerador de senhas">
         <div class="row">
           <input id="out" type="text" value="" aria-label="Senha gerada" readonly />
           <div style="display:flex; gap:8px">
-            <button id="copy" class="btn" type="button">Copiar</button>
+            <button id="copy" class="btn" type="button" aria-live="polite">Copiar</button>
             <button id="regen" class="btn ghost" type="button">Gerar</button>
           </div>
         </div>
         <div class="opts">
-          <label class="badge">Tamanho</label>
-          <input id="len" type="range" min="8" max="64" value="20" />
+          <label class="badge" for="len">Tamanho</label>
+          <input id="len" type="range" min="8" max="64" value="20" aria-valuemin="8" aria-valuemax="64" aria-valuenow="20" />
           <span id="lenv" class="badge">20</span>
-          <span class="badge" id="entropy">0 bits</span>
+          <span class="badge" id="entropy" title="Entropia estimada">0 bits</span>
           <span class="badge" id="qual">—</span>
-          <label style="display:flex; align-items:center; gap:6px"><input id="lc" type="checkbox" checked /> a‑z</label>
-          <label style="display:flex; align-items:center; gap:6px"><input id="uc" type="checkbox" checked /> A‑Z</label>
-          <label style="display:flex; align-items:center; gap:6px"><input id="dg" type="checkbox" checked /> 0‑9</label>
+          <label style="display:flex; align-items:center; gap:6px"><input id="lc" type="checkbox" checked /> a-z</label>
+          <label style="display:flex; align-items:center; gap:6px"><input id="uc" type="checkbox" checked /> A-Z</label>
+          <label style="display:flex; align-items:center; gap:6px"><input id="dg" type="checkbox" checked /> 0-9</label>
           <label style="display:flex; align-items:center; gap:6px"><input id="sm" type="checkbox" checked /> símbolos</label>
           <label style="display:flex; align-items:center; gap:6px"><input id="na" type="checkbox" /> evitar ambíguos (O/0, l/1)</label>
         </div>
-        <div class="meter"><div class="bar" id="bar"></div></div>
-        <p class="note">Dica: use uma senha‑mestra longa e única; ative 2FA no TCloud Pass.</p>
+        <div class="meter" aria-hidden="true"><div class="bar" id="bar"></div></div>
+        <p class="note">Dica: use uma senha-mestra longa e única; ative 2FA no TCloud Pass.</p>
       </div>
     </div>
   </section>
@@ -238,7 +249,7 @@
         <table aria-label="Comparativo TCloud Pass">
           <thead><tr><th>Recurso</th><th>Pass (Pessoal)</th><th>Pass Família</th><th>Pass Business</th></tr></thead>
           <tbody>
-            <tr><td>Criptografia Zero‑Knowledge</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+            <tr><td>Criptografia Zero-Knowledge</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
             <tr><td>Extensões & Apps</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
             <tr><td>OTP (TOTP)</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
             <tr><td>Passkeys</td><td class="dash">—</td><td class="dash">—</td><td class="check">Piloto</td></tr>
@@ -257,7 +268,7 @@
   <section class="section">
     <div class="container">
       <h2>Perguntas frequentes</h2>
-      <details><summary>O TCloud Pass é realmente Zero‑Knowledge?</summary><p>Sim. As chaves privadas ficam somente nos seus dispositivos; o servidor não tem material para descriptografar seus dados.</p></details>
+      <details><summary>O TCloud Pass é realmente Zero-Knowledge?</summary><p>Sim. As chaves privadas ficam somente nos seus dispositivos; o servidor não tem material para descriptografar seus dados.</p></details>
       <details><summary>Posso usar biometria?</summary><p>Sim. No mobile e em desktops compatíveis, use biometria para desbloquear o cofre local.</p></details>
       <details><summary>Como importar de outro gerenciador?</summary><p>Exporte em CSV/JSON do seu gerenciador atual e siga o assistente de importação do TCloud Pass.</p></details>
       <details><summary>Há modo offline?</summary><p>Sim. O cofre local permite ler e gravar itens mesmo sem internet — a sincronização acontece depois.</p></details>
@@ -281,16 +292,16 @@
     <div class="container foot">
       <div>
         <div class="brand" style="margin-bottom:10px">
-          <img src="logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block;"/>
+          <img src="logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block;" loading="lazy"/>
           <strong>TCloud</strong>
         </div>
-        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero‑Knowledge de verdade.</p>
+        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero-Knowledge de verdade.</p>
       </div>
       <div>
         <strong>Produto</strong>
         <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
           <li><a href="/">Início</a></li>
-          <li><a href="/zero-knowledge">Zero‑Knowledge</a></li>
+          <li><a href="/zero-knowledge">Zero-Knowledge</a></li>
           <li><a href="/sobre">Sobre</a></li>
           <li><a href="/recursos">Recursos</a></li>
           <li><a href="/regioes">Regiões</a></li>
@@ -307,7 +318,7 @@
         <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
           <li><a href="/faq">FAQ</a></li>
           <li><a href="/opcoes-de-privacidade">Opções de Privacidade</a></li>
-          <li><a href="/contato">Contate‑nos</a></li>
+          <li><a href="/contato">Contate-nos</a></li>
           <li><a href="/notas-de-versao">Notas de Versão</a></li>
         </ul>
       </div>
@@ -325,7 +336,7 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ===== Gerador de senhas =====
+    // ===== Gerador de senhas (robusto e sem viés) =====
     const out = document.getElementById('out');
     const copyBtn = document.getElementById('copy');
     const regenBtn = document.getElementById('regen');
@@ -344,47 +355,119 @@
       lc:'abcdefghijklmnopqrstuvwxyz',
       uc:'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
       dg:'0123456789',
-      sm:'!@#$%^&*()_+-=[]{};:,./?~' // simples, ajuste conforme políticas
+      // evite aspas e espaços para reduzir problemas de colagem/escape
+      sm:'!@#$%^&*()_+-=[]{};:,.?/~'
     };
-    const ambiguous = /[O0Il1|]/g;
+    const ambiguousRE = /[O0Il1|]/g;
 
-    function pool(){
+    function basePool(){
       let s='';
       if(lc.checked) s+=sets.lc;
       if(uc.checked) s+=sets.uc;
       if(dg.checked) s+=sets.dg;
       if(sm.checked) s+=sets.sm;
-      return s || sets.lc; // fallback
+      // fallback: sempre algo
+      if(!s) s = sets.lc;
+      if(na.checked) s = s.replace(ambiguousRE,'');
+      return s;
     }
-    function randChar(p){
-      const i = Math.floor(crypto.getRandomValues(new Uint32Array(1))[0] / 2**32 * p.length);
-      return p[i];
+
+    // rejeição para eliminar viés de módulo
+    function randomIndex(n){
+      if(n <= 0) return 0;
+      const max = 0x100000000; // 2^32
+      const limit = max - (max % n);
+      const buf = new Uint32Array(1);
+      while(true){
+        crypto.getRandomValues(buf);
+        const x = buf[0];
+        if(x < limit) return x % n;
+      }
     }
+    function pick(pool){ return pool[randomIndex(pool.length)]; }
+
+    // Garante pelo menos 1 de cada conjunto selecionado
+    function ensureRequiredChars(selectedSets){
+      const req = [];
+      if(lc.checked) req.push(pick(sets.lc.replace(na.checked ? ambiguousRE : /$/,'')));
+      if(uc.checked) req.push(pick(sets.uc.replace(na.checked ? ambiguousRE : /$/,'')));
+      if(dg.checked) req.push(pick(sets.dg.replace(na.checked ? ambiguousRE : /$/,'')));
+      if(sm.checked) req.push(pick(sets.sm.replace(na.checked ? ambiguousRE : /$/,'')));
+      return req;
+    }
+
+    // Fisher-Yates
+    function shuffle(arr){
+      for(let i=arr.length-1;i>0;i--){
+        const j = randomIndex(i+1);
+        [arr[i],arr[j]] = [arr[j],arr[i]];
+      }
+      return arr;
+    }
+
     function generate(){
-      const p = pool();
-      let s = '';
-      for(let i=0;i<Number(len.value);i++) s += randChar(p);
-      if(na.checked) s = s.replace(ambiguous,'');
-      if(!s) s = randChar(sets.lc) + randChar(sets.dg); // mínimo
-      out.value = s;
+      const L = Number(len.value);
+      const pool = basePool();
+      const minReq = ensureRequiredChars(pool);
+      const outArr = [];
+
+      // começa garantindo os obrigatórios (sem exceder L)
+      for(let i=0;i<minReq.length && outArr.length<L;i++) outArr.push(minReq[i]);
+      // completa com o pool
+      while(outArr.length < L){
+        outArr.push(pick(pool));
+      }
+      // embaralha para não deixar obrigatórios previsíveis
+      shuffle(outArr);
+      out.value = outArr.join('');
       updateMeter();
     }
+
     function updateMeter(){
-      const p = pool();
       const L = Number(len.value);
-      const entropy = Math.log2(p.length) * L; // bits aproximados
+      const pool = basePool();
+      // entropia aproximada
+      const entropy = Math.log2(pool.length) * L;
       entropyEl.textContent = `${entropy.toFixed(0)} bits`;
-      let q='fraca', w=20;
-      if(entropy>60){q='forte'; w=80}
-      if(entropy>80){q='excelente'; w=100}
-      qualEl.textContent = q;
-      bar.style.width = `${Math.min(100,w)}%`;
       lenv.textContent = L.toString();
+      len.setAttribute('aria-valuenow', String(L));
+
+      // classificação simples por entropia
+      let q='fraca', w=25;
+      if(entropy >= 60){ q='forte'; w=75; }
+      if(entropy >= 80){ q='excelente'; w=100; }
+      qualEl.textContent = q;
+      bar.style.width = `${w}%`;
     }
-    copyBtn.addEventListener('click',()=>{ out.select(); document.execCommand('copy'); copyBtn.textContent='Copiado!'; setTimeout(()=>copyBtn.textContent='Copiar',900); });
-    regenBtn.addEventListener('click',generate);
+
+    copyBtn.addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText(out.value);
+        copyBtn.textContent = 'Copiado!';
+      }catch{
+        // fallback discreto (não bloqueia)
+        out.select(); document.execCommand('copy');
+        copyBtn.textContent = 'Copiado!';
+      }finally{
+        setTimeout(()=>copyBtn.textContent='Copiar', 1200);
+      }
+    });
+    regenBtn.addEventListener('click', generate);
     [len, lc, uc, dg, sm, na].forEach(el=>el.addEventListener('input', generate));
+
     generate();
+  </script>
+
+  <!-- (Opcional) Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "TCloud Pass",
+    "applicationCategory": "SecurityApplication",
+    "operatingSystem": "Windows, macOS, Linux, Android, iOS",
+    "offers": { "@type": "Offer", "availability": "https://schema.org/InStock" }
+  }
   </script>
 </body>
 </html>
