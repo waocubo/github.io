@@ -1,28 +1,72 @@
-<!-- ===== header.html ===== -->
+<!-- ===== header.html (refinado) ===== -->
 <style>
-  .tc-nav{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,#0b1220,#0f172a);box-shadow:0 8px 30px rgba(0,0,0,.35)}
-  .tc-nav .wrap{max-width:1200px;margin:auto;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;padding:14px 20px}
-  .tc-brand{display:flex;align-items:center;gap:10px;color:#E6F0FF;font-weight:800;text-decoration:none;font-size:20px;white-space:nowrap}
+  :root{
+    --tc-primary:#00A3FF; --tc-primary-600:#0086D1;
+    --tc-text:#E6F0FF; --tc-text-dim:#B8C3DD;
+    --tc-border:#23304d; --tc-surface:#0F172A; --tc-bg:#0B1220;
+  }
+  .tc-nav{position:sticky;top:0;z-index:50;
+    background:linear-gradient(180deg,#0b1220,#0f172a);
+    box-shadow:0 8px 30px rgba(0,0,0,.35);
+    backdrop-filter:saturate(130%) blur(12px)
+  }
+  .tc-nav .wrap{max-width:1200px;margin:auto;
+    display:grid;grid-template-columns:auto 1fr auto;
+    gap:16px;align-items:center;padding:14px 20px}
+  .tc-brand{display:flex;align-items:center;gap:10px;
+    color:var(--tc-text);font-weight:800;text-decoration:none;
+    font-size:20px;white-space:nowrap}
   .tc-brand img{height:28px;width:auto}
   .tc-links{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-  .tc-links a{padding:10px 16px;border:1px solid #23304d;border-radius:999px;color:#E6F0FF;text-decoration:none;font-weight:700;opacity:.9;transition:.2s}
-  .tc-links a:hover{transform:translateY(-1px);opacity:1;border-color:#00A3FF}
-  .tc-links a.active{background:#0b5fb6;border-color:#0b5fb6}
-  .tc-cta{background:#00A3FF;color:#061427;text-decoration:none;font-weight:800;padding:12px 18px;border-radius:999px;box-shadow:0 10px 25px rgba(0,163,255,.35)}
+  .tc-links a{padding:10px 16px;border:1px solid var(--tc-border);
+    border-radius:999px;color:var(--tc-text);text-decoration:none;
+    font-weight:700;opacity:.92;transition:.2s}
+  .tc-links a:hover{transform:translateY(-1px);opacity:1;border-color:var(--tc-primary)}
+  .tc-links a:focus-visible{outline:2px solid var(--tc-primary);outline-offset:2px}
+  .tc-links a.active,[aria-current="page"]{background:#0b5fb6;border-color:#0b5fb6}
+  .tc-cta{background:var(--tc-primary);color:#061427;text-decoration:none;
+    font-weight:800;padding:12px 18px;border-radius:999px;
+    box-shadow:0 10px 25px rgba(0,163,255,.35)}
+  .tc-cta:hover{background:var(--tc-primary-600)}
+  .tc-cta:focus-visible{outline:2px solid var(--tc-primary);outline-offset:2px}
+
   .tc-toggle{display:none}
+  .tc-toggle[aria-expanded="true"]{border-color:var(--tc-primary)}
+  .tc-toggle{align-items:center;justify-content:center;width:42px;height:42px;
+    border-radius:10px;border:1px solid var(--tc-border);
+    background:var(--tc-surface);color:var(--tc-text)}
+  .tc-toggle svg{width:22px;height:22px}
+
   @media (max-width:980px){
     .tc-nav .wrap{grid-template-columns:auto auto auto}
-    .tc-toggle{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:10px;border:1px solid #23304d;background:#0f172a;color:#E6F0FF}
+    .tc-toggle{display:inline-flex}
     .tc-links{display:none;grid-column:1/-1}
     .tc-nav.open .tc-links{display:flex}
     .tc-cta{display:none}
+    /* menu como “folha” responsiva */
+    .tc-links{padding-top:8px}
+    .tc-links a{flex:1 1 auto;text-align:center}
+  }
+
+  /* reduz movimento */
+  @media (prefers-reduced-motion: reduce){
+    .tc-links a:hover{transform:none}
   }
 </style>
 
 <header class="tc-nav" data-tcloud-nav>
   <div class="wrap">
-    <a class="tc-brand" href="/index.html"><img src="/logo-tcloud.png" alt="TCloud" onerror="this.src='/logo.png';this.onerror=null;"><span>TCloud</span></a>
-    <button class="tc-toggle" aria-label="Abrir menu">☰</button>
+    <a class="tc-brand" href="/index.html">
+      <img src="/logo-tcloud.png" alt="TCloud" onerror="this.src='/logo.png';this.onerror=null;">
+      <span>TCloud</span>
+    </a>
+
+    <button class="tc-toggle" aria-label="Abrir menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M3 6h18M3 12h18M3 18h18"/>
+      </svg>
+    </button>
+
     <nav class="tc-links" aria-label="Navegação principal">
       <a href="/index.html" data-route="home">Início</a>
       <a href="/encrypted.html" data-route="encrypted">Zero-Knowledge</a>
@@ -41,7 +85,80 @@
       <a href="/dam.html" data-route="dam">DAM</a>
       <a href="/about.html" data-route="about">Sobre</a>
     </nav>
+
     <a class="tc-cta" href="/pricing.html#anual">Começar agora</a>
   </div>
 </header>
+
+<script>
+(() => {
+  const nav = document.querySelector('[data-tcloud-nav]');
+  const toggle = nav?.querySelector('.tc-toggle');
+  const links = nav?.querySelector('.tc-links');
+
+  // Toggle mobile
+  function setOpen(open){
+    nav.classList.toggle('open', open);
+    toggle?.setAttribute('aria-expanded', String(open));
+  }
+  toggle?.addEventListener('click', () => setOpen(!nav.classList.contains('open')));
+  // Fechar ao clicar em link ou fora
+  links?.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a) setOpen(false);
+  });
+  document.addEventListener('click', e => {
+    if(!nav.contains(e.target)) setOpen(false);
+  });
+  // ESC fecha
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape') setOpen(false);
+  });
+
+  // ===== Ativar link atual automaticamente =====
+  const routeFromPath = (path) => {
+    // normaliza
+    const p = path.replace(/\/+$/, '') || '/';
+    // mapa de aliases (ajuda se você trocar nomes de arquivos)
+    const aliases = new Map([
+      ['/','home'],
+      ['/index.html','home'],
+      ['/zero-knowledge','encrypted'],
+      ['/encrypted.html','encrypted'],
+      ['/recursos','features'],
+      ['/features.html','features'],
+      ['/regioes','regions'],
+      ['/data-regions.html','regions'],
+      ['/download','downloads'],
+      ['/downloads.html','downloads'],
+      ['/precos','pricing'],
+      ['/pricing.html','pricing'],
+      ['/afiliados','affiliate'],
+      ['/affiliate.html','affiliate'],
+      ['/revenda','reseller'],
+      ['/reseller.html','reseller'],
+      ['/empresarial','business'],
+      ['/business.html','business'],
+      ['/pass','pass'], ['/pass.html','pass'],
+      ['/transferir','transfer'], ['/transfer.html','transfer'],
+      ['/compartilhar','sharing'], ['/sharing.html','sharing'],
+      ['/seguranca','security'], ['/security.html','security'],
+      ['/backup','backup'], ['/backup.html','backup'],
+      ['/dam','dam'], ['/dam.html','dam'],
+      ['/sobre','about'], ['/about.html','about'],
+    ]);
+    return aliases.get(p) || [...aliases].find(([k]) => p.startsWith(k))?.[1] || null;
+  };
+
+  const currentRoute = routeFromPath(location.pathname);
+  if(currentRoute){
+    links?.querySelectorAll('a[data-route]').forEach(a => {
+      const active = a.getAttribute('data-route') === currentRoute;
+      a.classList.toggle('active', active);
+      if(active) a.setAttribute('aria-current','page');
+      else a.removeAttribute('aria-current');
+    });
+  }
+})();
+</script>
 <!-- ===== /header.html ===== -->
