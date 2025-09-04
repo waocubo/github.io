@@ -1,26 +1,473 @@
-<!DOCTYPE html><html lang="pt-BR"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Em breve — FAQ</title>
-<style>
-body{margin:0;background:#0B1220;color:#E6F0FF;font-family:system-ui;display:grid;place-items:center;min-height:100vh}
-.card{padding:24px;border:1px solid #23304d;border-radius:16px;background:#0F172A;max-width:600px}
-a{color:#6EE7FF}
-</style>
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TCloud — FAQ (Perguntas frequentes)</title>
+  <meta name="description" content="Perguntas frequentes sobre a TCloud: conta, segurança e Zero-Knowledge, compartilhamento, planos e pagamento, apps e sincronização, regiões de dados e empresarial." />
+  <meta name="color-scheme" content="dark light">
+  <style>
+    :root{
+      --tc-primary:#00A3FF; --tc-primary-600:#0086D1; --tc-accent:#6EE7FF;
+      --tc-success:#22c55e; --tc-warning:#f59e0b; --tc-danger:#ef4444;
+      --tc-bg:#0B1220; --tc-surface:#0F172A; --tc-muted:#1F2A44; --tc-border:#23304d;
+      --tc-text:#E6F0FF; --tc-text-muted:#A7B4D4; --radius:16px;
+      --shadow-lg:0 20px 50px rgba(0,0,0,.45); --shadow-md:0 10px 30px rgba(0,0,0,.35);
+      --grid-max:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial; color:var(--tc-text);
+      background:radial-gradient(1200px 600px at 60% -10%, rgba(0,163,255,.15), transparent 60%),
+                 radial-gradient(800px 500px at 10% 10%, rgba(110,231,255,.08), transparent 55%),
+                 linear-gradient(180deg, #0b1220, #0a0f1b 35%, #0b1220);
+    }
+    a{color:var(--tc-accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:var(--grid-max); margin:0 auto; padding:0 20px}
 
-<!-- Google tag (GA4) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-9DWZF8HNH3');
-</script>
+    /* NAV (simples; se usar header.html, pode remover este bloco) */
+    nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(130%) blur(14px); background:color-mix(in oklab, var(--tc-surface) 65%, transparent); border-bottom:1px solid var(--tc-border)}
+    .nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; gap:12px; align-items:center}
+    .brand .name{font-weight:800; letter-spacing:.2px; font-size:18px}
+    .nav-links{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+    .btn{border:1px solid transparent; background:var(--tc-primary); color:#001425; padding:10px 16px; border-radius:999px; font-weight:800; box-shadow:var(--shadow-md)}
+    .btn:hover{background:var(--tc-primary-600); color:#001425}
+    .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text); font-weight:700}
+    .btn.ghost:hover{border-color:var(--tc-primary)}
 
-<link rel="canonical" href="https://www.tclouddrive.com.br/faq">
-</head><body><div class="card">
-<h1>FAQ em breve</h1><p>Conteúdo em preparação.</p><p><a href="/">← Voltar ao início</a></p>
-</div></body></html>
+    /* HERO */
+    .hero{padding:64px 0 24px}
+    .hero-grid{display:grid; grid-template-columns:1fr .9fr; gap:40px; align-items:center}
+    .chip{display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; background:color-mix(in oklab, var(--tc-muted) 70%, transparent); border:1px solid var(--tc-border); color:var(--tc-text-muted); font-weight:600; font-size:12px}
+    h1{font-size:42px; line-height:1.1; margin:12px 0 14px}
+    .lead{font-size:18px; color:var(--tc-text-muted); max-width:60ch}
+
+    /* SEARCH + TAGS */
+    .tools{display:grid; grid-template-columns:1fr auto; gap:12px; align-items:center}
+    .search{display:flex; gap:8px; align-items:center; background:linear-gradient(180deg,#0f172a,#0d1528); border:1px solid var(--tc-border); border-radius:12px; padding:10px 12px}
+    .search input{flex:1; background:transparent; border:none; color:var(--tc-text); outline:none}
+    .pills{display:flex; gap:8px; flex-wrap:wrap}
+    .pill{padding:6px 10px; border-radius:999px; border:1px solid var(--tc-border); color:var(--tc-text-muted); cursor:pointer; user-select:none}
+    .pill[aria-pressed="true"]{border-color:var(--tc-primary); color:#fff; box-shadow:0 0 0 2px rgba(0,163,255,.15)}
+
+    /* SECTIONS */
+    .section{padding:48px 0}
+    .section h2{font-size:28px; margin:0 0 12px}
+    .subtitle{color:var(--tc-text-muted); margin:0 0 20px}
+    .grid{display:grid; gap:20px}
+    .grid.cols-2{grid-template-columns:1fr 1fr}
+    .card{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:var(--radius); padding:16px 20px}
+
+    /* FAQ items */
+    details{background:linear-gradient(180deg,#0f172a,#0d1528); border:1px solid var(--tc-border); border-radius:12px; padding:14px 16px}
+    details+details{margin-top:10px}
+    summary{cursor:pointer; font-weight:800}
+    .hint{color:var(--tc-text-muted); font-size:13px}
+
+    /* CTA box */
+    .cta{display:grid; grid-template-columns:1fr auto; gap:16px; align-items:center}
+
+    /* Footer */
+    footer{padding:40px 0; border-top:1px solid var(--tc-border); background:color-mix(in oklab, var(--tc-surface) 65%, transparent)}
+    .foot{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:20px}
+    .credits{color:var(--tc-text-muted); font-size:13px}
+
+    /* RWD */
+    @media (max-width:1024px){.hero-grid{grid-template-columns:1fr}.grid.cols-2{grid-template-columns:1fr}.foot{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){h1{font-size:34px}.foot{grid-template-columns:1fr}}
+  </style>
+
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <!-- Google tag (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9DWZF8HNH3');
+  </script>
+
+  <link rel="canonical" href="https://www.tclouddrive.com.br/faq">
+</head>
+<body>
+  <!-- ===== NAV (ou troque pelo include do seu header.html) ===== -->
+  <nav>
+    <div class="container nav-wrap">
+      <div class="brand">
+        <img src="/logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block;"/>
+        <span class="name">TCloud</span>
+      </div>
+      <div class="nav-links">
+        <a class="btn ghost" href="/">Início</a>
+        <a class="btn ghost" href="/zero-knowledge">Zero-Knowledge</a>
+        <a class="btn ghost" href="/recursos">Recursos</a>
+        <a class="btn ghost" href="/regioes">Regiões</a>
+        <a class="btn ghost" href="/precos">Preços</a>
+        <a class="btn ghost active" href="#">FAQ</a>
+        <a class="btn" href="/contato">Falar com a TCloud</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="chip">Central de ajuda</span>
+        <h1>Perguntas frequentes (FAQ)</h1>
+        <p class="lead">Encontre respostas rápidas sobre conta, segurança, compartilhamento, apps e muito mais. Se precisar, nossa equipe está a um clique.</p>
+        <div class="tools" style="margin-top:16px">
+          <label class="search" style="grid-column:1/-1" aria-label="Pesquisar FAQ">
+            🔎
+            <input id="faqSearch" type="search" placeholder="Buscar por palavra-chave (ex.: senha, link, família, app)" autocomplete="off">
+          </label>
+        </div>
+        <div class="pills" style="margin-top:10px" role="toolbar" aria-label="Filtrar por categoria">
+          <button class="pill" data-filter="all" aria-pressed="true">Todas</button>
+          <button class="pill" data-filter="conta">Conta</button>
+          <button class="pill" data-filter="seguranca">Segurança & ZK</button>
+          <button class="pill" data-filter="compartilhar">Compartilhamento</button>
+          <button class="pill" data-filter="apps">Apps & Sync</button>
+          <button class="pill" data-filter="planos">Planos & Pagamento</button>
+          <button class="pill" data-filter="regioes">Regiões de Dados</button>
+          <button class="pill" data-filter="empresarial">Empresarial</button>
+        </div>
+        <div class="hint" id="countHint" style="margin-top:6px">Mostrando todas as perguntas</div>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 8px">Precisa de ajuda humana?</h3>
+        <p class="hint" style="margin:0">Se não encontrar a resposta aqui, fale com nosso suporte.</p>
+        <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap">
+          <a class="btn" href="/contato">Enviar mensagem</a>
+          <a class="btn ghost" href="/opcoes-de-privacidade">Opções de Privacidade</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== FAQ LIST ===== -->
+  <section class="section">
+    <div class="container">
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px">
+        <button id="expandAll" class="btn ghost" type="button">Expandir tudo</button>
+        <button id="collapseAll" class="btn ghost" type="button">Colapsar tudo</button>
+      </div>
+
+      <!-- Conta -->
+      <h2 id="cat-conta" style="margin-top:10px">Conta</h2>
+      <div class="grid cols-2 faq-group" data-cat="conta">
+        <div class="card">
+          <details open>
+            <summary>Como criar minha conta TCloud?</summary>
+            <p>Acesse <a href="/precos">Preços</a> ou o app e siga o onboarding. Você escolherá região de dados e ativará 2FA.</p>
+          </details>
+          <details>
+            <summary>Esqueci minha senha. E agora?</summary>
+            <p>Use “Esqueci minha senha” na tela de login. Se tiver chave de recuperação ou passkey, você poderá restaurar o acesso.</p>
+          </details>
+          <details>
+            <summary>Posso mudar minha região de dados depois?</summary>
+            <p>Sim. Fazemos migração assistida com recriptografia e verificação de integridade. Veja <a href="/regioes">Regiões</a>.</p>
+          </details>
+        </div>
+        <div class="card">
+          <details>
+            <summary>Como adicionar 2FA / passkeys?</summary>
+            <p>Em “Segurança” da conta, ative TOTP (app autenticador) e cadastre uma passkey se seu dispositivo suportar.</p>
+          </details>
+          <details>
+            <summary>Como convidar pessoas no plano Família?</summary>
+            <p>O titular envia convites por e-mail. Cada pessoa tem espaço privado e a pasta compartilhada da família.</p>
+          </details>
+        </div>
+      </div>
+
+      <!-- Segurança -->
+      <h2 id="cat-seguranca" style="margin-top:24px">Segurança & Zero-Knowledge</h2>
+      <div class="grid cols-2 faq-group" data-cat="seguranca">
+        <div class="card">
+          <details>
+            <summary>A TCloud consegue ler meus arquivos?</summary>
+            <p>Não. Com Zero-Knowledge, os arquivos são cifrados no seu dispositivo e chegam ao servidor ilegíveis.</p>
+          </details>
+          <details>
+            <summary>Como funciona a criptografia?</summary>
+            <p>Chave derivada da sua senha (KDF robusto). Arquivo cifrado antes do upload, transporte via TLS moderno.</p>
+          </details>
+          <details>
+            <summary>Perdi a senha. Vocês conseguem recuperar meus dados?</summary>
+            <p>Sem mecanismos de recuperação ativados, o conteúdo permanece inacessível. Recomendamos chave de recuperação e 2FA.</p>
+          </details>
+        </div>
+        <div class="card">
+          <details>
+            <summary>Metadados também são criptografados?</summary>
+            <p>Minimizamos metadados. Proteções de nome e estrutura podem variar conforme plano/política.</p>
+          </details>
+          <details>
+            <summary>Como auditar acessos e downloads?</summary>
+            <p>Planos Business oferecem logs exportáveis de acesso, compartilhamento e downloads.</p>
+          </details>
+        </div>
+      </div>
+
+      <!-- Compartilhamento -->
+      <h2 id="cat-compartilhar" style="margin-top:24px">Compartilhamento</h2>
+      <div class="grid cols-2 faq-group" data-cat="compartilhar">
+        <div class="card">
+          <details>
+            <summary>Como criar um link com senha e expiração?</summary>
+            <p>Selecione o arquivo/pasta &rarr; “Compartilhar” &rarr; defina senha, validade e permissões (visualizar/baixar).</p>
+          </details>
+          <details>
+            <summary>Posso limitar o número de downloads?</summary>
+            <p>Sim, defina um limite e revogue o link a qualquer momento.</p>
+          </details>
+        </div>
+        <div class="card">
+          <details>
+            <summary>Posso colaborar com quem não tem conta?</summary>
+            <p>Use link protegido ou “Solicitação de arquivos” para receber envios com destino controlado.</p>
+          </details>
+          <details>
+            <summary>Pastas compartilhadas têm permissões granulares?</summary>
+            <p>Sim, convide por e-mail com leitura ou edição; acompanhe e revogue quando necessário.</p>
+          </details>
+        </div>
+      </div>
+
+      <!-- Apps & Sync -->
+      <h2 id="cat-apps" style="margin-top:24px">Apps & Sincronização</h2>
+      <div class="grid cols-2 faq-group" data-cat="apps">
+        <div class="card">
+          <details>
+            <summary>Quais plataformas são suportadas?</summary>
+            <p>Web, Windows, macOS, Linux, Android e iOS. Veja <a href="/download">Downloads</a>.</p>
+          </details>
+          <details>
+            <summary>O que é sincronização seletiva?</summary>
+            <p>Você escolhe o que fica local. Itens não sincronizados baixam sob demanda.</p>
+          </details>
+        </div>
+        <div class="card">
+          <details>
+            <summary>Como resolver conflitos de versão?</summary>
+            <p>O app identifica conflitos e sugere mesclar ou manter cópias separadas com carimbo de data.</p>
+          </details>
+          <details>
+            <summary>Consigo usar offline?</summary>
+            <p>Sim. Marque como favorito para manter cópia local; alterações sincronizam ao voltar a conexão.</p>
+          </details>
+        </div>
+      </div>
+
+      <!-- Planos & Pagamento -->
+      <h2 id="cat-planos" style="margin-top:24px">Planos & Pagamento</h2>
+      <div class="grid cols-2 faq-group" data-cat="planos">
+        <div class="card">
+          <details>
+            <summary>Quais são as opções de plano?</summary>
+            <p>Consulte a página de <a href="/precos">Preços</a> para detalhes de armazenamento e recursos.</p>
+          </details>
+          <details>
+            <summary>Como funciona a cobrança anual vs mensal?</summary>
+            <p>Anual oferece economia proporcional. A cobrança pode ocorrer à vista ou por ciclo, conforme o plano.</p>
+          </details>
+        </div>
+        <div class="card">
+          <details>
+            <summary>Posso mudar de plano a qualquer momento?</summary>
+            <p>Sim. É possível fazer upgrade/downgrade e ajustar armazenamento conforme necessidade.</p>
+          </details>
+          <details>
+            <summary>Notas fiscais e métodos de pagamento?</summary>
+            <p>Emitimos NF conforme legislação. Cartão e opções locais podem estar disponíveis por região.</p>
+          </details>
+        </div>
+      </div>
+
+      <!-- Regiões -->
+      <h2 id="cat-regioes" style="margin-top:24px">Regiões de Dados</h2>
+      <div class="grid cols-2 faq-group" data-cat="regioes">
+        <div class="card">
+          <details>
+            <summary>Meus dados ficam apenas na região escolhida?</summary>
+            <p>Sim. Replicações e backups permanecem na mesma região. Veja <a href="/regioes">Regiões</a>.</p>
+          </details>
+          <details>
+            <summary>Residência de dados é igual a jurisdição?</summary>
+            <p>Não. Residência é onde os dados ficam; jurisdição são leis aplicáveis. Zero-Knowledge reduz exposição.</p>
+          </details>
+        </div>
+        <div class="card">
+          <details>
+            <summary>Como é a migração entre regiões?</summary>
+            <p>Processo assistido com recriptografia, transferência segura e reindexação. Pode haver janela breve sem escrita.</p>
+          </details>
+        </div>
+      </div>
+
+      <!-- Empresarial -->
+      <h2 id="cat-empresarial" style="margin-top:24px">Empresarial</h2>
+      <div class="grid cols-2 faq-group" data-cat="empresarial">
+        <div class="card">
+          <details>
+            <summary>Vocês têm logs e auditoria?</summary>
+            <p>Sim, em planos Business: registros de acesso, compartilhamentos e downloads, com exportação.</p>
+          </details>
+          <details>
+            <summary>Integrações e APIs?</summary>
+            <p>Disponibilizamos endpoints para upload, permissões e eventos (webhooks). Veja “Para Desenvolvedores”.</p>
+          </details>
+        </div>
+        <div class="card">
+          <details>
+            <summary>Gestão de usuários e SSO?</summary>
+            <p>Planos Business suportam gerenciamento centralizado e, quando disponível, SSO compatível.</p>
+          </details>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="card cta" style="margin-top:28px">
+        <div>
+          <h3 style="margin:0 0 6px">Ainda com dúvidas?</h3>
+          <p class="subtitle" style="margin:0">Nossa equipe responde rápido. Envie sua pergunta ou relate um problema.</p>
+        </div>
+        <div><a class="btn" href="/contato">Falar com o suporte</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container foot">
+      <div>
+        <div class="brand" style="margin-bottom:10px">
+          <img src="/logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block;"/>
+          <strong>TCloud</strong>
+        </div>
+        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero-Knowledge de verdade.</p>
+      </div>
+      <div>
+        <strong>Produto</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="/">Início</a></li>
+          <li><a href="/zero-knowledge">Zero-Knowledge</a></li>
+          <li><a href="/recursos">Recursos</a></li>
+          <li><a href="/regioes">Regiões</a></li>
+          <li><a href="/precos">Preços</a></li>
+          <li><a href="/download">Download</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Suporte</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="#">FAQ</a></li>
+          <li><a href="/opcoes-de-privacidade">Opções de Privacidade</a></li>
+          <li><a href="/contato">Contate-nos</a></li>
+          <li><a href="/notas-de-versao">Notas de Versão</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Community</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="/afiliados">Programa de Afiliados</a></li>
+          <li><a href="/revenda">Revendedores</a></li>
+          <li><a href="/para-desenvolvedores">Para Desenvolvedores</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SEO: FAQPage JSON-LD (resumo das principais) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"A TCloud consegue ler meus arquivos?","acceptedAnswer":{"@type":"Answer","text":"Não. Com Zero-Knowledge, os arquivos são cifrados no seu dispositivo e chegam ao servidor ilegíveis."}},
+      {"@type":"Question","name":"Esqueci minha senha. E agora?","acceptedAnswer":{"@type":"Answer","text":"Use “Esqueci minha senha”. Se tiver chave de recuperação ou passkey, você poderá restaurar o acesso."}},
+      {"@type":"Question","name":"Como criar um link com senha e expiração?","acceptedAnswer":{"@type":"Answer","text":"Selecione o arquivo/pasta → “Compartilhar” → defina senha, validade e permissões."}},
+      {"@type":"Question","name":"Posso mudar minha região de dados depois?","acceptedAnswer":{"@type":"Answer","text":"Sim. Fazemos migração assistida com recriptografia e verificação de integridade."}}
+    ]
+  }
+  </script>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ===== Busca e filtros =====
+    const search = document.getElementById('faqSearch');
+    const pills  = [...document.querySelectorAll('.pill')];
+    const groups = [...document.querySelectorAll('.faq-group')];
+    const hint   = document.getElementById('countHint');
+
+    let activeCat = 'all';
+    function setActiveCat(cat){
+      activeCat = cat;
+      pills.forEach(p => p.setAttribute('aria-pressed', String(p.dataset.filter===cat)));
+      render();
+    }
+
+    pills.forEach(p=>p.addEventListener('click', ()=>setActiveCat(p.dataset.filter)));
+
+    function render(){
+      const q = (search.value||'').toLowerCase().trim();
+      let shown = 0;
+
+      groups.forEach(g=>{
+        const catOk = (activeCat==='all') || (g.dataset.cat===activeCat);
+        let groupShown = 0;
+
+        g.querySelectorAll('details').forEach(d=>{
+          const text = (d.querySelector('summary')?.textContent + ' ' + d.textContent).toLowerCase();
+          const match = (!q || text.includes(q));
+          const visible = catOk && match;
+          d.style.display = visible ? '' : 'none';
+          if(visible) groupShown++;
+        });
+
+        g.style.display = groupShown ? '' : 'none';
+        shown += groupShown;
+      });
+
+      hint.textContent = shown ? `Exibindo ${shown} pergunta${shown>1?'s':''}` : 'Nenhum resultado. Tente outros termos.';
+    }
+
+    search.addEventListener('input', render);
+
+    // Expand/Collapse all (apenas nos visíveis)
+    const expandAll = document.getElementById('expandAll');
+    const collapseAll = document.getElementById('collapseAll');
+    expandAll.addEventListener('click', ()=>{
+      document.querySelectorAll('.faq-group details').forEach(d=>{
+        if(d.style.display!=='none') d.open = true;
+      });
+    });
+    collapseAll.addEventListener('click', ()=>{
+      document.querySelectorAll('.faq-group details').forEach(d=>{
+        if(d.style.display!=='none') d.open = false;
+      });
+    });
+
+    // Deep link para abrir uma pergunta específica: #open=texto-parcial
+    const params = new URLSearchParams(location.hash.replace(/^#/, ''));
+    const openQ = params.get('open');
+    if(openQ){
+      const target = [...document.querySelectorAll('details summary')]
+        .find(s => s.textContent.toLowerCase().includes(openQ.toLowerCase()));
+      if(target){ target.parentElement.open = true; target.scrollIntoView({behavior:'smooth', block:'center'}); }
+    }
+
+    // Inicializa
+    render();
+  </script>
+</body>
+</html>
