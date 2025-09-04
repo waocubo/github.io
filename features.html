@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TCloud — Recursos completos: do gerenciamento à segurança</title>
+  <meta name="description" content="Explore todos os recursos da TCloud: gerenciamento de arquivos, capacidades, compartilhamento, sincronização, segurança, criptografia, acessibilidade, controle de versão e integrações — no mesmo padrão visual TCloud." />
+  <meta name="color-scheme" content="dark light">
+  <style>
+    :root{
+      --tc-primary:#00A3FF; --tc-primary-600:#0086D1; --tc-accent:#6EE7FF;
+      --tc-success:#22c55e; --tc-warning:#f59e0b; --tc-danger:#ef4444;
+      --tc-bg:#0B1220; --tc-surface:#0F172A; --tc-muted:#1F2A44; --tc-border:#23304d;
+      --tc-text:#E6F0FF; --tc-text-muted:#A7B4D4; --radius:16px;
+      --shadow-lg:0 20px 50px rgba(0,0,0,.45); --shadow-md:0 10px 30px rgba(0,0,0,.35);
+      --grid-max:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial; color:var(--tc-text);
+      background:radial-gradient(1200px 600px at 60% -10%, rgba(0,163,255,.15), transparent 60%),
+                 radial-gradient(800px 500px at 10% 10%, rgba(110,231,255,.08), transparent 55%),
+                 linear-gradient(180deg, #0b1220, #0a0f1b 35%, #0b1220);
+    }
+    a{color:var(--tc-accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:var(--grid-max); margin:0 auto; padding:0 20px}
+    /* NAV */
+    nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(130%) blur(14px); background:color-mix(in oklab, var(--tc-surface) 65%, transparent); border-bottom:1px solid var(--tc-border)}
+    .nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; gap:12px; align-items:center}
+    .brand .name{font-weight:800; letter-spacing:.2px; font-size:18px}
+    .nav-links{display:flex; gap:20px; align-items:center}
+    .nav-links a.active{color:#fff; font-weight:800}
+    .btn{border:1px solid transparent; background:var(--tc-primary); color:#fff; padding:10px 16px; border-radius:999px; font-weight:700; box-shadow:var(--shadow-md)}
+    .btn:hover{background:var(--tc-primary-600)}
+    .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text)}
+    .btn.ghost:hover{border-color:var(--tc-primary)}
+    /* HERO */
+    .hero{padding:64px 0 32px}
+    .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center}
+    .chip{display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; background:color-mix(in oklab, var(--tc-muted) 70%, transparent); border:1px solid var(--tc-border); color:var(--tc-text-muted); font-weight:600; font-size:12px}
+    h1{font-size:42px; line-height:1.1; margin:12px 0 14px}
+    .lead{font-size:18px; color:var(--tc-text-muted); max-width:60ch}
+    .hero-card{background:linear-gradient(180deg, #0f172a, #111a30); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-lg)}
+    /* SECTIONS */
+    .section{padding:48px 0}
+    .section h2{font-size:28px; margin:0 0 12px}
+    .subtitle{color:var(--tc-text-muted); margin:0 0 20px}
+    .grid{display:grid; gap:20px}
+    .grid.cols-3{grid-template-columns:repeat(3, 1fr)}
+    .grid.cols-4{grid-template-columns:repeat(4, 1fr)}
+    .grid.cols-2{grid-template-columns:repeat(2, 1fr)}
+    .card{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px}
+    .icon{width:28px; height:28px; color:var(--tc-accent)}
+    .note{color:var(--tc-text-muted); font-size:14px}
+    /* TABS */
+    .tabs{position:sticky; top:64px; z-index:40; background:color-mix(in oklab, var(--tc-surface) 65%, transparent); border-bottom:1px solid var(--tc-border)}
+    .tabbar{display:flex; gap:8px; overflow:auto; padding:10px 20px}
+    .tabbar button{background:transparent; border:1px solid var(--tc-border); color:var(--tc-text-muted); padding:10px 12px; border-radius:12px; white-space:nowrap; font-weight:700}
+    .tabbar button[aria-selected="true"]{color:#fff; border-color:var(--tc-primary); box-shadow:0 0 0 2px rgba(0,163,255,.15)}
+    .tab{display:none}
+    .tab.active{display:block}
+    /* TABLE */
+    .table{border:1px solid var(--tc-border); border-radius:var(--radius); overflow:hidden}
+    table{width:100%; border-collapse:collapse}
+    th, td{padding:14px 16px; border-bottom:1px solid var(--tc-border)}
+    th{background:color-mix(in oklab, var(--tc-muted) 70%, transparent); text-align:left}
+    tr:last-child td{border-bottom:none}
+    /* FOOTER */
+    footer{padding:40px 0; border-top:1px solid var(--tc-border); background:color-mix(in oklab, var(--tc-surface) 65%, transparent)}
+    .foot{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:20px}
+    .credits{color:var(--tc-text-muted); font-size:13px}
+    /* RWD */
+    @media (max-width:1024px){.hero-grid{grid-template-columns:1fr}.grid.cols-4{grid-template-columns:1fr 1fr}.grid.cols-3{grid-template-columns:1fr 1fr}.grid.cols-2{grid-template-columns:1fr}.foot{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){h1{font-size:34px}.foot{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <!-- ===== NAV ===== -->
+  <nav>
+    <div class="container nav-wrap">
+      <div class="brand">
+        <img src="logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block;"/>
+        <span class="name">TCloud</span>
+      </div>
+      <div class="nav-links">
+        <a class="btn ghost" href="index.html">Início</a>
+        <a class="btn ghost" href="encrypted.html">Zero‑Knowledge</a>
+        <a class="btn ghost" href="about.html">Sobre</a>
+        <a class="btn ghost active" href="#">Recursos</a>
+        <a class="btn ghost" href="data-regions.html">Regiões</a>
+        <a class="btn" href="#cta">Experimente</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="chip">Recursos TCloud</span>
+        <h1>Tudo que você precisa em uma nuvem<br/>simples, rápida e Zero‑Knowledge</h1>
+        <p class="lead">Navegue pelos recursos nas abas abaixo. Mantivemos o mesmo padrão visual das páginas anteriores para consistência e clareza.</p>
+      </div>
+      <div class="hero-card">
+        <h3 style="margin:0 0 8px">O que você encontra aqui</h3>
+        <p style="margin:0; color:var(--tc-text-muted)">Gerenciamento de arquivos • Capacidades • Compartilhamento • Sincronização • Segurança • Criptografia • Acessibilidade • Versões • Integrações</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== TABS ===== -->
+  <div class="tabs" role="tablist" aria-label="Categorias de recursos">
+    <div class="tabbar container">
+      <button role="tab" id="t-categorias" aria-controls="categorias" aria-selected="true">Categorias</button>
+      <button role="tab" id="t-gerenciamento" aria-controls="gerenciamento">Gerenciamento de Arquivos</button>
+      <button role="tab" id="t-capacidades" aria-controls="capacidades">Capacidades Ilimitadas</button>
+      <button role="tab" id="t-compartilhar" aria-controls="compartilhar">Compartilhamento de Arquivos</button>
+      <button role="tab" id="t-sincronizacao" aria-controls="sincronizacao">Sincronização</button>
+      <button role="tab" id="t-seguranca" aria-controls="seguranca">Segurança</button>
+      <button role="tab" id="t-encryption" aria-controls="encryption">Encryption</button>
+      <button role="tab" id="t-acessibilidade" aria-controls="acessibilidade">Acessibilidade</button>
+      <button role="tab" id="t-versoes" aria-controls="versoes">Controle de Versão</button>
+      <button role="tab" id="t-integracoes" aria-controls="integracoes">Integrações</button>
+    </div>
+  </div>
+
+  <!-- ===== TAB: CATEGORIAS ===== -->
+  <section id="categorias" class="section tab active" aria-labelledby="t-categorias">
+    <div class="container">
+      <h2>Explore por categoria</h2>
+      <p class="subtitle">Uma visão geral para você chegar rápido no que importa.</p>
+      <div class="grid cols-4">
+        <a class="card" href="#gerenciamento"><h3>Gerenciamento de Arquivos</h3><p>Organização, mover/copiar/renomear, upload e sincronização seletiva.</p></a>
+        <a class="card" href="#capacidades"><h3>Capacidades</h3><p>Arquitetura que escala, suporte a arquivos grandes e upload remoto.</p></a>
+        <a class="card" href="#compartilhar"><h3>Compartilhamento</h3><p>Links com senha, expiração, limites e pastas colaborativas.</p></a>
+        <a class="card" href="#sincronizacao"><h3>Sincronização</h3><p>Desktop e mobile, seletiva, sob demanda e controle de banda.</p></a>
+        <a class="card" href="#seguranca"><h3>Segurança</h3><p>2FA, passkeys, políticas, auditoria e boas práticas.</p></a>
+        <a class="card" href="#encryption"><h3>Encryption</h3><p>Criptografia no dispositivo, E2E, KDF robusto e chaves do usuário.</p></a>
+        <a class="card" href="#acessibilidade"><h3>Acessibilidade</h3><p>Web, desktop e mobile com recursos de acessibilidade e offline.</p></a>
+        <a class="card" href="#versoes"><h3>Versões</h3><p>Histórico, restauração e políticas de retenção por plano.</p></a>
+        <a class="card" href="#integracoes"><h3>Integrações</h3><p>Conexões com apps do dia a dia e importação de outras nuvens.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TAB: GERENCIAMENTO ===== -->
+  <section id="gerenciamento" class="section tab" aria-labelledby="t-gerenciamento">
+    <div class="container">
+      <h2>Gerenciamento de Arquivos</h2>
+      <p class="subtitle">Ferramentas essenciais para organizar sem dor de cabeça.</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>Mover, copiar e renomear</h3><p>Suporte a ações em lote, arraste‑e‑solte e atalhos. Gestão direta via web e apps.</p></div>
+        <div class="card"><h3>Upload & sincronização</h3><p>Selecione pastas, pause/resume quando quiser e defina limites de banda.</p></div>
+        <div class="card"><h3>Sincronização seletiva</h3><p>Baixe apenas o necessário. Itens não sincronizados continuam visíveis sob demanda.</p></div>
+      </div>
+      <div class="grid cols-3" style="margin-top:20px">
+        <div class="card"><h3>Busca avançada</h3><p>Encontre por nome, tipo, tamanho e data com filtros rápidos.</p></div>
+        <div class="card"><h3>Favoritos offline</h3><p>Marque arquivos/pastas para acesso sem internet.</p></div>
+        <div class="card"><h3>Pré‑visualizações</h3><p>Veja imagens, PDF e vídeos no navegador antes de baixar.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TAB: CAPACIDADES ===== -->
+  <section id="capacidades" class="section tab" aria-labelledby="t-capacidades">
+    <div class="container">
+      <h2>Capacidades Ilimitadas</h2>
+      <p class="subtitle">Escalabilidade para acompanhar seu crescimento.</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>Arquivos grandes</h3><p>Fluxos de upload resilientes para trabalhar com arquivos pesados com confiança.</p></div>
+        <div class="card"><h3>Upload remoto</h3><p>Envie por URL quando não puder subir localmente (útil em servidores/VMs).</p></div>
+        <div class="card"><h3>Armazenamento escalável</h3><p>Planos generosos e ampliação simples conforme a necessidade do negócio.</p></div>
+      </div>
+      <p class="note" style="margin-top:8px">* Os limites efetivos dependem do plano contratado e da política de uso aceitável.</p>
+    </div>
+  </section>
+
+  <!-- ===== TAB: COMPARTILHAMENTO ===== -->
+  <section id="compartilhar" class="section tab" aria-labelledby="t-compartilhar">
+    <div class="container">
+      <h2>Compartilhamento de Arquivos</h2>
+      <p class="subtitle">Controle o que é público, privado e por quanto tempo.</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>Links com senha</h3><p>Proteja com senha e defina expiração, permissões e limites de download.</p></div>
+        <div class="card"><h3>Pastas compartilhadas</h3><p>Convide com leitura/edição e gerencie acessos por pasta ou projeto.</p></div>
+        <div class="card"><h3>Solicitação de arquivos</h3><p>Receba uploads de qualquer pessoa sem expor o conteúdo interno.</p></div>
+      </div>
+      <div class="table" style="margin-top:20px">
+        <table aria-label="Opções de compartilhamento">
+          <thead><tr><th>Recurso</th><th>Configurações</th><th>Observações</th></tr></thead>
+          <tbody>
+            <tr><td>Link público</td><td>Senha • Expiração • Permissões</td><td>Estatísticas e revogação a qualquer momento</td></tr>
+            <tr><td>Pasta compartilhada</td><td>Leitura • Edição</td><td>Convites por e‑mail, remoção e auditoria</td></tr>
+            <tr><td>Solicitação de arquivos</td><td>Destino • Expiração</td><td>Receba sem expor sua estrutura</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TAB: SINCRONIZAÇÃO ===== -->
+  <section id="sincronizacao" class="section tab" aria-labelledby="t-sincronizacao">
+    <div class="container">
+      <h2>Sincronização</h2>
+      <p class="subtitle">Tudo em dia entre web, desktop e mobile.</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>Seletiva e sob demanda</h3><p>Escolha o que fica local e o que baixa quando necessário.</p></div>
+        <div class="card"><h3>Controle de banda</h3><p>Defina limites de upload/download e priorize sua rede.</p></div>
+        <div class="card"><h3>Conflitos inteligentes</h3><p>Resolução guiada quando duas versões são editadas ao mesmo tempo.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TAB: SEGURANÇA ===== -->
+  <section id="seguranca" class="section tab" aria-labelledby="t-seguranca">
+    <div class="container">
+      <h2>Segurança</h2>
+      <p class="subtitle">Proteções em múltiplas camadas, com Zero‑Knowledge real.</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>2FA e passkeys</h3><p>Autenticação forte com TOTP e chaves de acesso.</p></div>
+        <div class="card"><h3>Políticas de acesso</h3><p>Permissões granulares por pasta/projeto e revogação rápida.</p></div>
+        <div class="card"><h3>Auditoria</h3><p>Logs de acesso, compartilhamento e downloads exportáveis.</p></div>
+      </div>
+      <div class="grid cols-3" style="margin-top:20px">
+        <div class="card"><h3>Transporte seguro</h3><p>TLS moderno e verificação de integridade em transferências.</p></div>
+        <div class="card"><h3>Backups e resiliência</h3><p>Estratégia de redundância com retenção de versões.</p></div>
+        <div class="card"><h3>Regiões de dados</h3><p>Escolha onde armazenar (BR/US/EU), mantendo Zero‑Knowledge.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TAB: ENCRYPTION ===== -->
+  <section id="encryption" class="section tab" aria-labelledby="t-encryption">
+    <div class="container">
+      <h2>Encryption (Criptografia)</h2>
+      <p class="subtitle">Modelo Zero‑Knowledge: chaves sob seu controle, conteúdo ilegível no servidor.</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>Criptografia no dispositivo</h3><p>Arquivos são cifrados antes do upload. O servidor recebe apenas dados embaralhados.</p></div>
+        <div class="card"><h3>KDF robusto</h3><p>Derivação de chaves com parâmetros fortes (ex.: Argon2id) e sal único.</p></div>
+        <div class="card"><h3>Troca de chaves</h3><p>EC‑based (ex.: ECDH) para acordos de chave modernos e seguros.</p></div>
+      </div>
+      <p class="note" style="margin-top:8px">* Ajuste os algoritmos conforme sua implementação real.</p>
+    </div>
+  </section>
+
+  <!-- ===== TAB: ACESSIBILIDADE ===== -->
+  <section id="acessibilidade" class="section tab" aria-labelledby="t-acessibilidade">
+    <div class="container">
+      <h2>Acessibilidade</h2>
+      <p class="subtitle">Acesso fácil, recursos inclusivos e experiências consistentes.</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>Web + Apps</h3><p>Navegação responsiva e apps nativos para desktop e mobile.</p></div>
+        <div class="card"><h3>Atalhos e navegação</h3><p>Teclas de atalho, foco visível e etiquetas ARIA nas interfaces.</p></div>
+        <div class="card"><h3>Modo offline</h3><p>Arquivos marcados como favoritos funcionam sem internet.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TAB: VERSÕES ===== -->
+  <section id="versoes" class="section tab" aria-labelledby="t-versoes">
+    <div class="container">
+      <h2>Controle de Versão de Arquivos</h2>
+      <p class="subtitle">Erros acontecem. Recuperar deve ser simples.</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>Histórico</h3><p>Mantenha versões anteriores para voltar no tempo quando precisar.</p></div>
+        <div class="card"><h3>Restauração</h3><p>Restaure rapidamente uma versão específica. Registro de quem alterou.</p></div>
+        <div class="card"><h3>Políticas de retenção</h3><p>Ajuste conforme o plano e as necessidades do seu time.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TAB: INTEGRAÇÕES ===== -->
+  <section id="integracoes" class="section tab" aria-labelledby="t-integracoes">
+    <div class="container">
+      <h2>Integrações</h2>
+      <p class="subtitle">Conecte a TCloud aos apps que você já usa.</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>Importação de outras nuvens</h3><p>Migre de Google Drive, OneDrive e outros com poucos cliques.</p></div>
+        <div class="card"><h3>Automação</h3><p>Webhooks e integrações para acionar fluxos quando algo muda.</p></div>
+        <div class="card"><h3>APIs</h3><p>Endpoints para upload, permissões e auditoria (documentação para devs).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section id="cta" class="section">
+    <div class="container card" style="display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center">
+      <div>
+        <h2>Pronto para testar a TCloud?</h2>
+        <p class="subtitle">Crie sua conta, escolha a região de dados e ative o Zero‑Knowledge.</p>
+      </div>
+      <div>
+        <a class="btn" href="#">Criar conta</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container foot">
+      <div>
+        <div class="brand" style="margin-bottom:10px">
+          <img src="logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block;"/>
+          <strong>TCloud</strong>
+        </div>
+        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero‑Knowledge de verdade.</p>
+      </div>
+      <div>
+        <strong>Produto</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="index.html">Início</a></li>
+          <li><a href="encrypted.html">Zero‑Knowledge</a></li>
+          <li><a href="about.html">Sobre</a></li>
+          <li><a href="features.html">Recursos</a></li>
+          <li><a href="data-regions.html">Regiões</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Suporte</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="#">Central de ajuda</a></li>
+          <li><a href="#">Status</a></li>
+          <li><a href="#">Segurança</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Legal</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="#">Termos</a></li>
+          <li><a href="#">Privacidade</a></li>
+          <li><a href="#">DPA</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // ===== Tabs JS =====
+    const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+    const panels = Array.from(document.querySelectorAll('.tab'));
+    const map = new Map(tabs.map(t=>[t.id.replace('t-',''), t]));
+
+    function activate(name){
+      // tabs
+      tabs.forEach(btn=>btn.setAttribute('aria-selected', String(btn.id==='t-'+name)));
+      // panels
+      panels.forEach(p=>p.classList.toggle('active', p.id===name));
+      // hash
+      history.replaceState(null, '', '#'+name);
+      // scroll into view for mobile
+      document.querySelector('.tabs').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    // click
+    tabs.forEach(btn=>btn.addEventListener('click', ()=>activate(btn.id.replace('t-',''))));
+
+    // deep link via hash
+    const hash = location.hash.replace('#','');
+    if(hash && document.getElementById(hash)) activate(hash);
+
+    // keyboard nav
+    document.querySelector('.tabbar').addEventListener('keydown', e=>{
+      if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key)) return;
+      e.preventDefault();
+      const i = tabs.findIndex(b=>b.getAttribute('aria-selected')==='true');
+      let j = i;
+      if(e.key==='ArrowRight') j = (i+1)%tabs.length;
+      if(e.key==='ArrowLeft') j = (i-1+tabs.length)%tabs.length;
+      if(e.key==='Home') j = 0;
+      if(e.key==='End') j = tabs.length-1;
+      tabs[j].focus();
+      tabs[j].click();
+    });
+  </script>
+</body>
+</html>

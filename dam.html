@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TCloud — DAM (Gerenciador de Ativos Digitais)</title>
+  <meta name="description" content="DAM da TCloud: centralize, organize e entregue imagens, vídeos e documentos. Upload com metadados, tags por IA, busca facetada, coleções, aprovações, direitos e delivery por CDN com variantes." />
+  <meta name="color-scheme" content="dark light">
+  <style>
+    :root{
+      --tc-primary:#00A3FF; --tc-primary-600:#0086D1; --tc-accent:#6EE7FF;
+      --tc-success:#22c55e; --tc-warning:#f59e0b; --tc-danger:#ef4444;
+      --tc-bg:#0B1220; --tc-surface:#0F172A; --tc-muted:#1F2A44; --tc-border:#23304d;
+      --tc-text:#E6F0FF; --tc-text-muted:#A7B4D4; --radius:16px;
+      --shadow-lg:0 20px 50px rgba(0,0,0,.45); --shadow-md:0 10px 30px rgba(0,0,0,.35);
+      --grid-max:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial; color:var(--tc-text);
+      background:radial-gradient(1200px 600px at 60% -10%, rgba(0,163,255,.15), transparent 60%),
+                 radial-gradient(800px 500px at 10% 10%, rgba(110,231,255,.08), transparent 55%),
+                 linear-gradient(180deg, #0b1220, #0a0f1b 35%, #0b1220);
+    }
+    a{color:var(--tc-accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:var(--grid-max); margin:0 auto; padding:0 20px}
+    /* NAV */
+    nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(130%) blur(14px); background:color-mix(in oklab, var(--tc-surface) 65%, transparent); border-bottom:1px solid var(--tc-border)}
+    .nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; gap:12px; align-items:center}
+    .brand .name{font-weight:800; letter-spacing:.2px; font-size:18px}
+    .nav-links{display:flex; gap:20px; align-items:center; flex-wrap:wrap}
+    .nav-links a.active{color:#fff; font-weight:800}
+    .btn{border:1px solid transparent; background:var(--tc-primary); color:#001425; padding:10px 16px; border-radius:999px; font-weight:800; box-shadow:var(--shadow-md); cursor:pointer}
+    .btn:hover{background:var(--tc-primary-600); color:#001425}
+    .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text); font-weight:700}
+    .btn.ghost:hover{border-color:var(--tc-primary)}
+    /* HERO */
+    .hero{padding:64px 0 24px}
+    .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center}
+    .chip{display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; background:color-mix(in oklab, var(--tc-muted) 70%, transparent); border:1px solid var(--tc-border); color:var(--tc-text-muted); font-weight:600; font-size:12px}
+    h1{font-size:42px; line-height:1.1; margin:12px 0 14px}
+    .lead{font-size:18px; color:var(--tc-text-muted); max-width:60ch}
+    .hero-card{background:linear-gradient(180deg, #0f172a, #111a30); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-lg)}
+    /* SECTION */
+    .section{padding:48px 0}
+    .section h2{font-size:28px; margin:0 0 12px}
+    .subtitle{color:var(--tc-text-muted); margin:0 0 20px}
+    .grid{display:grid; gap:20px}
+    .grid.cols-4{grid-template-columns:repeat(4, 1fr)}
+    .grid.cols-3{grid-template-columns:repeat(3, 1fr)}
+    .grid.cols-2{grid-template-columns:repeat(2, 1fr)}
+    .card{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px}
+    .small{font-size:13px; color:var(--tc-text-muted)}
+    .pill{display:inline-block; padding:2px 8px; border-radius:999px; border:1px solid var(--tc-border); font-size:12px; color:var(--tc-text-muted)}
+    .table{border:1px solid var(--tc-border); border-radius:var(--radius); overflow:hidden}
+    table{width:100%; border-collapse:collapse}
+    th,td{padding:14px 16px; border-bottom:1px solid var(--tc-border)}
+    th{background:color-mix(in oklab, var(--tc-muted) 70%, transparent); text-align:left}
+    tr:last-child td{border-bottom:none}
+    .check{color:var(--tc-success); font-weight:800}
+    /* DAM UI */
+    .dam{display:grid; grid-template-columns:1.2fr .8fr; gap:20px}
+    .drop{border:2px dashed var(--tc-border); border-radius:16px; padding:18px; text-align:center; transition:.2s}
+    .drop.drag{border-color:var(--tc-primary); background:rgba(0,163,255,.06)}
+    .assets{display:grid; grid-template-columns:repeat(4, 1fr); gap:12px}
+    .asset{border:1px solid var(--tc-border); border-radius:12px; overflow:hidden; cursor:pointer; background:#0e162b}
+    .asset .thumb{aspect-ratio: 4/3; background:linear-gradient(135deg,#15223d,#0e162b)}
+    .asset .thumb img{width:100%; height:100%; object-fit:cover; display:block}
+    .asset .meta{padding:10px; font-size:12px; color:var(--tc-text-muted); display:flex; justify-content:space-between; gap:6px; align-items:center}
+    .asset.sel{outline:2px solid var(--tc-primary)}
+    .tags{display:flex; gap:6px; flex-wrap:wrap}
+    .tag{padding:3px 8px; border-radius:999px; border:1px solid var(--tc-border); font-size:12px}
+    input[type="text"], input[type="date"], input[type="datetime-local"], input[type="number"], input[type="email"], input[type="password"], select, textarea{width:100%; padding:10px 12px; border-radius:12px; border:1px solid var(--tc-border); background:transparent; color:var(--tc-text)}
+    textarea{min-height:90px}
+    .filters{display:grid; grid-template-columns:1fr; gap:10px}
+    .filters .row{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+    .switch{display:flex; align-items:center; gap:10px}
+    .switch input{transform:scale(1.2)}
+    .result{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:12px; padding:16px; word-break:break-all}
+    .gallery{max-height:480px; overflow:auto; padding-right:4px}
+    .empty{border:1px dashed var(--tc-border); border-radius:12px; padding:16px; text-align:center; color:var(--tc-text-muted)}
+    /* FOOTER */
+    footer{padding:40px 0; border-top:1px solid var(--tc-border); background:color-mix(in oklab, var(--tc-surface) 65%, transparent)}
+    .foot{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:20px}
+    .credits{color:var(--tc-text-muted); font-size:13px}
+    /* RWD */
+    @media (max-width:1200px){.assets{grid-template-columns:repeat(3, 1fr)}}
+    @media (max-width:920px){.dam{grid-template-columns:1fr}.assets{grid-template-columns:repeat(3, 1fr)}}
+    @media (max-width:640px){h1{font-size:34px}.assets{grid-template-columns:repeat(2, 1fr)}.foot{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <!-- ===== NAV ===== -->
+  <nav>
+    <div class="container nav-wrap">
+      <div class="brand">
+        <img src="logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block;"/>
+        <span class="name">TCloud</span>
+      </div>
+      <div class="nav-links">
+        <a class="btn ghost" href="index.html">Início</a>
+        <a class="btn ghost" href="encrypted.html">Zero‑Knowledge</a>
+        <a class="btn ghost" href="about.html">Sobre</a>
+        <a class="btn ghost" href="features.html">Recursos</a>
+        <a class="btn ghost" href="data-regions.html">Regiões</a>
+        <a class="btn ghost" href="pricing.html">Preços</a>
+        <a class="btn ghost" href="affiliate.html">Afiliados</a>
+        <a class="btn ghost" href="reseller.html">Revenda</a>
+        <a class="btn ghost" href="download.html">Download</a>
+        <a class="btn ghost" href="business.html">Empresarial</a>
+        <a class="btn ghost" href="pass.html">Pass</a>
+        <a class="btn ghost" href="transfer.html">Transferir</a>
+        <a class="btn ghost" href="sharing.html">Compartilhar</a>
+        <a class="btn ghost" href="security.html">Segurança</a>
+        <a class="btn ghost" href="backup.html">Backup</a>
+        <a class="btn ghost active" href="#">DAM</a>
+        <a class="btn" href="#cta">Solicitar demo</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="chip">Gerenciador de Ativos Digitais</span>
+        <h1>Organize, encontre e entregue seus ativos em segundos</h1>
+        <p class="lead">Upload com metadados, tags automáticas por IA, busca facetada, coleções e portais de marca. Entregue variantes otimizadas por CDN — tudo com Zero‑Knowledge.</p>
+        <div style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap">
+          <a class="btn" href="#workspace">Abrir workspace</a>
+          <a class="btn ghost" href="#delivery">Delivery & variantes</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3 style="margin:0 0 8px">Inclui</h3>
+        <ul style="margin:0; padding-left:18px; color:var(--tc-text-muted)">
+          <li>Upload/ingest com metadados</li>
+          <li>Tags por IA (sugestões)</li>
+          <li>Busca com filtros (tipo, tags, licença)</li>
+          <li>Versões e aprovações</li>
+          <li>Coleções e portais de marca</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== BENEFÍCIOS ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Por que usar o DAM da TCloud</h2>
+      <div class="grid cols-3">
+        <div class="card"><h3>Centralização</h3><p>Um único lugar para imagens, vídeos, PDFs e fontes.</p></div>
+        <div class="card"><h3>Governança</h3><p>Direitos, licenças e expiração controlados por metadados.</p></div>
+        <div class="card"><h3>Velocidade</h3><p>Busca facetada e filtros para achar o arquivo ideal rapidamente.</p></div>
+        <div class="card"><h3>Colaboração</h3><p>Comentários, aprovações e versões de arquivo.</p></div>
+        <div class="card"><h3>Entrega</h3><p>URLs de CDN com variantes e parâmetros de transformação.</p></div>
+        <div class="card"><h3>Zero‑Knowledge</h3><p>Criptografia no dispositivo, privacidade por padrão.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WORKSPACE (UPLOAD • BUSCA • METADADOS) ===== -->
+  <section id="workspace" class="section">
+    <div class="container">
+      <h2>Workspace do DAM</h2>
+      <p class="subtitle">Interface de demonstração para o seu vídeo. Sem upload real — os arquivos ficam apenas no navegador.</p>
+      <div class="dam">
+        <!-- Left: Assets & search -->
+        <div class="card">
+          <div class="drop" id="drop">
+            <strong>Arraste arquivos aqui</strong>
+            <div class="small">ou <label for="picker" style="text-decoration:underline; cursor:pointer">clique para selecionar</label></div>
+            <input id="picker" type="file" multiple hidden />
+          </div>
+
+          <div class="filters" style="margin-top:12px">
+            <input id="q" type="text" placeholder="Buscar por nome, tag ou descrição" />
+            <div class="row">
+              <select id="fType">
+                <option value="">Tipo (todos)</option>
+                <option value="image">Imagem</option>
+                <option value="video">Vídeo</option>
+                <option value="doc">Documento</option>
+                <option value="other">Outros</option>
+              </select>
+              <select id="fLicense">
+                <option value="">Licença (todas)</option>
+                <option value="ok">Válida</option>
+                <option value="exp">Expirada</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="gallery" id="gallery" style="margin-top:12px">
+            <div class="empty">Nenhum arquivo ainda. Faça upload para começar.</div>
+          </div>
+        </div>
+
+        <!-- Right: Metadata & actions -->
+        <div class="card">
+          <h3 style="margin:0 0 8px">Metadados do ativo</h3>
+          <div id="metaEmpty" class="empty">Selecione um ativo para editar metadados.</div>
+          <div id="metaPanel" style="display:none">
+            <label for="title">Título</label>
+            <input id="title" type="text" placeholder="Ex.: Render fachada bloco A" />
+
+            <label for="desc" style="margin-top:10px">Descrição</label>
+            <textarea id="desc" placeholder="Breve descrição do ativo"></textarea>
+
+            <div style="margin-top:10px">
+              <div class="small">Tags</div>
+              <div class="tags" id="tags"></div>
+              <input id="tagInput" type="text" placeholder="Adicionar tag e pressionar Enter" style="margin-top:6px"/>
+            </div>
+
+            <div style="margin-top:10px">
+              <div class="small">Sugestões por IA</div>
+              <div class="tags" id="aiTags"></div>
+            </div>
+
+            <div class="grid cols-2" style="margin-top:10px">
+              <div>
+                <label for="license">Licença</label>
+                <select id="license"><option>Direitos próprios</option><option>Royalty‑free</option><option>Editorial</option><option>Contrato externo</option></select>
+              </div>
+              <div>
+                <label for="exp">Expira em</label>
+                <input id="exp" type="date" />
+              </div>
+            </div>
+
+            <div class="grid cols-2" style="margin-top:10px">
+              <div>
+                <label for="region">Região de uso</label>
+                <select id="region"><option>BR</option><option>LATAM</option><option>EU</option><option>Global</option></select>
+              </div>
+              <div>
+                <label for="owner">Proprietário</label>
+                <input id="owner" type="text" placeholder="Ex.: TCloud Marketing" />
+              </div>
+            </div>
+
+            <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap">
+              <button id="saveMeta" class="btn" type="button">Salvar metadados</button>
+              <button id="newVer" class="btn ghost" type="button">Enviar nova versão</button>
+              <button id="approve" class="btn ghost" type="button">Aprovar</button>
+              <button id="reject" class="btn ghost" type="button">Reprovar</button>
+            </div>
+
+            <div class="result" id="metaResult" style="margin-top:12px; display:none"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DELIVERY & VARIANTES ===== -->
+  <section id="delivery" class="section">
+    <div class="container">
+      <h2>Delivery e variantes por CDN</h2>
+      <p class="subtitle">Monte uma URL de entrega com parâmetros de transformação. Demonstração apenas — substitua pela sua CDN/transformer no lançamento.</p>
+      <div class="grid cols-2">
+        <div class="card">
+          <div class="grid cols-2">
+            <div>
+              <label for="w">Largura (px)</label>
+              <input id="w" type="number" min="0" placeholder="Ex.: 1200" />
+            </div>
+            <div>
+              <label for="h">Altura (px)</label>
+              <input id="h" type="number" min="0" placeholder="Ex.: 800" />
+            </div>
+          </div>
+          <div class="grid cols-2" style="margin-top:10px">
+            <div>
+              <label for="fit">Encaixe</label>
+              <select id="fit"><option value="cover">cover</option><option value="contain">contain</option><option value="fill">fill</option></select>
+            </div>
+            <div>
+              <label for="fm">Formato</label>
+              <select id="fm"><option>jpg</option><option selected>webp</option><option>png</option></select>
+            </div>
+          </div>
+          <div class="grid cols-2" style="margin-top:10px">
+            <div>
+              <label for="q">Qualidade</label>
+              <input id="q" type="number" min="1" max="100" value="82" />
+            </div>
+            <div class="switch"><input id="wmOn" type="checkbox" /> <label for="wmOn">Watermark</label></div>
+          </div>
+          <div class="grid cols-2" style="margin-top:10px">
+            <div>
+              <label for="bg">BG (hex, opcional)</label>
+              <input id="bg" type="text" placeholder="#0B1220" />
+            </div>
+            <div>
+              <label for="crop">Crop (x,y,w,h)</label>
+              <input id="crop" type="text" placeholder="Ex.: 0,0,1200,800" />
+            </div>
+          </div>
+          <div style="margin-top:12px"><button id="build" class="btn" type="button">Gerar URL</button></div>
+        </div>
+        <div class="card">
+          <div class="result" id="urlOut">Selecione um ativo acima e gere a URL.</div>
+          <div style="margin-top:10px; display:flex; gap:10px">
+            <button id="copyUrl" class="btn" type="button">Copiar</button>
+            <button id="openUrl" class="btn ghost" type="button">Abrir</button>
+          </div>
+          <p class="small" style="margin-top:10px">Exemplo: <code>https://cdn.tcloud.link/a/&lt;id&gt;?w=1200&h=800&fit=cover&fm=webp&q=82&wm=1</code></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COLEÇÕES & PORTAIS ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Coleções e Portais de Marca</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <label for="colName">Nova coleção</label>
+          <input id="colName" type="text" placeholder="Ex.: Campanha_Lançamento_Q4" />
+          <div style="margin-top:10px">
+            <button id="addToCol" class="btn" type="button">Adicionar ativo selecionado</button>
+            <button id="clearCol" class="btn ghost" type="button">Limpar coleção</button>
+          </div>
+          <div class="result" id="colList" style="margin-top:10px">Sem itens.</div>
+        </div>
+        <div class="card">
+          <div class="switch"><input id="portalOn" type="checkbox" /> <label for="portalOn">Ativar Portal público de marca</label></div>
+          <div id="portalWrap" style="display:none; margin-top:10px">
+            <label for="portalSlug">Slug do Portal</label>
+            <input id="portalSlug" type="text" placeholder="ex.: tcloud-brand-q4" />
+            <div style="margin-top:10px"><button id="genPortal" class="btn" type="button">Gerar link do Portal</button></div>
+            <div class="result" id="portalLink" style="margin-top:10px; display:none"></div>
+          </div>
+          <p class="small" style="margin-top:10px">No lançamento, conecte este Portal à sua camada de autenticação/branding.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PERMISSÕES ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Permissões por papel (exemplo)</h2>
+      <div class="table">
+        <table aria-label="Permissões do DAM">
+          <thead><tr><th>Ação</th><th>Visualizador</th><th>Editor</th><th>Administrador</th></tr></thead>
+          <tbody>
+            <tr><td>Ver & baixar</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+            <tr><td>Editar metadados</td><td>—</td><td class="check">✔</td><td class="check">✔</td></tr>
+            <tr><td>Enviar nova versão</td><td>—</td><td class="check">✔</td><td class="check">✔</td></tr>
+            <tr><td>Aprovar/Reprovar</td><td>—</td><td class="check">✔</td><td class="check">✔</td></tr>
+            <tr><td>Gerenciar usuários</td><td>—</td><td>—</td><td class="check">✔</td></tr>
+            <tr><td>Portais & Branding</td><td>—</td><td>—</td><td class="check">✔</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== INSIGHTS ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Insights rápidos (exemplo)</h2>
+      <div class="grid cols-3">
+        <div class="card"><h3>Total de ativos</h3><div id="mTotal" style="font-size:28px; font-weight:800">0</div><div class="small">Workspace atual</div></div>
+        <div class="card"><h3>Downloads (30 dias)</h3><div id="mDw" style="font-size:28px; font-weight:800">0</div><div class="small">Simulação</div></div>
+        <div class="card"><h3>Tag mais usada</h3><div id="mTag" style="font-size:18px; font-weight:700">—</div><div class="small">Entre os ativos carregados</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section id="cta" class="section">
+    <div class="container card" style="display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center">
+      <div>
+        <h2>Quer ver o DAM integrado ao seu fluxo?</h2>
+        <p class="subtitle">Agende uma demonstração com a TCloud e veja integrações com CMS, CDN e design system.</p>
+      </div>
+      <div>
+        <a class="btn" href="pricing.html">Solicitar demo</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container foot">
+      <div>
+        <div class="brand" style="margin-bottom:10px">
+          <img src="logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block;"/>
+          <strong>TCloud</strong>
+        </div>
+        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero‑Knowledge de verdade.</p>
+      </div>
+      <div>
+        <strong>Produto</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="index.html">Início</a></li>
+          <li><a href="encrypted.html">Zero‑Knowledge</a></li>
+          <li><a href="about.html">Sobre</a></li>
+          <li><a href="features.html">Recursos</a></li>
+          <li><a href="data-regions.html">Regiões</a></li>
+          <li><a href="pricing.html">Preços</a></li>
+          <li><a href="affiliate.html">Afiliados</a></li>
+          <li><a href="reseller.html">Revenda</a></li>
+          <li><a href="download.html">Download</a></li>
+          <li><a href="business.html">Empresarial</a></li>
+          <li><a href="pass.html">Pass</a></li>
+          <li><a href="transfer.html">Transferir</a></li>
+          <li><a href="sharing.html">Compartilhar</a></li>
+          <li><a href="security.html">Segurança</a></li>
+          <li><a href="backup.html">Backup</a></li>
+          <li><a href="#">DAM</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Suporte</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="help-faq.html">FAQ</a></li>
+          <li><a href="privacy-options.html">Opções de Privacidade</a></li>
+          <li><a href="contact.html">Contate‑nos</a></li>
+          <li><a href="release-notes.html">Notas de Versão</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Community</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="affiliate.html">Programa de Afiliados</a></li>
+          <li><a href="reseller.html">Revendedores</a></li>
+          <li><a href="developers.html">Para Desenvolvedores</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ===== Utilities =====
+    function slug(n=10){const c='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; let s=''; for(let i=0;i<n;i++) s+=c[Math.floor(crypto.getRandomValues(new Uint32Array(1))[0]/2**32*c.length)]; return s;}
+    function extType(name){const e=(name.split('.').pop()||'').toLowerCase(); if(['jpg','jpeg','png','webp','gif','svg'].includes(e)) return 'image'; if(['mp4','mov','webm','mkv'].includes(e)) return 'video'; if(['pdf','ai','psd','doc','docx','ppt','pptx'].includes(e)) return 'doc'; return 'other';}
+    function fmtDate(d){const dt=new Date(d); return isNaN(dt)?'—':dt.toISOString().slice(0,10)}
+
+    // ===== State =====
+    const state={ assets:[], sel:null, collection:[] };
+
+    // ===== Elements =====
+    const drop=document.getElementById('drop');
+    const picker=document.getElementById('picker');
+    const gallery=document.getElementById('gallery');
+    const q=document.getElementById('q');
+    const fType=document.getElementById('fType');
+    const fLicense=document.getElementById('fLicense');
+
+    const metaEmpty=document.getElementById('metaEmpty');
+    const metaPanel=document.getElementById('metaPanel');
+    const titleEl=document.getElementById('title');
+    const descEl=document.getElementById('desc');
+    const tagsEl=document.getElementById('tags');
+    const tagInput=document.getElementById('tagInput');
+    const aiTagsEl=document.getElementById('aiTags');
+    const licenseEl=document.getElementById('license');
+    const expEl=document.getElementById('exp');
+    const regionEl=document.getElementById('region');
+    const ownerEl=document.getElementById('owner');
+    const saveMeta=document.getElementById('saveMeta');
+    const newVer=document.getElementById('newVer');
+    const approve=document.getElementById('approve');
+    const reject=document.getElementById('reject');
+    const metaResult=document.getElementById('metaResult');
+
+    // Delivery
+    const w=document.getElementById('w');
+    const h=document.getElementById('h');
+    const fit=document.getElementById('fit');
+    const fm=document.getElementById('fm');
+    const ql=document.getElementById('q');
+    const wmOn=document.getElementById('wmOn');
+    const bg=document.getElementById('bg');
+    const crop=document.getElementById('crop');
+    const build=document.getElementById('build');
+    const urlOut=document.getElementById('urlOut');
+    const copyUrl=document.getElementById('copyUrl');
+    const openUrl=document.getElementById('openUrl');
+
+    // Collections/Portal
+    const colName=document.getElementById('colName');
+    const addToCol=document.getElementById('addToCol');
+    const clearCol=document.getElementById('clearCol');
+    const colList=document.getElementById('colList');
+    const portalOn=document.getElementById('portalOn');
+    const portalWrap=document.getElementById('portalWrap');
+    const portalSlug=document.getElementById('portalSlug');
+    const genPortal=document.getElementById('genPortal');
+    const portalLink=document.getElementById('portalLink');
+
+    // Insights
+    const mTotal=document.getElementById('mTotal');
+    const mDw=document.getElementById('mDw');
+    const mTag=document.getElementById('mTag');
+
+    // ===== Drag & Drop =====
+    ;['dragenter','dragover'].forEach(evt=>drop.addEventListener(evt,(e)=>{e.preventDefault(); drop.classList.add('drag');}));
+    ;['dragleave','drop'].forEach(evt=>drop.addEventListener(evt,(e)=>{e.preventDefault(); drop.classList.remove('drag');}));
+    drop.addEventListener('drop',(e)=>{addFiles(Array.from(e.dataTransfer.files||[]));});
+    drop.addEventListener('click',()=>picker.click());
+    picker.addEventListener('change',()=>{addFiles(Array.from(picker.files||[])); picker.value='';});
+
+    function addFiles(files){
+      files.forEach(f=>{
+        const id=slug(12);
+        const type=extType(f.name);
+        const url=type==='image'? URL.createObjectURL(f) : null;
+        const now=Date.now();
+        const exp=new Date(now + 1000*60*60*24*(30+Math.floor(Math.random()*120))); // 1-5 meses
+        const item={id,name:f.name,type,url,size:f.size,created:now,tags:[],ai:['projeto','fachada','render','cliente'].slice(0,2+Math.floor(Math.random()*2)),license:'Direitos próprios',exp:exp.toISOString().slice(0,10),region:'BR',owner:'TCloud'};
+        state.assets.push(item);
+      });
+      renderAssets();
+      updateInsights();
+    }
+
+    function renderAssets(){
+      const qv=(q.value||'').toLowerCase();
+      const ft=fType.value;
+      const fl=fLicense.value; // ok | exp
+      const items=state.assets.filter(a=>{
+        const text=(a.name+' '+(a.tags||[]).join(' ')+' '+(a.desc||'')).toLowerCase();
+        if(qv && !text.includes(qv)) return false;
+        if(ft && a.type!==ft) return false;
+        if(fl){
+          const expired = new Date(a.exp) < new Date();
+          if(fl==='ok' && expired) return false;
+          if(fl==='exp' && !expired) return false;
+        }
+        return true;
+      });
+      if(!items.length){ gallery.innerHTML = '<div class="empty">Nada encontrado. Ajuste os filtros.</div>'; return; }
+      gallery.innerHTML='';
+      const grid=document.createElement('div'); grid.className='assets'; gallery.appendChild(grid);
+      items.forEach(a=>{
+        const el=document.createElement('div'); el.className='asset'+(state.sel && state.sel.id===a.id?' sel':''); el.dataset.id=a.id;
+        const th=document.createElement('div'); th.className='thumb'; if(a.url){ const img=new Image(); img.src=a.url; th.appendChild(img);} else { th.innerHTML='<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#6b7aa6">'+a.type.toUpperCase()+'</div>'; }
+        const meta=document.createElement('div'); meta.className='meta';
+        const expired=new Date(a.exp) < new Date();
+        meta.innerHTML=`<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${a.name}</span><span class="pill" title="Expiração">${expired? 'expirou':'válida'} · ${fmtDate(a.exp)}</span>`;
+        el.appendChild(th); el.appendChild(meta); grid.appendChild(el);
+        el.onclick=()=>selectAsset(a.id);
+      });
+    }
+
+    q.addEventListener('input', renderAssets);
+    fType.addEventListener('input', renderAssets);
+    fLicense.addEventListener('input', renderAssets);
+
+    function selectAsset(id){
+      state.sel = state.assets.find(x=>x.id===id) || null;
+      renderAssets();
+      renderMeta();
+      urlOut.textContent = 'Clique em "Gerar URL" para montar a entrega deste ativo.';
+    }
+
+    function renderMeta(){
+      if(!state.sel){ metaPanel.style.display='none'; metaEmpty.style.display='block'; return; }
+      metaEmpty.style.display='none'; metaPanel.style.display='block';
+      const a=state.sel;
+      titleEl.value=a.title||''; descEl.value=a.desc||''; licenseEl.value=a.license||'Direitos próprios'; expEl.value=a.exp||''; regionEl.value=a.region||'BR'; ownerEl.value=a.owner||'TCloud';
+      // tags
+      tagsEl.innerHTML='';
+      (a.tags||[]).forEach(t=>{ const b=document.createElement('span'); b.className='tag'; b.textContent=t; tagsEl.appendChild(b); });
+      // AI tags
+      aiTagsEl.innerHTML='';
+      (a.ai||[]).forEach(t=>{ const b=document.createElement('button'); b.className='btn ghost'; b.type='button'; b.style.padding='6px 10px'; b.textContent='+'+t; b.onclick=()=>{ a.tags=a.tags||[]; if(!a.tags.includes(t)) a.tags.push(t); renderMeta(); }; aiTagsEl.appendChild(b); });
+      metaResult.style.display='none';
+    }
+
+    tagInput.addEventListener('keydown',(e)=>{ if(e.key==='Enter'){ e.preventDefault(); const v=(tagInput.value||'').trim(); if(!v) return; state.sel.tags=state.sel.tags||[]; if(!state.sel.tags.includes(v)) state.sel.tags.push(v); tagInput.value=''; renderMeta(); renderAssets(); updateInsights(); }});
+
+    saveMeta.addEventListener('click',()=>{ if(!state.sel) return; const a=state.sel; a.title=titleEl.value; a.desc=descEl.value; a.license=licenseEl.value; a.exp=expEl.value; a.region=regionEl.value; a.owner=ownerEl.value; metaResult.style.display='block'; metaResult.textContent='Metadados salvos (demo).'; renderAssets(); });
+    newVer.addEventListener('click',()=>{ alert('Envio de nova versão (demonstração).'); });
+    approve.addEventListener('click',()=>{ alert('Ativo aprovado (demonstração).'); });
+    reject.addEventListener('click',()=>{ alert('Ativo reprovado (demonstração).'); });
+
+    // ===== Delivery URL builder =====
+    build.addEventListener('click',()=>{
+      if(!state.sel){ urlOut.textContent='Selecione um ativo no workspace.'; return; }
+      const p=new URLSearchParams();
+      if(w.value) p.set('w',w.value); if(h.value) p.set('h',h.value); if(fit.value) p.set('fit',fit.value); if(fm.value) p.set('fm',fm.value); if(ql.value) p.set('q',Math.max(1,Math.min(100,Number(ql.value)))); if(wmOn.checked) p.set('wm','1'); if(bg.value) p.set('bg',bg.value.replace('#','')); if(crop.value) p.set('crop',crop.value);
+      const url=`https://cdn.tcloud.link/a/${state.sel.id}?${p.toString()}`;
+      urlOut.textContent=url;
+    });
+    copyUrl.addEventListener('click',()=>{ const r=document.createRange(); r.selectNode(urlOut); const sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(r); document.execCommand('copy'); sel.removeAllRanges(); copyUrl.textContent='Copiado!'; setTimeout(()=>copyUrl.textContent='Copiar',900); });
+    openUrl.addEventListener('click',()=>{ const u=urlOut.textContent; if(u.startsWith('http')) window.open(u,'_blank'); });
+
+    // ===== Collections & Portal =====
+    function renderCollection(){
+      if(!state.collection.length){ colList.textContent='Sem itens.'; return; }
+      colList.innerHTML = state.collection.map(a=>`<div class="pill">${a.name}</div>`).join(' ');
+    }
+    addToCol.addEventListener('click',()=>{ if(!state.sel){ alert('Selecione um ativo.'); return; } const name=(colName.value||'Colecao').trim(); if(!name){ alert('Defina um nome para a coleção.'); return; } if(!state.collection.find(x=>x.id===state.sel.id)) state.collection.push(state.sel); renderCollection(); });
+    clearCol.addEventListener('click',()=>{ state.collection=[]; renderCollection(); });
+
+    portalOn.addEventListener('change',()=>{ portalWrap.style.display = portalOn.checked? 'block':'none'; });
+    genPortal.addEventListener('click',()=>{ const slugV=(portalSlug.value||'tcloud-brand').toLowerCase().replace(/[^a-z0-9\-]+/g,'-'); const url=`https://brand.tcloud.link/${slugV}`; portalLink.style.display='block'; portalLink.textContent=url; });
+
+    // ===== Insights =====
+    function updateInsights(){
+      mTotal.textContent = state.assets.length;
+      // Simulação: downloads ~ 3x nº de assets
+      mDw.textContent = (state.assets.length*3).toString();
+      // Tag mais usada
+      const counts={}; state.assets.forEach(a=> (a.tags||[]).forEach(t=>{counts[t]=(counts[t]||0)+1;}));
+      let top='—',max=0; Object.entries(counts).forEach(([t,c])=>{ if(c>max){max=c; top=t;} });
+      mTag.textContent=top;
+    }
+  </script>
+</body>
+</html>
+
+#Para produção, conecte:
+#Upload/metadados → sua API/SDK de armazenamento + indexação.
+#Tags por IA → serviço interno/externo de visão.
+#CDN/variantes → transformer da sua CDN.
+#Portais → camada pública com branding e autenticação.

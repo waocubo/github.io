@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TCloud Pass — Gerenciador de Senhas com Zero‑Knowledge</title>
+  <meta name="description" content="TCloud Pass: gerenciador de senhas com criptografia no dispositivo, preenchimento automático e gerador de senhas forte. Importação de outros gerenciadores, notas seguras, OTP e compartilhamento." />
+  <meta name="color-scheme" content="dark light">
+  <style>
+    :root{
+      --tc-primary:#00A3FF; --tc-primary-600:#0086D1; --tc-accent:#6EE7FF;
+      --tc-success:#22c55e; --tc-warning:#f59e0b; --tc-danger:#ef4444;
+      --tc-bg:#0B1220; --tc-surface:#0F172A; --tc-muted:#1F2A44; --tc-border:#23304d;
+      --tc-text:#E6F0FF; --tc-text-muted:#A7B4D4; --radius:16px;
+      --shadow-lg:0 20px 50px rgba(0,0,0,.45); --shadow-md:0 10px 30px rgba(0,0,0,.35);
+      --grid-max:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial; color:var(--tc-text);
+      background:radial-gradient(1200px 600px at 60% -10%, rgba(0,163,255,.15), transparent 60%),
+                 radial-gradient(800px 500px at 10% 10%, rgba(110,231,255,.08), transparent 55%),
+                 linear-gradient(180deg, #0b1220, #0a0f1b 35%, #0b1220);
+    }
+    a{color:var(--tc-accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:var(--grid-max); margin:0 auto; padding:0 20px}
+    /* NAV */
+    nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(130%) blur(14px); background:color-mix(in oklab, var(--tc-surface) 65%, transparent); border-bottom:1px solid var(--tc-border)}
+    .nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; gap:12px; align-items:center}
+    .brand .name{font-weight:800; letter-spacing:.2px; font-size:18px}
+    .nav-links{display:flex; gap:20px; align-items:center}
+    .nav-links a.active{color:#fff; font-weight:800}
+    .btn{border:1px solid transparent; background:var(--tc-primary); color:#001425; padding:10px 16px; border-radius:999px; font-weight:800; box-shadow:var(--shadow-md)}
+    .btn:hover{background:var(--tc-primary-600); color:#001425}
+    .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text); font-weight:700}
+    .btn.ghost:hover{border-color:var(--tc-primary)}
+    /* HERO */
+    .hero{padding:64px 0 24px}
+    .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center}
+    .chip{display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; background:color-mix(in oklab, var(--tc-muted) 70%, transparent); border:1px solid var(--tc-border); color:var(--tc-text-muted); font-weight:600; font-size:12px}
+    h1{font-size:42px; line-height:1.1; margin:12px 0 14px}
+    .lead{font-size:18px; color:var(--tc-text-muted); max-width:60ch}
+    .hero-card{background:linear-gradient(180deg, #0f172a, #111a30); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-lg)}
+    /* SECTIONS */
+    .section{padding:48px 0}
+    .section h2{font-size:28px; margin:0 0 12px}
+    .subtitle{color:var(--tc-text-muted); margin:0 0 20px}
+    .grid{display:grid; gap:20px}
+    .grid.cols-3{grid-template-columns:repeat(3, 1fr)}
+    .grid.cols-4{grid-template-columns:repeat(4, 1fr)}
+    .grid.cols-2{grid-template-columns:repeat(2, 1fr)}
+    .card{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px}
+    .icon{width:28px; height:28px; color:var(--tc-accent)}
+    .note{color:var(--tc-text-muted); font-size:14px}
+    /* TABLE */
+    .table{border:1px solid var(--tc-border); border-radius:var(--radius); overflow:hidden}
+    table{width:100%; border-collapse:collapse}
+    th, td{padding:14px 16px; border-bottom:1px solid var(--tc-border)}
+    th{background:color-mix(in oklab, var(--tc-muted) 70%, transparent); text-align:left}
+    tr:last-child td{border-bottom:none}
+    .check{color:var(--tc-success); font-weight:800}
+    .dash{color:var(--tc-text-muted)}
+    details{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:12px; padding:14px 16px}
+    details+details{margin-top:10px}
+    summary{cursor:pointer; font-weight:700}
+    /* GENERATOR */
+    .gen{display:grid; grid-template-columns:1fr; gap:12px}
+    .gen .row{display:grid; grid-template-columns:1fr auto; gap:10px; align-items:center}
+    .gen input[type="text"]{width:100%; padding:12px; border-radius:12px; border:1px solid var(--tc-border); background:transparent; color:var(--tc-text); font-family:monospace}
+    .gen .opts{display:grid; grid-template-columns:repeat(5, auto); gap:10px; align-items:center; flex-wrap:wrap}
+    .gen .meter{height:10px; border-radius:999px; background:#1b2740; overflow:hidden; border:1px solid var(--tc-border)}
+    .gen .bar{height:100%; width:20%; background:linear-gradient(90deg,#ef4444,#f59e0b,#22c55e); transform-origin:left;}
+    .badge{display:inline-block; padding:4px 8px; border-radius:999px; border:1px solid var(--tc-border); font-size:12px; color:var(--tc-text-muted)}
+    /* FOOTER */
+    footer{padding:40px 0; border-top:1px solid var(--tc-border); background:color-mix(in oklab, var(--tc-surface) 65%, transparent)}
+    .foot{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:20px}
+    .credits{color:var(--tc-text-muted); font-size:13px}
+    /* RWD */
+    @media (max-width:1024px){.hero-grid{grid-template-columns:1fr}.grid.cols-4{grid-template-columns:1fr 1fr}.grid.cols-3{grid-template-columns:1fr 1fr}.grid.cols-2{grid-template-columns:1fr}.foot{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){h1{font-size:34px}.foot{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <!-- ===== NAV ===== -->
+  <nav>
+    <div class="container nav-wrap">
+      <div class="brand">
+        <img src="logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block;"/>
+        <span class="name">TCloud</span>
+      </div>
+      <div class="nav-links">
+        <a class="btn ghost" href="index.html">Início</a>
+        <a class="btn ghost" href="encrypted.html">Zero‑Knowledge</a>
+        <a class="btn ghost" href="about.html">Sobre</a>
+        <a class="btn ghost" href="features.html">Recursos</a>
+        <a class="btn ghost" href="data-regions.html">Regiões</a>
+        <a class="btn ghost" href="pricing.html">Preços</a>
+        <a class="btn ghost" href="affiliate.html">Afiliados</a>
+        <a class="btn ghost" href="reseller.html">Revenda</a>
+        <a class="btn ghost" href="download.html">Download</a>
+        <a class="btn ghost" href="business.html">Empresarial</a>
+        <a class="btn ghost active" href="#">Pass</a>
+        <a class="btn" href="#cta">Começar</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="chip">TCloud Pass</span>
+        <h1>Suas senhas, cofres e notas seguras<br/>com Zero‑Knowledge de verdade</h1>
+        <p class="lead">Armazene e preencha senhas com criptografia no dispositivo. Gere credenciais fortes, guarde OTP, compartilhe com segurança e sincronize entre todos os dispositivos.</p>
+        <div style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap">
+          <a class="btn" href="#generator">Gerar senha forte</a>
+          <a class="btn ghost" href="#apps">Baixar extensões e apps</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3 style="margin:0 0 8px">Por que o TCloud Pass?</h3>
+        <ul style="margin:0; padding-left:18px; color:var(--tc-text-muted)">
+          <li>Criptografia no dispositivo (Ensure Zero‑Knowledge)</li>
+          <li>Preenchimento automático em navegadores e apps</li>
+          <li>Gerador de senhas + medidor de força</li>
+          <li>Notas seguras e anexos confidenciais</li>
+          <li>Compartilhamento com controle de acesso</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== RECURSOS ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Recursos principais</h2>
+      <div class="grid cols-3">
+        <div class="card"><h3>Criptografia local</h3><p>As chaves ficam com você. O servidor vê apenas dados cifrados. Senha‑mestra derivada via KDF robusto (ex.: Argon2id).* </p><p class="note">* Ajuste para refletir sua implementação.</p></div>
+        <div class="card"><h3>Preenchimento automático</h3><p>Extensões para navegadores e apps móveis preenchem logins com um toque.</p></div>
+        <div class="card"><h3>OTP & passkeys</h3><p>Armazene códigos TOTP e use passkeys compatíveis com WebAuthn (quando disponível).</p></div>
+        <div class="card"><h3>Notas e cartões</h3><p>Guarde notas seguras, cartões e documentos confidenciais com campos personalizados.</p></div>
+        <div class="card"><h3>Compartilhamento seguro</h3><p>Compartilhe itens ou cofres com permissões de leitura/edição e revogue a qualquer momento.</p></div>
+        <div class="card"><h3>Auditoria e dispositivos</h3><p>Veja sessões ativas e histórico de acesso. Desconecte dispositivos perdidos.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GERADOR DE SENHAS ===== -->
+  <section id="generator" class="section">
+    <div class="container">
+      <h2>Gerador de senhas</h2>
+      <p class="subtitle">Crie senhas únicas e aleatórias. Evite reutilização.</p>
+      <div class="card gen">
+        <div class="row">
+          <input id="out" type="text" value="" aria-label="Senha gerada" readonly />
+          <div style="display:flex; gap:8px">
+            <button id="copy" class="btn" type="button">Copiar</button>
+            <button id="regen" class="btn ghost" type="button">Gerar</button>
+          </div>
+        </div>
+        <div class="opts">
+          <label class="badge">Tamanho</label>
+          <input id="len" type="range" min="8" max="64" value="20" />
+          <span id="lenv" class="badge">20</span>
+          <span class="badge" id="entropy">0 bits</span>
+          <span class="badge" id="qual">—</span>
+          <label style="display:flex; align-items:center; gap:6px"><input id="lc" type="checkbox" checked /> a‑z</label>
+          <label style="display:flex; align-items:center; gap:6px"><input id="uc" type="checkbox" checked /> A‑Z</label>
+          <label style="display:flex; align-items:center; gap:6px"><input id="dg" type="checkbox" checked /> 0‑9</label>
+          <label style="display:flex; align-items:center; gap:6px"><input id="sm" type="checkbox" checked /> símbolos</label>
+          <label style="display:flex; align-items:center; gap:6px"><input id="na" type="checkbox" /> evitar ambíguos (O/0, l/1)</label>
+        </div>
+        <div class="meter"><div class="bar" id="bar"></div></div>
+        <p class="note">Dica: use uma senha‑mestra longa e única; ative 2FA no TCloud Pass.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== APPS & EXTENSÕES ===== -->
+  <section id="apps" class="section">
+    <div class="container">
+      <h2>Apps e extensões</h2>
+      <p class="subtitle">Escolha sua plataforma e comece agora.</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>Navegadores</h3><p>Extensões para Chrome, Firefox e Edge. Safari em avaliação.</p><p><a class="btn" href="download.html#downloads">Baixar extensões</a></p></div>
+        <div class="card"><h3>Desktop</h3><p>Windows, macOS e Linux com desbloqueio local e cofre offline.</p><p><a class="btn" href="download.html#downloads">Baixar apps</a></p></div>
+        <div class="card"><h3>Mobile</h3><p>Android e iOS com preenchimento automático do sistema e biometria.</p><p><a class="btn" href="download.html#downloads">Obter no celular</a></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== IMPORTAÇÃO / EXPORTAÇÃO ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Importe e leve tudo com você</h2>
+      <div class="grid cols-3">
+        <div class="card"><h3>Importação fácil</h3><p>Traga dados de outros gerenciadores por CSV/JSON. Assistente evita campos fora do padrão.</p></div>
+        <div class="card"><h3>Exportação cifrada</h3><p>Exporte backup criptografado do cofre para armazenamento externo seguro.</p></div>
+        <div class="card"><h3>Checagens de saúde</h3><p>Relatórios de senhas reutilizadas, fracas ou expostas em vazamentos.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COMPARTILHAMENTO & FAMÍLIA ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Compartilhamento e acesso de emergência</h2>
+      <div class="grid cols-2">
+        <div class="card"><h3>Cofres compartilhados</h3><p>Crie cofres para equipes ou família e defina leitura/edição por pessoa.</p></div>
+        <div class="card"><h3>Acesso de emergência</h3><p>Indique um contato para recuperar o acesso com política de tempo de espera.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== QUADRO DE PLANOS ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>O que está incluso</h2>
+      <div class="table">
+        <table aria-label="Comparativo TCloud Pass">
+          <thead><tr><th>Recurso</th><th>Pass (Pessoal)</th><th>Pass Família</th><th>Pass Business</th></tr></thead>
+          <tbody>
+            <tr><td>Criptografia Zero‑Knowledge</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+            <tr><td>Extensões & Apps</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+            <tr><td>OTP (TOTP)</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+            <tr><td>Passkeys</td><td class="dash">—</td><td class="dash">—</td><td class="check">Piloto</td></tr>
+            <tr><td>Compartilhamento de cofres</td><td class="dash">—</td><td class="check">✔</td><td class="check">✔</td></tr>
+            <tr><td>Admin & Auditoria</td><td class="dash">—</td><td class="dash">—</td><td class="check">✔</td></tr>
+            <tr><td>Suporte</td><td>Padrão</td><td>Prioritário</td><td>Sucesso do cliente</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note" style="margin-top:8px">* Itens e nomes de planos são exemplos. Ajuste conforme sua oferta real.</p>
+      <div style="margin-top:16px"><a class="btn" href="pricing.html">Ver preços</a></div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Perguntas frequentes</h2>
+      <details><summary>O TCloud Pass é realmente Zero‑Knowledge?</summary><p>Sim. As chaves privadas ficam somente nos seus dispositivos; o servidor não tem material para descriptografar seus dados.</p></details>
+      <details><summary>Posso usar biometria?</summary><p>Sim. No mobile e em desktops compatíveis, use biometria para desbloquear o cofre local.</p></details>
+      <details><summary>Como importar de outro gerenciador?</summary><p>Exporte em CSV/JSON do seu gerenciador atual e siga o assistente de importação do TCloud Pass.</p></details>
+      <details><summary>Há modo offline?</summary><p>Sim. O cofre local permite ler e gravar itens mesmo sem internet — a sincronização acontece depois.</p></details>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section id="cta" class="section">
+    <div class="container card" style="display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center">
+      <div>
+        <h2>Experimente o TCloud Pass</h2>
+        <p class="subtitle">Baixe as extensões e aplicativos e comece a proteger sua vida digital hoje.</p>
+      </div>
+      <div>
+        <a class="btn" href="download.html#downloads">Baixar agora</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container foot">
+      <div>
+        <div class="brand" style="margin-bottom:10px">
+          <img src="logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block;"/>
+          <strong>TCloud</strong>
+        </div>
+        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero‑Knowledge de verdade.</p>
+      </div>
+      <div>
+        <strong>Produto</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="index.html">Início</a></li>
+          <li><a href="encrypted.html">Zero‑Knowledge</a></li>
+          <li><a href="about.html">Sobre</a></li>
+          <li><a href="features.html">Recursos</a></li>
+          <li><a href="data-regions.html">Regiões</a></li>
+          <li><a href="pricing.html">Preços</a></li>
+          <li><a href="affiliate.html">Afiliados</a></li>
+          <li><a href="reseller.html">Revenda</a></li>
+          <li><a href="download.html">Download</a></li>
+          <li><a href="business.html">Empresarial</a></li>
+          <li><a href="#">Pass</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Suporte</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="help-faq.html">FAQ</a></li>
+          <li><a href="privacy-options.html">Opções de Privacidade</a></li>
+          <li><a href="contact.html">Contate‑nos</a></li>
+          <li><a href="release-notes.html">Notas de Versão</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Community</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="affiliate.html">Programa de Afiliados</a></li>
+          <li><a href="reseller.html">Revendedores</a></li>
+          <li><a href="developers.html">Para Desenvolvedores</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ===== Gerador de senhas =====
+    const out = document.getElementById('out');
+    const copyBtn = document.getElementById('copy');
+    const regenBtn = document.getElementById('regen');
+    const len = document.getElementById('len');
+    const lenv = document.getElementById('lenv');
+    const entropyEl = document.getElementById('entropy');
+    const qualEl = document.getElementById('qual');
+    const bar = document.getElementById('bar');
+    const lc = document.getElementById('lc');
+    const uc = document.getElementById('uc');
+    const dg = document.getElementById('dg');
+    const sm = document.getElementById('sm');
+    const na = document.getElementById('na');
+
+    const sets = {
+      lc:'abcdefghijklmnopqrstuvwxyz',
+      uc:'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+      dg:'0123456789',
+      sm:'!@#$%^&*()_+-=[]{};:,./?~' // simples, ajuste conforme políticas
+    };
+    const ambiguous = /[O0Il1|]/g;
+
+    function pool(){
+      let s='';
+      if(lc.checked) s+=sets.lc;
+      if(uc.checked) s+=sets.uc;
+      if(dg.checked) s+=sets.dg;
+      if(sm.checked) s+=sets.sm;
+      return s || sets.lc; // fallback
+    }
+    function randChar(p){
+      const i = Math.floor(crypto.getRandomValues(new Uint32Array(1))[0] / 2**32 * p.length);
+      return p[i];
+    }
+    function generate(){
+      const p = pool();
+      let s = '';
+      for(let i=0;i<Number(len.value);i++) s += randChar(p);
+      if(na.checked) s = s.replace(ambiguous,'');
+      if(!s) s = randChar(sets.lc) + randChar(sets.dg); // mínimo
+      out.value = s;
+      updateMeter();
+    }
+    function updateMeter(){
+      const p = pool();
+      const L = Number(len.value);
+      const entropy = Math.log2(p.length) * L; // bits aproximados
+      entropyEl.textContent = `${entropy.toFixed(0)} bits`;
+      let q='fraca', w=20;
+      if(entropy>60){q='forte'; w=80}
+      if(entropy>80){q='excelente'; w=100}
+      qualEl.textContent = q;
+      bar.style.width = `${Math.min(100,w)}%`;
+      lenv.textContent = L.toString();
+    }
+    copyBtn.addEventListener('click',()=>{ out.select(); document.execCommand('copy'); copyBtn.textContent='Copiado!'; setTimeout(()=>copyBtn.textContent='Copiar',900); });
+    regenBtn.addEventListener('click',generate);
+    [len, lc, uc, dg, sm, na].forEach(el=>el.addEventListener('input', generate));
+    generate();
+  </script>
+</body>
+</html>

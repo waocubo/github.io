@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TCloud — Empresarial (Business)</title>
+  <meta name="description" content="TCloud para Empresas: colaboração segura com Zero‑Knowledge, console de administração, SSO/2FA, logs e auditoria, regiões de dados e integrações." />
+  <meta name="color-scheme" content="dark light">
+  <style>
+    :root{
+      --tc-primary:#00A3FF; --tc-primary-600:#0086D1; --tc-accent:#6EE7FF;
+      --tc-success:#22c55e; --tc-warning:#f59e0b; --tc-danger:#ef4444;
+      --tc-bg:#0B1220; --tc-surface:#0F172A; --tc-muted:#1F2A44; --tc-border:#23304d;
+      --tc-text:#E6F0FF; --tc-text-muted:#A7B4D4; --radius:16px;
+      --shadow-lg:0 20px 50px rgba(0,0,0,.45); --shadow-md:0 10px 30px rgba(0,0,0,.35);
+      --grid-max:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial; color:var(--tc-text);
+      background:radial-gradient(1200px 600px at 60% -10%, rgba(0,163,255,.15), transparent 60%),
+                 radial-gradient(800px 500px at 10% 10%, rgba(110,231,255,.08), transparent 55%),
+                 linear-gradient(180deg, #0b1220, #0a0f1b 35%, #0b1220);
+    }
+    a{color:var(--tc-accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:var(--grid-max); margin:0 auto; padding:0 20px}
+    /* NAV */
+    nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(130%) blur(14px); background:color-mix(in oklab, var(--tc-surface) 65%, transparent); border-bottom:1px solid var(--tc-border)}
+    .nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; gap:12px; align-items:center}
+    .brand .name{font-weight:800; letter-spacing:.2px; font-size:18px}
+    .nav-links{display:flex; gap:20px; align-items:center}
+    .nav-links a.active{color:#fff; font-weight:800}
+    .btn{border:1px solid transparent; background:var(--tc-primary); color:#001425; padding:10px 16px; border-radius:999px; font-weight:800; box-shadow:var(--shadow-md)}
+    .btn:hover{background:var(--tc-primary-600); color:#001425}
+    .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text); font-weight:700}
+    .btn.ghost:hover{border-color:var(--tc-primary)}
+    /* HERO */
+    .hero{padding:64px 0 32px}
+    .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center}
+    .chip{display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; background:color-mix(in oklab, var(--tc-muted) 70%, transparent); border:1px solid var(--tc-border); color:var(--tc-text-muted); font-weight:600; font-size:12px}
+    h1{font-size:42px; line-height:1.1; margin:12px 0 14px}
+    .lead{font-size:18px; color:var(--tc-text-muted); max-width:60ch}
+    .hero-card{background:linear-gradient(180deg, #0f172a, #111a30); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-lg)}
+    /* SECTIONS */
+    .section{padding:48px 0}
+    .section h2{font-size:28px; margin:0 0 12px}
+    .subtitle{color:var(--tc-text-muted); margin:0 0 20px}
+    .grid{display:grid; gap:20px}
+    .grid.cols-3{grid-template-columns:repeat(3, 1fr)}
+    .grid.cols-4{grid-template-columns:repeat(4, 1fr)}
+    .grid.cols-2{grid-template-columns:repeat(2, 1fr)}
+    .card{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px}
+    .icon{width:28px; height:28px; color:var(--tc-accent)}
+    .note{color:var(--tc-text-muted); font-size:14px}
+    /* TABLE */
+    .table{border:1px solid var(--tc-border); border-radius:var(--radius); overflow:hidden}
+    table{width:100%; border-collapse:collapse}
+    th, td{padding:14px 16px; border-bottom:1px solid var(--tc-border)}
+    th{background:color-mix(in oklab, var(--tc-muted) 70%, transparent); text-align:left}
+    tr:last-child td{border-bottom:none}
+    .check{color:var(--tc-success); font-weight:800}
+    .dash{color:var(--tc-text-muted)}
+    /* CALC */
+    .calc{display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; align-items:end}
+    .calc label{display:block; font-weight:700; margin-bottom:6px}
+    .calc input, .calc select{width:100%; padding:10px 12px; border-radius:12px; border:1px solid var(--tc-border); background:transparent; color:var(--tc-text)}
+    .calc .result{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:12px; padding:16px}
+    .amount{font-size:28px; font-weight:800}
+    /* FOOTER */
+    footer{padding:40px 0; border-top:1px solid var(--tc-border); background:color-mix(in oklab, var(--tc-surface) 65%, transparent)}
+    .foot{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:20px}
+    .credits{color:var(--tc-text-muted); font-size:13px}
+    /* RWD */
+    @media (max-width:1024px){.hero-grid{grid-template-columns:1fr}.grid.cols-4{grid-template-columns:1fr 1fr}.grid.cols-3{grid-template-columns:1fr 1fr}.grid.cols-2{grid-template-columns:1fr}.calc{grid-template-columns:1fr 1fr}.foot{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){h1{font-size:34px}.calc{grid-template-columns:1fr}.foot{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <!-- ===== NAV ===== -->
+  <nav>
+    <div class="container nav-wrap">
+      <div class="brand">
+        <img src="logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block;"/>
+        <span class="name">TCloud</span>
+      </div>
+      <div class="nav-links">
+        <a class="btn ghost" href="index.html">Início</a>
+        <a class="btn ghost" href="encrypted.html">Zero‑Knowledge</a>
+        <a class="btn ghost" href="about.html">Sobre</a>
+        <a class="btn ghost" href="features.html">Recursos</a>
+        <a class="btn ghost" href="data-regions.html">Regiões</a>
+        <a class="btn ghost" href="pricing.html">Preços</a>
+        <a class="btn ghost" href="affiliate.html">Afiliados</a>
+        <a class="btn ghost" href="reseller.html">Revenda</a>
+        <a class="btn ghost" href="download.html">Download</a>
+        <a class="btn ghost active" href="#">Empresarial</a>
+        <a class="btn" href="#cta">Falar com vendas</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="chip">TCloud para Empresas</span>
+        <h1>Colaboração segura para equipes<br/>com Zero‑Knowledge de verdade</h1>
+        <p class="lead">Administração centralizada, regiões de dados, SSO/2FA e auditoria completa. Produtividade para seus times, privacidade para seus dados.</p>
+        <div style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap">
+          <a class="btn" href="#cta">Solicitar demonstração</a>
+          <a class="btn ghost" href="#comparativo">Comparar planos Business</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3 style="margin:0 0 8px">Destaques</h3>
+        <ul style="margin:0; padding-left:18px; color:var(--tc-text-muted)">
+          <li>Zero‑Knowledge padrão em todos os planos</li>
+          <li>SSO/2FA e políticas de acesso por pasta</li>
+          <li>Logs & auditoria exportáveis</li>
+          <li>Regiões de dados (BR/US/EU)</li>
+          <li>Integrações e APIs</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== BENEFÍCIOS ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Benefícios para sua organização</h2>
+      <div class="grid cols-3">
+        <div class="card"><h3>Administração centralizada</h3><p>Gerencie usuários, grupos, permissões e dispositivos em um só lugar.</p></div>
+        <div class="card"><h3>SSO/2FA</h3><p>Conecte com seu provedor SSO e exija autenticação forte.</p></div>
+        <div class="card"><h3>Compartilhamento controlado</h3><p>Pastas de equipe com leitura/edição; links com senha, expiração e limites.</p></div>
+        <div class="card"><h3>Auditoria completa</h3><p>Logs de acesso, alterações e downloads para conformidade interna.</p></div>
+        <div class="card"><h3>Regiões de dados</h3><p>Escolha onde armazenar (BR/US/EU) para reduzir latência e atender requisitos.</p></div>
+        <div class="card"><h3>APIs & integrações</h3><p>Automatize fluxos: upload, permissões, webhooks e importação de outras nuvens.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CALCULADORA ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Estimativa rápida de custo</h2>
+      <p class="subtitle">Simule um valor ilustrativo por equipe. Ajuste de acordo com sua precificação oficial.</p>
+      <div class="calc" aria-label="Calculadora de custo empresarial">
+        <div>
+          <label for="seats">Usuários (seats)</label>
+          <input id="seats" type="number" min="3" step="1" value="10" />
+        </div>
+        <div>
+          <label for="period">Cobrança</label>
+          <select id="period">
+            <option value="monthly">Mensal</option>
+            <option value="yearly" selected>Anual (economize)</option>
+          </select>
+        </div>
+        <div>
+          <label for="tier">Plano</label>
+          <select id="tier">
+            <option value="team" selected>Equipe</option>
+            <option value="pro">Profissional</option>
+          </select>
+        </div>
+        <div class="result" role="status" aria-live="polite">
+          <div class="note">Total estimado</div>
+          <div class="amount" id="total">R$ 1.290/mês</div>
+          <div class="note" id="per">Cobrança anual</div>
+        </div>
+      </div>
+      <p class="note" style="margin-top:8px">* Valores ilustrativos. Impostos/localidade podem alterar os preços finais.</p>
+    </div>
+  </section>
+
+  <!-- ===== ADMIN & CONTROLE ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Console de administração e controles</h2>
+      <div class="grid cols-3">
+        <div class="card"><h3>Grupos e funções</h3><p>Crie grupos e atribua funções (Admin, Gestor, Colaborador) com escopo limitado.</p></div>
+        <div class="card"><h3>Políticas</h3><p>Defina políticas por equipe: compartilhamento externo, exigência de 2FA, expiração de links e retenção.</p></div>
+        <div class="card"><h3>Dispositivos</h3><p>Visualize sessões ativas e desconecte dispositivos perdidos ou comprometidos.</p></div>
+        <div class="card"><h3>Logs & auditoria</h3><p>Baixe relatórios de acessos/alterações para a área de compliance.</p></div>
+        <div class="card"><h3>Provisionamento</h3><p>Convites em massa por CSV e APIs para automatizar onboarding/offboarding.</p></div>
+        <div class="card"><h3>Regiões e conformidade</h3><p>Residência de dados por conta, com Zero‑Knowledge e alinhamento a LGPD/GDPR.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COMPARATIVO ===== -->
+  <section id="comparativo" class="section">
+    <div class="container">
+      <h2>Comparativo de planos Business</h2>
+      <div class="table">
+        <table aria-label="Tabela de comparação Business">
+          <thead>
+            <tr>
+              <th>Recurso</th>
+              <th>Equipe</th>
+              <th>Profissional</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Armazenamento</td><td>5 TB compartilhados</td><td>2 TB por usuário</td></tr>
+            <tr><td>Usuários mínimos</td><td>3</td><td>1</td></tr>
+            <tr><td>Pastas de equipe</td><td class="check">✔</td><td class="check">✔</td></tr>
+            <tr><td>Políticas de compartilhamento</td><td class="check">✔</td><td class="check">✔</td></tr>
+            <tr><td>SSO/2FA</td><td class="check">✔</td><td class="check">2FA</td></tr>
+            <tr><td>Logs & auditoria</td><td class="check">✔</td><td class="dash">—</td></tr>
+            <tr><td>APIs/Admin</td><td class="check">✔</td><td class="dash">—</td></tr>
+            <tr><td>Suporte</td><td>Sucesso do cliente</td><td>Prioritário</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ONBOARDING ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Onboarding em 4 passos</h2>
+      <div class="grid cols-4">
+        <div class="card"><h3>1) Crie a conta</h3><p>Selecione a região de dados e defina o domínio da sua organização.</p></div>
+        <div class="card"><h3>2) Convide o time</h3><p>Importe por CSV ou conecte ao seu diretório.</p></div>
+        <div class="card"><h3>3) Configure políticas</h3><p>Defina regras de compartilhamento, 2FA e retenção de versões.</p></div>
+        <div class="card"><h3>4) Sincronize</h3><p>Instale os apps do <a href="download.html">Download</a> e comece a colaborar.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Perguntas frequentes</h2>
+      <details>
+        <summary>Zero‑Knowledge vale para contas empresariais?</summary>
+        <p>Sim. A criptografia no dispositivo é padrão, mantendo o conteúdo ilegível nos servidores.</p>
+      </details>
+      <details>
+        <summary>Oferecem SSO?</summary>
+        <p>Sim. Integre com o seu provedor para facilitar o onboarding e reforçar a segurança.</p>
+      </details>
+      <details>
+        <summary>Podemos escolher a região de dados?</summary>
+        <p>Sim. Brasil, EUA ou União Europeia, conforme sua necessidade de latência e conformidade.</p>
+      </details>
+      <details>
+        <summary>É possível migrar de outra nuvem?</summary>
+        <p>Sim. Suportamos importação assistida e integrações para mover conteúdo com segurança.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section id="cta" class="section">
+    <div class="container card" style="display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center">
+      <div>
+        <h2>Fale com o nosso time</h2>
+        <p class="subtitle">Vamos entender seu cenário e sugerir a melhor configuração para sua empresa.</p>
+      </div>
+      <div>
+        <a class="btn" href="#contato" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Solicitar contato</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTATO (form simples) ===== -->
+  <section id="contato" class="section">
+    <div class="container">
+      <h2>Solicitar demonstração</h2>
+      <p class="subtitle">Preencha os dados e retornaremos rapidamente.</p>
+      <form id="contact" class="grid cols-2" onsubmit="event.preventDefault(); alert('Recebido! Entraremos em contato.');">
+        <div class="card">
+          <label for="org" style="display:block; font-weight:700; margin-bottom:6px">Empresa</label>
+          <input id="org" required placeholder="Nome da organização" style="width:100%; padding:10px 12px; border-radius:12px; border:1px solid var(--tc-border); background:transparent; color:var(--tc-text)" />
+        </div>
+        <div class="card">
+          <label for="email" style="display:block; font-weight:700; margin-bottom:6px">E‑mail corporativo</label>
+          <input id="email" type="email" required placeholder="voce@empresa.com" style="width:100%; padding:10px 12px; border-radius:12px; border:1px solid var(--tc-border); background:transparent; color:var(--tc-text)" />
+        </div>
+        <div class="card">
+          <label for="size" style="display:block; font-weight:700; margin-bottom:6px">Tamanho do time</label>
+          <select id="size" style="width:100%; padding:10px 12px; border-radius:12px; border:1px solid var(--tc-border); background:transparent; color:var(--tc-text)">
+            <option>3–10</option>
+            <option>11–50</option>
+            <option>51–200</option>
+            <option>200+</option>
+          </select>
+        </div>
+        <div class="card">
+          <label for="region" style="display:block; font-weight:700; margin-bottom:6px">Região de dados</label>
+          <select id="region" style="width:100%; padding:10px 12px; border-radius:12px; border:1px solid var(--tc-border); background:transparent; color:var(--tc-text)">
+            <option>Brasil (São Paulo)</option>
+            <option>Estados Unidos (N. Virginia)</option>
+            <option>União Europeia (Frankfurt)</option>
+          </select>
+        </div>
+        <div class="card" style="grid-column:1 / -1">
+          <label for="msg" style="display:block; font-weight:700; margin-bottom:6px">Mensagem (opcional)</label>
+          <textarea id="msg" rows="4" placeholder="Conte o contexto do seu projeto" style="width:100%; padding:10px 12px; border-radius:12px; border:1px solid var(--tc-border); background:transparent; color:var(--tc-text)"></textarea>
+          <div style="margin-top:12px"><button class="btn" type="submit">Enviar</button></div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container foot">
+      <div>
+        <div class="brand" style="margin-bottom:10px">
+          <img src="logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block;"/>
+          <strong>TCloud</strong>
+        </div>
+        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero‑Knowledge de verdade.</p>
+      </div>
+      <div>
+        <strong>Produto</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="index.html">Início</a></li>
+          <li><a href="encrypted.html">Zero‑Knowledge</a></li>
+          <li><a href="about.html">Sobre</a></li>
+          <li><a href="features.html">Recursos</a></li>
+          <li><a href="data-regions.html">Regiões</a></li>
+          <li><a href="pricing.html">Preços</a></li>
+          <li><a href="affiliate.html">Afiliados</a></li>
+          <li><a href="reseller.html">Revenda</a></li>
+          <li><a href="download.html">Download</a></li>
+          <li><a href="#">Empresarial</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Suporte</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="help-faq.html">FAQ</a></li>
+          <li><a href="privacy-options.html">Opções de Privacidade</a></li>
+          <li><a href="contact.html">Contate‑nos</a></li>
+          <li><a href="release-notes.html">Notas de Versão</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Community</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="affiliate.html">Programa de Afiliados</a></li>
+          <li><a href="reseller.html">Revendedores</a></li>
+          <li><a href="developers.html">Para Desenvolvedores</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ===== Calculadora de custo (ilustrativa) =====
+    const seats = document.getElementById('seats');
+    const period = document.getElementById('period');
+    const tier = document.getElementById('tier');
+    const total = document.getElementById('total');
+    const per   = document.getElementById('per');
+
+    const PRICE = {
+      team: { monthly: 40, yearly: 26 }, // BRL por seat/mês (exemplo)
+      pro:  { monthly: 59, yearly: 39 }  // BRL por seat/mês (exemplo)
+    };
+
+    function render(){
+      const s = Math.max(3, Number(seats.value||3));
+      const p = period.value; // monthly/yearly
+      const t = tier.value;   // team/pro
+      const seatPrice = PRICE[t][p];
+      const subtotal = s * seatPrice; // por mês
+      const txt = new Intl.NumberFormat('pt-BR',{style:'currency', currency:'BRL', maximumFractionDigits:0}).format(subtotal);
+      total.textContent = `${txt}/mês`;
+      per.textContent = p==='yearly' ? 'Cobrança anual' : 'Cobrança mensal';
+    }
+
+    [seats, period, tier].forEach(el=>el.addEventListener('input', render));
+    render();
+  </script>
+</body>
+</html>

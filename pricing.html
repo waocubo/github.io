@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TCloud — Planos e Preços</title>
+  <meta name="description" content="Planos e preços da TCloud: escolha entre mensal ou anual, compare recursos e encontre o plano ideal para você ou sua equipe — com Zero‑Knowledge de verdade." />
+  <meta name="color-scheme" content="dark light">
+  <style>
+    :root{
+      --tc-primary:#00A3FF; --tc-primary-600:#0086D1; --tc-accent:#6EE7FF;
+      --tc-success:#22c55e; --tc-warning:#f59e0b; --tc-danger:#ef4444;
+      --tc-bg:#0B1220; --tc-surface:#0F172A; --tc-muted:#1F2A44; --tc-border:#23304d;
+      --tc-text:#E6F0FF; --tc-text-muted:#A7B4D4; --radius:16px;
+      --shadow-lg:0 20px 50px rgba(0,0,0,.45); --shadow-md:0 10px 30px rgba(0,0,0,.35);
+      --grid-max:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial; color:var(--tc-text);
+      background:radial-gradient(1200px 600px at 60% -10%, rgba(0,163,255,.15), transparent 60%),
+                 radial-gradient(800px 500px at 10% 10%, rgba(110,231,255,.08), transparent 55%),
+                 linear-gradient(180deg, #0b1220, #0a0f1b 35%, #0b1220);
+    }
+    a{color:var(--tc-accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:var(--grid-max); margin:0 auto; padding:0 20px}
+    /* NAV */
+    nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(130%) blur(14px); background:color-mix(in oklab, var(--tc-surface) 65%, transparent); border-bottom:1px solid var(--tc-border)}
+    .nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; gap:12px; align-items:center}
+    .brand .name{font-weight:800; letter-spacing:.2px; font-size:18px}
+    .nav-links{display:flex; gap:20px; align-items:center}
+    .nav-links a.active{color:#fff; font-weight:800}
+    .btn{border:1px solid transparent; background:var(--tc-primary); color:#fff; padding:10px 16px; border-radius:999px; font-weight:700; box-shadow:var(--shadow-md)}
+    .btn:hover{background:var(--tc-primary-600)}
+    .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text)}
+    .btn.ghost:hover{border-color:var(--tc-primary)}
+    /* HERO */
+    .hero{padding:64px 0 32px}
+    .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center}
+    .chip{display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; background:color-mix(in oklab, var(--tc-muted) 70%, transparent); border:1px solid var(--tc-border); color:var(--tc-text-muted); font-weight:600; font-size:12px}
+    h1{font-size:42px; line-height:1.1; margin:12px 0 14px}
+    .lead{font-size:18px; color:var(--tc-text-muted); max-width:60ch}
+    .hero-card{background:linear-gradient(180deg, #0f172a, #111a30); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-lg)}
+    /* BILLING */
+    .billing{display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:10px}
+    .toggle{display:inline-flex; border:1px solid var(--tc-border); border-radius:999px; padding:4px}
+    .toggle button{background:transparent; border:0; padding:8px 12px; border-radius:999px; color:var(--tc-text-muted); font-weight:700; cursor:pointer}
+    .toggle button[aria-pressed="true"]{background:color-mix(in oklab, var(--tc-muted) 70%, transparent); color:#fff; border:1px solid var(--tc-primary)}
+    .save{display:inline-block; margin-left:8px; padding:4px 8px; border-radius:999px; background:var(--tc-primary); color:#001425; font-weight:800; font-size:12px; transform:rotate(0deg)}
+    select.currency{padding:8px 12px; border-radius:12px; background:transparent; color:var(--tc-text); border:1px solid var(--tc-border)}
+    /* PRICING CARDS */
+    .section{padding:48px 0}
+    .section h2{font-size:28px; margin:0 0 12px}
+    .subtitle{color:var(--tc-text-muted); margin:0 0 20px}
+    .pricing{display:grid; grid-template-columns:repeat(4, 1fr); gap:20px}
+    .plan{position:relative; background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px}
+    .plan .ribbon{position:absolute; top:14px; right:-8px; transform:rotate(6deg); background:var(--tc-primary); color:#001425; padding:6px 10px; font-weight:800; border-radius:10px}
+    .plan h3{font-size:20px; margin:6px 0}
+    .amount{font-size:34px; font-weight:800}
+    .per{font-size:14px; color:var(--tc-text-muted)}
+    .feat{list-style:none; padding:0; margin:12px 0 0; line-height:1.8}
+    .small{color:var(--tc-text-muted); font-size:13px}
+    /* TABLE */
+    .table{border:1px solid var(--tc-border); border-radius:var(--radius); overflow:hidden}
+    table{width:100%; border-collapse:collapse}
+    th, td{padding:14px 16px; border-bottom:1px solid var(--tc-border)}
+    th{background:color-mix(in oklab, var(--tc-muted) 70%, transparent); text-align:left}
+    tr:last-child td{border-bottom:none}
+    .check{color:var(--tc-success); font-weight:800}
+    .dash{color:var(--tc-text-muted)}
+    /* FAQ */
+    details{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:12px; padding:14px 16px}
+    details+details{margin-top:10px}
+    summary{cursor:pointer; font-weight:700}
+    /* FOOTER */
+    footer{padding:40px 0; border-top:1px solid var(--tc-border); background:color-mix(in oklab, var(--tc-surface) 65%, transparent)}
+    .foot{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:20px}
+    .credits{color:var(--tc-text-muted); font-size:13px}
+    /* RWD */
+    @media (max-width:1180px){.pricing{grid-template-columns:repeat(3, 1fr)}}
+    @media (max-width:900px){.hero-grid{grid-template-columns:1fr}.pricing{grid-template-columns:1fr 1fr}.foot{grid-template-columns:1fr 1fr}}
+    @media (max-width:600px){h1{font-size:34px}.pricing{grid-template-columns:1fr}.foot{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <!-- ===== NAV ===== -->
+  <nav>
+    <div class="container nav-wrap">
+      <div class="brand">
+        <img src="logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block;"/>
+        <span class="name">TCloud</span>
+      </div>
+      <div class="nav-links">
+        <a class="btn ghost" href="index.html">Início</a>
+        <a class="btn ghost" href="encrypted.html">Zero‑Knowledge</a>
+        <a class="btn ghost" href="about.html">Sobre</a>
+        <a class="btn ghost" href="features.html">Recursos</a>
+        <a class="btn ghost" href="data-regions.html">Regiões</a>
+        <a class="btn ghost active" href="#">Preços</a>
+        <a class="btn" href="#cta">Começar</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="chip">Planos & Preços</span>
+        <h1>Escolha o plano ideal<br/>e ative o Zero‑Knowledge hoje</h1>
+        <p class="lead">Compare recursos por plano e selecione cobrança <strong>mensal</strong> ou <strong>anual</strong>. Os valores abaixo são ilustrativos — personalize para sua oferta.</p>
+        <div class="billing" aria-label="Seleção de cobrança e moeda">
+          <div class="toggle" role="group" aria-label="Frequência de cobrança">
+            <button id="b-monthly" aria-pressed="false" data-period="monthly">Mensal</button>
+            <button id="b-yearly" aria-pressed="true" data-period="yearly">Anual <span class="save" id="save-badge">Economize 35%</span></button>
+          </div>
+          <label class="small" for="currency">Moeda:</label>
+          <select id="currency" class="currency" aria-label="Selecionar moeda">
+            <option value="BRL" selected>BRL (R$)</option>
+            <!-- # <option value="USD">USD ($)</option> -->
+          </select>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3 style="margin:0 0 8px">Inclui em todos os planos</h3>
+        <ul class="feat">
+          <li>Criptografia no dispositivo (Zero‑Knowledge)</li>
+          <li>Apps web, desktop e mobile</li>
+          <li>Links com senha e expiração</li>
+          <li>Histórico de versões básico</li>
+          <li>Suporte via e‑mail</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== PLANOS ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Planos</h2>
+      <p class="subtitle">Valores de referência. Ajuste no script conforme sua precificação oficial.</p>
+      <div class="pricing" id="pricing">
+        <!-- Free -->
+        <div class="plan" data-plan="free">
+          <h3>Free</h3>
+          <div class="amount" data-amount>R$ 0</div>
+          <div class="per" data-per>/mês</div>
+          <ul class="feat">
+            <li>10 GB de armazenamento</li>
+            <li>Sincronização básica</li>
+            <li>Compartilhamento com senha</li>
+          </ul>
+          <div class="cta" style="margin-top:12px"><a class="btn" href="#">Criar conta</a></div>
+        </div>
+        <!-- Essencial -->
+        <div class="plan" data-plan="essential">
+          <span class="ribbon">Popular</span>
+          <h3>Essencial</h3>
+          <div class="amount" data-amount>R$ 19</div>
+          <div class="per" data-per>/mês</div>
+          <ul class="feat">
+            <li>200 GB</li>
+            <li>Sincronização seletiva</li>
+            <li>Links com expiração</li>
+            <li>Suporte padrão</li>
+          </ul>
+          <div class="cta" style="margin-top:12px"><a class="btn" href="#">Começar</a></div>
+        </div>
+        <!-- Profissional -->
+        <div class="plan" data-plan="pro">
+          <h3>Profissional</h3>
+          <div class="amount" data-amount>R$ 39</div>
+          <div class="per" data-per>/mês</div>
+          <ul class="feat">
+            <li>2 TB</li>
+            <li>Versionamento avançado</li>
+            <li>Solicitação de arquivos</li>
+            <li>Suporte prioritário</li>
+          </ul>
+          <div class="cta" style="margin-top:12px"><a class="btn" href="#">Assinar</a></div>
+        </div>
+        <!-- Equipe / Business -->
+        <div class="plan" data-plan="team">
+          <h3>Equipe</h3>
+          <div class="amount" data-amount>R$ 129</div>
+          <div class="per" data-per>/mês</div>
+          <ul class="feat">
+            <li>5 TB compartilhados</li>
+            <li>3+ usuários (adicionais à parte)</li>
+            <li>Controles de acesso & SSO/2FA</li>
+            <li>Logs e auditoria</li>
+          </ul>
+          <div class="cta" style="margin-top:12px"><a class="btn" href="#">Falar com vendas</a></div>
+        </div>
+      </div>
+      <p class="small" style="margin-top:10px">* Preços ilustrativos (impostos e variações podem se aplicar). Personalize no objeto <code>PRICES</code> no final do arquivo.</p>
+    </div>
+  </section>
+
+  <!-- ===== COMPARATIVO ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Comparativo de recursos</h2>
+      <div class="table">
+        <table aria-label="Tabela de comparação de planos">
+          <thead>
+            <tr>
+              <th>Recurso</th>
+              <th>Free</th>
+              <th>Essencial</th>
+              <th>Profissional</th>
+              <th>Equipe</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Armazenamento</td><td>10 GB</td><td>200 GB</td><td>2 TB</td><td>5 TB (comp.)</td></tr>
+            <tr><td>Sincronização seletiva</td><td class="dash">—</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+            <tr><td>Links com senha/expiração</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+            <tr><td>Solicitação de arquivos</td><td class="dash">—</td><td class="dash">—</td><td class="check">✔</td><td class="check">✔</td></tr>
+            <tr><td>Versionamento</td><td>Básico</td><td>Padrão</td><td>Avançado</td><td>Avançado</td></tr>
+            <tr><td>SSO/2FA</td><td class="dash">—</td><td class="dash">—</td><td class="check">2FA</td><td class="check">SSO/2FA</td></tr>
+            <tr><td>Logs & auditoria</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="check">✔</td></tr>
+            <tr><td>Suporte</td><td>E‑mail</td><td>Padrão</td><td>Prioritário</td><td>Sucesso do cliente</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Perguntas frequentes</h2>
+      <details>
+        <summary>Como funciona o desconto anual?</summary>
+        <p>No modo <strong>Anual</strong>, aplicamos um desconto médio (ex.: 35%) frente ao total mensal acumulado. Os valores finais podem variar por campanha.</p>
+      </details>
+      <details>
+        <summary>Posso mudar de plano depois?</summary>
+        <p>Sim. Você pode fazer upgrade/downgrade a qualquer momento; os créditos são proporcionais ao período restante.</p>
+      </details>
+      <details>
+        <summary>Zero‑Knowledge está disponível em todos os planos?</summary>
+        <p>Sim. Nosso modelo de criptografia no dispositivo é padrão em todos os planos.</p>
+      </details>
+      <details>
+        <summary>Vocês oferecem plano vitalício?</summary>
+        <p>Estamos avaliando opções de licenças de longo prazo. Fale com vendas para entender a melhor alternativa para seu caso.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section id="cta" class="section">
+    <div class="container card" style="display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center; border:1px solid var(--tc-border); border-radius:var(--radius); background:linear-gradient(180deg, #0f172a, #0d1528)">
+      <div>
+        <h2>Pronto para começar?</h2>
+        <p class="subtitle">Crie sua conta, escolha a região de dados e ative a proteção Zero‑Knowledge.</p>
+      </div>
+      <div>
+        <a class="btn" href="#">Criar conta</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container foot">
+      <div>
+        <div class="brand" style="margin-bottom:10px">
+          <img src="logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block;"/>
+          <strong>TCloud</strong>
+        </div>
+        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero‑Knowledge de verdade.</p>
+      </div>
+      <div>
+        <strong>Produto</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="index.html">Início</a></li>
+          <li><a href="encrypted.html">Zero‑Knowledge</a></li>
+          <li><a href="about.html">Sobre</a></li>
+          <li><a href="features.html">Recursos</a></li>
+          <li><a href="data-regions.html">Regiões</a></li>
+          <li><a href="#">Preços</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Suporte</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="#">Central de ajuda</a></li>
+          <li><a href="#">Status</a></li>
+          <li><a href="#">Segurança</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Legal</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="#">Termos</a></li>
+          <li><a href="#">Privacidade</a></li>
+          <li><a href="#">DPA</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ===== Pricing logic =====
+    const PRICES = {
+      BRL: {
+        monthly: { free: 0, essential: 29, pro: 59, team: 199 },
+        yearly:  { free: 0, essential: 19, pro: 39, team: 129 }
+      },
+      USD: {
+        monthly: { free: 0, essential: 6, pro: 12, team: 40 },
+        yearly:  { free: 0, essential: 4, pro: 8,  team: 26 }
+      }
+    };
+
+    const currencyEl = document.getElementById('currency');
+    const monthlyBtn = document.getElementById('b-monthly');
+    const yearlyBtn  = document.getElementById('b-yearly');
+    const saveBadge  = document.getElementById('save-badge');
+    let state = { currency: currencyEl.value, period: 'yearly' };
+
+    function format(currency, value){
+      if(currency==='BRL') return new Intl.NumberFormat('pt-BR', {style:'currency', currency:'BRL', maximumFractionDigits:0}).format(value);
+      if(currency==='USD') return new Intl.NumberFormat('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0}).format(value);
+      return value.toString();
+    }
+
+    function render(){
+      const prices = PRICES[state.currency][state.period];
+      document.querySelectorAll('.plan').forEach(plan=>{
+        const key = plan.dataset.plan; // free, essential, pro, team
+        const amountEl = plan.querySelector('[data-amount]');
+        const perEl = plan.querySelector('[data-per]');
+        const val = prices[key];
+        amountEl.textContent = format(state.currency, val);
+        perEl.textContent = state.period==='yearly' ? '/mês (cob. anual)' : '/mês';
+      });
+      // toggle pressed states
+      monthlyBtn.setAttribute('aria-pressed', String(state.period==='monthly'));
+      yearlyBtn.setAttribute('aria-pressed', String(state.period==='yearly'));
+      // save badge visible only for yearly
+      saveBadge.style.display = state.period==='yearly' ? 'inline-block' : 'none';
+    }
+
+    currencyEl.addEventListener('change', e=>{ state.currency = e.target.value; render(); });
+    monthlyBtn.addEventListener('click', ()=>{ state.period='monthly'; render(); });
+    yearlyBtn.addEventListener('click', ()=>{ state.period='yearly'; render(); });
+
+    render();
+  </script>
+</body>
+</html>

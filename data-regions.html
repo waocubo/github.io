@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TCloud — Regiões de Dados: escolha onde seus arquivos ficam</title>
+  <meta name="description" content="Escolha a região de dados da TCloud (Brasil, EUA, UE) para latência menor e conformidade. Migração assistida e Zero‑Knowledge em todas as regiões." />
+  <meta name="color-scheme" content="dark light">
+  <style>
+    :root{
+      --tc-primary:#00A3FF; --tc-primary-600:#0086D1; --tc-accent:#6EE7FF;
+      --tc-success:#22c55e; --tc-warning:#f59e0b; --tc-danger:#ef4444;
+      --tc-bg:#0B1220; --tc-surface:#0F172A; --tc-muted:#1F2A44; --tc-border:#23304d;
+      --tc-text:#E6F0FF; --tc-text-muted:#A7B4D4; --radius:16px;
+      --shadow-lg:0 20px 50px rgba(0,0,0,.45); --shadow-md:0 10px 30px rgba(0,0,0,.35);
+      --grid-max:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial; color:var(--tc-text);
+      background:radial-gradient(1200px 600px at 60% -10%, rgba(0,163,255,.15), transparent 60%),
+                 radial-gradient(800px 500px at 10% 10%, rgba(110,231,255,.08), transparent 55%),
+                 linear-gradient(180deg, #0b1220, #0a0f1b 35%, #0b1220);
+    }
+    a{color:var(--tc-accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:var(--grid-max); margin:0 auto; padding:0 20px}
+    /* NAV */
+    nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(130%) blur(14px); background:color-mix(in oklab, var(--tc-surface) 65%, transparent); border-bottom:1px solid var(--tc-border)}
+    .nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; gap:12px; align-items:center}
+    .brand .name{font-weight:800; letter-spacing:.2px; font-size:18px}
+    .nav-links{display:flex; gap:20px; align-items:center}
+    .nav-links a.active{color:#fff; font-weight:800}
+    .btn{border:1px solid transparent; background:var(--tc-primary); color:#fff; padding:10px 16px; border-radius:999px; font-weight:700; box-shadow:var(--shadow-md)}
+    .btn:hover{background:var(--tc-primary-600)}
+    .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text)}
+    .btn.ghost:hover{border-color:var(--tc-primary)}
+    /* HERO */
+    .hero{padding:64px 0 40px}
+    .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center}
+    .chip{display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; background:color-mix(in oklab, var(--tc-muted) 70%, transparent); border:1px solid var(--tc-border); color:var(--tc-text-muted); font-weight:600; font-size:12px}
+    h1{font-size:42px; line-height:1.1; margin:12px 0 14px}
+    .lead{font-size:18px; color:var(--tc-text-muted); max-width:60ch}
+    .hero-card{background:linear-gradient(180deg, #0f172a, #111a30); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-lg)}
+    /* SECTIONS */
+    .section{padding:64px 0}
+    .section h2{font-size:32px; margin:0 0 12px}
+    .subtitle{color:var(--tc-text-muted); margin:0 0 24px}
+    .grid{display:grid; gap:20px}
+    .grid.cols-3{grid-template-columns:repeat(3, 1fr)}
+    .grid.cols-2{grid-template-columns:repeat(2, 1fr)}
+    .card{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px}
+    .icon{width:28px; height:28px; color:var(--tc-accent)}
+    .region{border:1px dashed var(--tc-border); border-radius:14px; padding:14px}
+    .badge{display:inline-block; padding:4px 8px; border-radius:999px; border:1px solid var(--tc-border); color:var(--tc-text-muted); font-size:12px}
+    .note{color:var(--tc-text-muted); font-size:14px}
+    /* TABLE */
+    .table{border:1px solid var(--tc-border); border-radius:var(--radius); overflow:hidden}
+    table{width:100%; border-collapse:collapse}
+    th, td{padding:14px 16px; border-bottom:1px solid var(--tc-border)}
+    th{background:color-mix(in oklab, var(--tc-muted) 70%, transparent); text-align:left}
+    tr:last-child td{border-bottom:none}
+    /* FOOTER */
+    footer{padding:40px 0; border-top:1px solid var(--tc-border); background:color-mix(in oklab, var(--tc-surface) 65%, transparent)}
+    .foot{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:20px}
+    .credits{color:var(--tc-text-muted); font-size:13px}
+    /* RESPONSIVE */
+    @media (max-width:1024px){.hero-grid{grid-template-columns:1fr}.grid.cols-3{grid-template-columns:1fr 1fr}.grid.cols-2{grid-template-columns:1fr}.foot{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){h1{font-size:34px}.foot{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <!-- ===== NAV ===== -->
+  <nav>
+    <div class="container nav-wrap">
+      <div class="brand">
+        <img src="logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block;"/>
+        <span class="name">TCloud</span>
+      </div>
+      <div class="nav-links">
+        <a class="btn ghost" href="index.html">Início</a>
+        <a class="btn ghost" href="encrypted.html">Zero‑Knowledge</a>
+        <a class="btn ghost" href="about.html">Sobre</a>
+        <a class="btn ghost" href="features-file-management.html">Recursos</a>
+        <a class="btn ghost active" href="#">Regiões de Dados</a>
+        <a class="btn" href="#cta">Experimente</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="chip">Regiões de Dados</span>
+        <h1>Escolha onde seus arquivos ficam<br/>— privacidade e desempenho sob seu controle</h1>
+        <p class="lead">A TCloud oferece múltiplas regiões para adequação regulatória e melhor latência. Zero‑Knowledge em todas as regiões. Migração assistida quando você precisar.</p>
+      </div>
+      <div class="hero-card">
+        <h3 style="margin:0 0 8px">Regiões disponíveis</h3>
+        <p class="note" style="margin:0">Brasil (São Paulo) • EUA (N. Virginia) • UE (Frankfurt)
+          <br/>Em avaliação: APAC</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== SELETOR DE REGIÃO ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Selecione sua região</h2>
+      <p class="subtitle">Defina a localização de armazenamento primário da sua conta. Seus dados permanecem nessa região, com criptografia de ponta a ponta.</p>
+      <div class="grid cols-3" id="region-cards">
+        <div class="card region" data-region="BR">
+          <div class="badge">Brasil</div>
+          <h3>São Paulo (BR)</h3>
+          <p>Latência reduzida no Brasil e América do Sul. Preferida para adequação à LGPD local.</p>
+        </div>
+        <div class="card region" data-region="US">
+          <div class="badge">Estados Unidos</div>
+          <h3>N. Virginia (US)</h3>
+          <p>Bom alcance para Américas. Ideal para integrações e workloads globais.</p>
+        </div>
+        <div class="card region" data-region="EU">
+          <div class="badge">União Europeia</div>
+          <h3>Frankfurt (EU)</h3>
+          <p>Opção focada em requisitos de residência de dados na UE e proximidade com EMEA.</p>
+        </div>
+      </div>
+      <div style="margin-top:16px; display:flex; gap:10px; align-items:center">
+        <label for="region-select" class="note">Alterar visualização:</label>
+        <select id="region-select" class="btn ghost" style="padding:8px 12px; border-radius:10px">
+          <option value="BR">Brasil (São Paulo)</option>
+          <option value="US">Estados Unidos (N. Virginia)</option>
+          <option value="EU">União Europeia (Frankfurt)</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RESIDÊNCIA x JURISDIÇÃO ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Residência de dados ≠ Jurisdição legal</h2>
+      <p class="subtitle">A residência determina onde os dados <em>ficam</em>. A jurisdição trata de quais leis podem se aplicar. Com Zero‑Knowledge, o conteúdo permanece inacessível no servidor.</p>
+      <div class="grid cols-2">
+        <div class="card"><h3>Residência</h3><p>Armazenamento físico e lógico em uma região específica. Replicações seguem a mesma região.</p></div>
+        <div class="card"><h3>Jurisdição</h3><p>Leis aplicáveis podem variar por contrato, local da empresa e uso do serviço. Consulte seu jurídico para obrigações específicas.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MIGRAÇÃO DE REGIÃO ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Mudar de região quando for preciso</h2>
+      <p class="subtitle">Oferecemos migração assistida. Seus dados são recriptografados e transferidos com integridade verificada.</p>
+      <div class="table">
+        <table aria-label="Política de migração de regiões">
+          <thead><tr><th>Etapa</th><th>O que acontece</th><th>Janela típica</th></tr></thead>
+          <tbody>
+            <tr><td>Solicitação</td><td>Validação de titular e plano, verificação de pré‑requisitos</td><td>1–2 dias úteis</td></tr>
+            <tr><td>Preparação</td><td>Congelamento de versões antigas e criação de instantâneo</td><td>Agendado</td></tr>
+            <tr><td>Transferência segura</td><td>Movimentação cifrada ponta a ponta + checagem de integridade</td><td>Variável (tamanho)</td></tr>
+            <tr><td>Reindexação</td><td>Reconstrução de índices, checagem de links e permissões</td><td>Horas</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note" style="margin-top:8px">* Durante a janela final, poderá haver indisponibilidade temporária de escrita. Avisaremos com antecedência.</p>
+    </div>
+  </section>
+
+  <!-- ===== CONFORMIDADE ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Conformidade e boas práticas</h2>
+      <p class="subtitle">Zero‑Knowledge em todas as regiões. Práticas alinhadas à LGPD (Brasil) e GDPR (UE).</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>LGPD / GDPR</h3><p>Tratamento mínimo, finalidade clara e segurança por padrão em toda a plataforma.</p></div>
+        <div class="card"><h3>Chaves sob seu controle</h3><p>Criptografia no dispositivo com KDF robusto; chaves privadas não residem nos servidores.</p></div>
+        <div class="card"><h3>Auditoria</h3><p>Logs de acesso e compartilhamento exportáveis para compliance interno.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Perguntas frequentes</h2>
+      <details>
+        <summary>Posso escolher a região ao criar a conta?</summary>
+        <p>Sim. A seleção é feita no onboarding e pode ser alterada depois via migração assistida.</p>
+      </details>
+      <details>
+        <summary>Zero‑Knowledge vale para todas as regiões?</summary>
+        <p>Sim. A criptografia no dispositivo e o modelo de chaves são idênticos em todas as regiões.</p>
+      </details>
+      <details>
+        <summary>Meus dados serão replicados para fora da região?</summary>
+        <p>Não. Replicações e backups permanecem dentro da mesma região escolhida.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section id="cta" class="section">
+    <div class="container card" style="display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center">
+      <div>
+        <h2>Escolha sua região e comece</h2>
+        <p class="subtitle">Ative sua conta TCloud e selecione a melhor localização para o seu negócio.</p>
+      </div>
+      <div>
+        <a class="btn" href="#">Criar conta</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container foot">
+      <div>
+        <div class="brand" style="margin-bottom:10px">
+          <img src="logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block;"/>
+          <strong>TCloud</strong>
+        </div>
+        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero‑Knowledge de verdade.</p>
+      </div>
+      <div>
+        <strong>Produto</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="index.html">Início</a></li>
+          <li><a href="encrypted.html">Zero‑Knowledge</a></li>
+          <li><a href="about.html">Sobre</a></li>
+          <li><a href="features-file-management.html">Recursos</a></li>
+          <li><a href="data-regions.html">Regiões</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Suporte</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="#">Central de ajuda</a></li>
+          <li><a href="#">Status</a></li>
+          <li><a href="#">Segurança</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Legal</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="#">Termos</a></li>
+          <li><a href="#">Privacidade</a></li>
+          <li><a href="#">DPA</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // Region selector interatividade simples
+    const select = document.getElementById('region-select');
+    const cards = [...document.querySelectorAll('.region')];
+    function highlight(region){
+      cards.forEach(c=>{
+        const on = c.dataset.region===region; 
+        c.style.borderColor = on ? 'var(--tc-primary)' : 'var(--tc-border)';
+        c.style.boxShadow = on ? '0 0 0 2px rgba(0,163,255,.25)' : 'none';
+      });
+    }
+    if(select){
+      highlight(select.value);
+      select.addEventListener('change', e=>highlight(e.target.value));
+    }
+  </script>
+</body>
+</html>

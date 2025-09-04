@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TCloud Família — Armazenamento para até 5-10 pessoas com Zero‑Knowledge</title>
+  <meta name="description" content="TCloud Família: espaços privados para cada pessoa, pasta compartilhada da família, controles parentais e Zero‑Knowledge de verdade. Funciona no celular, desktop e web." />
+  <meta name="color-scheme" content="dark light">
+  <style>
+    :root{
+      --tc-primary:#00A3FF; --tc-primary-600:#0086D1; --tc-accent:#6EE7FF;
+      --tc-success:#22c55e; --tc-warning:#f59e0b; --tc-danger:#ef4444;
+      --tc-bg:#0B1220; --tc-surface:#0F172A; --tc-muted:#1F2A44; --tc-border:#23304d;
+      --tc-text:#E6F0FF; --tc-text-muted:#A7B4D4; --radius:16px;
+      --shadow-lg:0 20px 50px rgba(0,0,0,.45); --shadow-md:0 10px 30px rgba(0,0,0,.35);
+      --grid-max:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial; color:var(--tc-text);
+      background:radial-gradient(1200px 600px at 60% -10%, rgba(0,163,255,.15), transparent 60%),
+                 radial-gradient(800px 500px at 10% 10%, rgba(110,231,255,.08), transparent 55%),
+                 linear-gradient(180deg, #0b1220, #0a0f1b 35%, #0b1220);
+    }
+    a{color:var(--tc-accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:var(--grid-max); margin:0 auto; padding:0 20px}
+    /* NAV */
+    nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(130%) blur(14px); background:color-mix(in oklab, var(--tc-surface) 65%, transparent); border-bottom:1px solid var(--tc-border)}
+    .nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; gap:12px; align-items:center}
+    .brand .name{font-weight:800; letter-spacing:.2px; font-size:18px}
+    .nav-links{display:flex; gap:20px; align-items:center}
+    .nav-links a.active{color:#fff; font-weight:800}
+    .btn{border:1px solid transparent; background:var(--tc-primary); color:#001425; padding:10px 16px; border-radius:999px; font-weight:800; box-shadow:var(--shadow-md)}
+    .btn:hover{background:var(--tc-primary-600); color:#001425}
+    .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text); font-weight:700}
+    .btn.ghost:hover{border-color:var(--tc-primary)}
+    /* HERO */
+    .hero{padding:64px 0 24px}
+    .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center}
+    .chip{display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; background:color-mix(in oklab, var(--tc-muted) 70%, transparent); border:1px solid var(--tc-border); color:var(--tc-text-muted); font-weight:600; font-size:12px}
+    h1{font-size:42px; line-height:1.1; margin:12px 0 14px}
+    .lead{font-size:18px; color:var(--tc-text-muted); max-width:60ch}
+    .hero-card{background:linear-gradient(180deg, #0f172a, #111a30); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-lg)}
+    /* SECTIONS */
+    .section{padding:48px 0}
+    .section h2{font-size:28px; margin:0 0 12px}
+    .subtitle{color:var(--tc-text-muted); margin:0 0 20px}
+    .grid{display:grid; gap:20px}
+    .grid.cols-3{grid-template-columns:repeat(3, 1fr)}
+    .grid.cols-4{grid-template-columns:repeat(4, 1fr)}
+    .grid.cols-2{grid-template-columns:repeat(2, 1fr)}
+    .card{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px}
+    .note{color:var(--tc-text-muted); font-size:14px}
+    .table{border:1px solid var(--tc-border); border-radius:var(--radius); overflow:hidden}
+    table{width:100%; border-collapse:collapse}
+    th, td{padding:14px 16px; border-bottom:1px solid var(--tc-border)}
+    th{background:color-mix(in oklab, var(--tc-muted) 70%, transparent); text-align:left}
+    tr:last-child td{border-bottom:none}
+    .check{color:var(--tc-success); font-weight:800}
+    .dash{color:var(--tc-text-muted)}
+    /* CALC */
+    .calc{display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; align-items:end}
+    .calc label{display:block; font-weight:700; margin-bottom:6px}
+    .calc input, .calc select{width:100%; padding:10px 12px; border-radius:12px; border:1px solid var(--tc-border); background:transparent; color:var(--tc-text)}
+    .calc .result{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:12px; padding:16px}
+    .amount{font-size:28px; font-weight:800}
+    /* FOOTER */
+    footer{padding:40px 0; border-top:1px solid var(--tc-border); background:color-mix(in oklab, var(--tc-surface) 65%, transparent)}
+    .foot{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:20px}
+    .credits{color:var(--tc-text-muted); font-size:13px}
+    /* RWD */
+    @media (max-width:1024px){.hero-grid{grid-template-columns:1fr}.grid.cols-4{grid-template-columns:1fr 1fr}.grid.cols-3{grid-template-columns:1fr 1fr}.grid.cols-2{grid-template-columns:1fr}.calc{grid-template-columns:1fr 1fr}.foot{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){h1{font-size:34px}.calc{grid-template-columns:1fr}.foot{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <!-- ===== NAV ===== -->
+  <nav>
+    <div class="container nav-wrap">
+      <div class="brand">
+        <img src="logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block;"/>
+        <span class="name">TCloud</span>
+      </div>
+      <div class="nav-links">
+        <a class="btn ghost" href="index.html">Início</a>
+        <a class="btn ghost" href="encrypted.html">Zero‑Knowledge</a>
+        <a class="btn ghost" href="about.html">Sobre</a>
+        <a class="btn ghost" href="features.html">Recursos</a>
+        <a class="btn ghost" href="data-regions.html">Regiões</a>
+        <a class="btn ghost" href="pricing.html">Preços</a>
+        <a class="btn ghost" href="affiliate.html">Afiliados</a>
+        <a class="btn ghost" href="reseller.html">Revenda</a>
+        <a class="btn ghost" href="download.html">Download</a>
+        <a class="btn ghost" href="business.html">Empresarial</a>
+        <a class="btn ghost" href="pass.html">Pass</a>
+        <a class="btn ghost active" href="#">Família</a>
+        <a class="btn" href="#cta">Começar</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="chip">TCloud Família</span>
+        <h1>Armazenamento para todos em casa<br/>com espaços privados e uma pasta da família</h1>
+        <p class="lead">Cada pessoa tem seu espaço privado, mais uma pasta compartilhada para fotos, documentos e lembranças. Tudo protegido por Zero‑Knowledge.</p>
+        <div style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap">
+          <a class="btn" href="#calc">Escolher tamanho</a>
+          <a class="btn ghost" href="#recursos">Ver recursos</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3 style="margin:0 0 8px">Inclui em TCloud Família</h3>
+        <ul style="margin:0; padding-left:18px; color:var(--tc-text-muted)">
+          <li>Espaços privados individuais</li>
+          <li>Pasta compartilhada da família</li>
+          <li>Controles parentais (links e convites)</li>
+          <li>Acesso offline e versionamento</li>
+          <li>Apps para web, desktop e mobile</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== RECURSOS ===== -->
+  <section id="recursos" class="section">
+    <div class="container">
+      <h2>Feito para a vida em família</h2>
+      <div class="grid cols-3">
+        <div class="card"><h3>Privacidade por pessoa</h3><p>Cada membro possui login e espaço privado. Somente a pasta da família é comum a todos.</p></div>
+        <div class="card"><h3>Compartilhamento simples</h3><p>Envie links com senha e validade. Controle quem pode baixar ou apenas visualizar.</p></div>
+        <div class="card"><h3>Controles parentais</h3><p>Limite convites externos, exigindo senha e datas de expiração para menores.</p></div>
+        <div class="card"><h3>Histórico e recuperação</h3><p>Restaure versões anteriores e recupere arquivos apagados por engano.</p></div>
+        <div class="card"><h3>Sincronize tudo</h3><p>Aplicativos para Windows, macOS, Linux, Android e iOS com favoritos offline.</p></div>
+        <div class="card"><h3>Zero‑Knowledge real</h3><p>Criptografia no dispositivo: só sua família tem as chaves do conteúdo.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CALCULADORA / PLANO ===== -->
+  <section id="calc" class="section">
+    <div class="container">
+      <h2>Escolha o tamanho do seu plano</h2>
+      <p class="subtitle">Valores ilustrativos — ajuste conforme sua precificação oficial em <code>PRICES_FAMILY</code>.</p>
+      <div class="calc" aria-label="Calculadora de plano família">
+        <div>
+          <label for="members">Quantidade de pessoas</label>
+          <input id="members" type="number" min="2" max="10" step="1" value="5" />
+        </div>
+        <div>
+          <label for="period">Cobrança</label>
+          <select id="period">
+            <option value="monthly">Mensal</option>
+            <option value="yearly" selected>Anual (economize)</option>
+          </select>
+        </div>
+        <div>
+          <label for="size">Armazenamento</label>
+          <select id="size">
+            <option value="2">2 TB</option>
+            <option value="5" selected>5 TB</option>
+          </select>
+        </div>
+        <div class="result" role="status" aria-live="polite">
+          <div class="note">Total estimado</div>
+          <div class="amount" id="total">R$ 39/mês</div>
+          <div class="note" id="per">Cobrança anual • ~ <span id="perMember">R$ 8</span>/pessoa</div>
+        </div>
+      </div>
+      <div style="margin-top:12px">
+        <a class="btn" href="pricing.html">Ver planos e preços</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COMO FUNCIONA ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Como funciona</h2>
+      <div class="grid cols-4">
+        <div class="card"><h3>1) Crie a família</h3><p>O titular cria o grupo e escolhe o tamanho do plano.</p></div>
+        <div class="card"><h3>2) Convide pessoas</h3><p>Envie convites por e‑mail. Cada convidado terá seu espaço privado.</p></div>
+        <div class="card"><h3>3) Use a pasta da família</h3><p>Todos têm acesso a uma pasta comum para fotos, vídeos e documentos.</p></div>
+        <div class="card"><h3>4) Controle e acompanhe</h3><p>Gerencie permissões, links e visualiza um resumo de atividades.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DICAS ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Dicas rápidas</h2>
+      <div class="grid cols-2">
+        <div class="card"><h3>Organização</h3><p>Crie subpastas por tema (Escola, Viagens, Saúde) dentro da pasta da família para facilitar buscas.</p></div>
+        <div class="card"><h3>Economia de espaço</h3><p>Use o envio de links em vez de anexos no WhatsApp — todos acessam a mesma cópia com histórico.</p></div>
+        <div class="card"><h3>Segurança</h3><p>Ative 2FA no titular e nos membros. Defina senhas fortes e use o <a href="pass.html">TCloud Pass</a>.</p></div>
+        <div class="card"><h3>Backup de fotos</h3><p>Ative upload automático no celular para que as fotos da família cheguem direto à nuvem.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Perguntas frequentes</h2>
+      <details><summary>Qual o máximo de pessoas?</summary><p>Planos ilustrativos: até 5 pessoas (Família) ou até 10 (Família Plus). Ajuste os limites conforme sua oferta.</p></details>
+      <details><summary>Os arquivos são privados entre os membros?</summary><p>Sim. Cada membro tem um espaço privado. Apenas a pasta da família é compartilhada com todos por padrão.</p></details>
+      <details><summary>Posso mudar de plano depois?</summary><p>Sim. Você pode aumentar ou reduzir o armazenamento ou a quantidade de pessoas quando quiser.</p></details>
+      <details><summary>Como funciona o Zero‑Knowledge para a família?</summary><p>A criptografia acontece no dispositivo de cada pessoa. Servidores só recebem dados cifrados, sem chaves para leitura.</p></details>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section id="cta" class="section">
+    <div class="container card" style="display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center">
+      <div>
+        <h2>Comece com TCloud Família</h2>
+        <p class="subtitle">Proteja lembranças e documentos de todos em um só lugar, com privacidade por padrão.</p>
+      </div>
+      <div>
+        <a class="btn" href="pricing.html">Escolher plano</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container foot">
+      <div>
+        <div class="brand" style="margin-bottom:10px">
+          <img src="logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block;"/>
+          <strong>TCloud</strong>
+        </div>
+        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero‑Knowledge de verdade.</p>
+      </div>
+      <div>
+        <strong>Produto</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="index.html">Início</a></li>
+          <li><a href="encrypted.html">Zero‑Knowledge</a></li>
+          <li><a href="about.html">Sobre</a></li>
+          <li><a href="features.html">Recursos</a></li>
+          <li><a href="data-regions.html">Regiões</a></li>
+          <li><a href="pricing.html">Preços</a></li>
+          <li><a href="affiliate.html">Afiliados</a></li>
+          <li><a href="reseller.html">Revenda</a></li>
+          <li><a href="download.html">Download</a></li>
+          <li><a href="business.html">Empresarial</a></li>
+          <li><a href="pass.html">Pass</a></li>
+          <li><a href="#">Família</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Suporte</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="help-faq.html">FAQ</a></li>
+          <li><a href="privacy-options.html">Opções de Privacidade</a></li>
+          <li><a href="contact.html">Contate‑nos</a></li>
+          <li><a href="release-notes.html">Notas de Versão</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Community</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="affiliate.html">Programa de Afiliados</a></li>
+          <li><a href="reseller.html">Revendedores</a></li>
+          <li><a href="developers.html">Para Desenvolvedores</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ===== Calculadora de plano família (ilustrativa) =====
+    const PRICES_FAMILY = {
+      monthly: { tb2: 29, tb5: 39 },
+      yearly:  { tb2: 19, tb5: 29 }
+    };
+
+    const members = document.getElementById('members');
+    const period  = document.getElementById('period');
+    const size    = document.getElementById('size');
+    const total   = document.getElementById('total');
+    const per     = document.getElementById('per');
+    const perMember = document.getElementById('perMember');
+
+    function price(){
+      const plan = size.value==='2' ? 'tb2' : 'tb5';
+      return PRICES_FAMILY[period.value][plan];
+    }
+    function render(){
+      const ppl = Math.max(2, Math.min(10, Number(members.value||5)));
+      const val = price();
+      const cur = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(val);
+      total.textContent = `${cur}/mês`;
+      const perP = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(Math.ceil(val/ppl));
+      per.innerHTML = `${period.value==='yearly'?'Cobrança anual':'Cobrança mensal'} • ~ <span id="perMember">${perP}</span>/pessoa`;
+    }
+    [members, period, size].forEach(el=>el.addEventListener('input', render));
+    render();
+  </script>
+</body>
+</html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TCloud — Backup automático e restauração ponto‑no‑tempo</title>
+  <meta name="description" content="Backup contínuo de computador, fotos e pastas com Zero‑Knowledge. Agendamentos, políticas de retenção, versões de arquivo e restauração ponto‑no‑tempo." />
+  <meta name="color-scheme" content="dark light">
+  <style>
+    :root{
+      --tc-primary:#00A3FF; --tc-primary-600:#0086D1; --tc-accent:#6EE7FF;
+      --tc-success:#22c55e; --tc-warning:#f59e0b; --tc-danger:#ef4444;
+      --tc-bg:#0B1220; --tc-surface:#0F172A; --tc-muted:#1F2A44; --tc-border:#23304d;
+      --tc-text:#E6F0FF; --tc-text-muted:#A7B4D4; --radius:16px;
+      --shadow-lg:0 20px 50px rgba(0,0,0,.45); --shadow-md:0 10px 30px rgba(0,0,0,.35);
+      --grid-max:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial; color:var(--tc-text);
+      background:radial-gradient(1200px 600px at 60% -10%, rgba(0,163,255,.15), transparent 60%),
+                 radial-gradient(800px 500px at 10% 10%, rgba(110,231,255,.08), transparent 55%),
+                 linear-gradient(180deg, #0b1220, #0a0f1b 35%, #0b1220);
+    }
+    a{color:var(--tc-accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:var(--grid-max); margin:0 auto; padding:0 20px}
+    /* NAV */
+    nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(130%) blur(14px); background:color-mix(in oklab, var(--tc-surface) 65%, transparent); border-bottom:1px solid var(--tc-border)}
+    .nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; gap:12px; align-items:center}
+    .brand .name{font-weight:800; letter-spacing:.2px; font-size:18px}
+    .nav-links{display:flex; gap:20px; align-items:center}
+    .nav-links a.active{color:#fff; font-weight:800}
+    .btn{border:1px solid transparent; background:var(--tc-primary); color:#001425; padding:10px 16px; border-radius:999px; font-weight:800; box-shadow:var(--shadow-md); cursor:pointer}
+    .btn:hover{background:var(--tc-primary-600); color:#001425}
+    .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text); font-weight:700}
+    .btn.ghost:hover{border-color:var(--tc-primary)}
+    /* HERO */
+    .hero{padding:64px 0 24px}
+    .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center}
+    .chip{display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; background:color-mix(in oklab, var(--tc-muted) 70%, transparent); border:1px solid var(--tc-border); color:var(--tc-text-muted); font-weight:600; font-size:12px}
+    h1{font-size:42px; line-height:1.1; margin:12px 0 14px}
+    .lead{font-size:18px; color:var(--tc-text-muted); max-width:60ch}
+    .hero-card{background:linear-gradient(180deg, #0f172a, #111a30); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-lg)}
+    /* SECTIONS */
+    .section{padding:48px 0}
+    .section h2{font-size:28px; margin:0 0 12px}
+    .subtitle{color:var(--tc-text-muted); margin:0 0 20px}
+    .grid{display:grid; gap:20px}
+    .grid.cols-3{grid-template-columns:repeat(3, 1fr)}
+    .grid.cols-4{grid-template-columns:repeat(4, 1fr)}
+    .grid.cols-2{grid-template-columns:repeat(2, 1fr)}
+    .card{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px}
+    .note{color:var(--tc-text-muted); font-size:14px}
+    .small{font-size:13px; color:var(--tc-text-muted)}
+    .table{border:1px solid var(--tc-border); border-radius:var(--radius); overflow:hidden}
+    table{width:100%; border-collapse:collapse}
+    th, td{padding:14px 16px; border-bottom:1px solid var(--tc-border)}
+    th{background:color-mix(in oklab, var(--tc-muted) 70%, transparent); text-align:left}
+    tr:last-child td{border-bottom:none}
+    .check{color:var(--tc-success); font-weight:800}
+    .dash{color:var(--tc-text-muted)}
+    /* SETUP / ESTIMATOR */
+    label{font-weight:700; margin-bottom:6px; display:block}
+    input[type="text"], input[type="number"], input[type="time"], input[type="datetime-local"], input[type="email"], input[type="password"], select, textarea{width:100%; padding:10px 12px; border-radius:12px; border:1px solid var(--tc-border); background:transparent; color:var(--tc-text)}
+    .setup{display:grid; grid-template-columns:1.2fr .8fr; gap:20px}
+    .switch{display:flex; align-items:center; gap:10px}
+    .switch input{transform:scale(1.2)}
+    .result{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:12px; padding:16px}
+    .pill{display:inline-block; padding:2px 8px; border-radius:999px; border:1px solid var(--tc-border); font-size:12px; color:var(--tc-text-muted)}
+    /* FOOTER */
+    footer{padding:40px 0; border-top:1px solid var(--tc-border); background:color-mix(in oklab, var(--tc-surface) 65%, transparent)}
+    .foot{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:20px}
+    .credits{color:var(--tc-text-muted); font-size:13px}
+    /* RWD */
+    @media (max-width:1024px){.hero-grid{grid-template-columns:1fr}.setup{grid-template-columns:1fr}.grid.cols-4{grid-template-columns:1fr 1fr}.grid.cols-3{grid-template-columns:1fr 1fr}.grid.cols-2{grid-template-columns:1fr}.foot{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){h1{font-size:34px}.foot{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <!-- ===== NAV ===== -->
+  <nav>
+    <div class="container nav-wrap">
+      <div class="brand">
+        <img src="logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block;"/>
+        <span class="name">TCloud</span>
+      </div>
+      <div class="nav-links">
+        <a class="btn ghost" href="index.html">Início</a>
+        <a class="btn ghost" href="encrypted.html">Zero‑Knowledge</a>
+        <a class="btn ghost" href="about.html">Sobre</a>
+        <a class="btn ghost" href="features.html">Recursos</a>
+        <a class="btn ghost" href="data-regions.html">Regiões</a>
+        <a class="btn ghost" href="pricing.html">Preços</a>
+        <a class="btn ghost" href="affiliate.html">Afiliados</a>
+        <a class="btn ghost" href="reseller.html">Revenda</a>
+        <a class="btn ghost" href="download.html">Download</a>
+        <a class="btn ghost" href="business.html">Empresarial</a>
+        <a class="btn ghost" href="pass.html">Pass</a>
+        <a class="btn ghost" href="transfer.html">Transferir</a>
+        <a class="btn ghost" href="sharing.html">Compartilhar</a>
+        <a class="btn ghost" href="security.html">Segurança</a>
+        <a class="btn ghost active" href="#">Backup</a>
+        <a class="btn" href="#cta">Ativar agora</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="chip">Backup TCloud</span>
+        <h1>Backup contínuo e restauração ponto‑no‑tempo<br/>com Zero‑Knowledge de verdade</h1>
+        <p class="lead">Proteja pastas do computador, fotos do celular e dados críticos com agendamentos flexíveis, retenção inteligente e versões de arquivo.</p>
+        <div style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap">
+          <a class="btn" href="#setup">Configurar backup</a>
+          <a class="btn ghost" href="#retencao">Ver retenção</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3 style="margin:0 0 8px">Inclui</h3>
+        <ul style="margin:0; padding-left:18px; color:var(--tc-text-muted)">
+          <li>Backup de computador (Desktop/Documentos/Imagens)</li>
+          <li>Upload automático de fotos (Android/iOS)</li>
+          <li>Importação de outras nuvens (opcional)</li>
+          <li>Restauração ponto‑no‑tempo</li>
+          <li>Proteção contra ransomware</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== BENEFÍCIOS ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Feito para não perder nada</h2>
+      <div class="grid cols-3">
+        <div class="card"><h3>Backup do computador</h3><p>Selecione pastas padrão (Desktop, Documentos, Imagens) e caminhos personalizados.</p></div>
+        <div class="card"><h3>Fotos do celular</h3><p>Upload automático da galeria, com favoritos offline e otimização de rede.</p></div>
+        <div class="card"><h3>Outras nuvens</h3><p>Importe de serviços compatíveis para centralizar tudo na TCloud.</p></div>
+        <div class="card"><h3>Versões de arquivo</h3><p>Histórico para voltar no tempo e desfazer alterações indevidas.</p></div>
+        <div class="card"><h3>Ransomware recovery</h3><p>Restaure a um ponto anterior em poucos cliques e retome o trabalho.</p></div>
+        <div class="card"><h3>Zero‑Knowledge</h3><p>Criptografia no dispositivo: seus dados, suas chaves. Servidores não leem o conteúdo.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONFIGURAR BACKUP (DEMO) ===== -->
+  <section id="setup" class="section">
+    <div class="container">
+      <h2>Configurar backup (demonstração)</h2>
+      <p class="subtitle">Interface para seu vídeo. Ao lançar, conecte aos apps de desktop/mobile e à sua API.</p>
+      <div class="setup">
+        <!-- Left: form -->
+        <div class="card">
+          <div class="grid cols-2">
+            <div class="switch"><input id="srcDesktop" type="checkbox" checked /> <label for="srcDesktop">Área de Trabalho</label></div>
+            <div class="switch"><input id="srcDocs" type="checkbox" checked /> <label for="srcDocs">Documentos</label></div>
+            <div class="switch"><input id="srcPics" type="checkbox" /> <label for="srcPics">Imagens</label></div>
+            <div class="switch"><input id="srcCustomOn" type="checkbox" /> <label for="srcCustomOn">Caminho personalizado</label></div>
+          </div>
+          <div id="customWrap" style="display:none; margin-top:10px">
+            <label for="customPath">Adicionar caminho</label>
+            <input id="customPath" type="text" placeholder="Ex.: C:\\Projetos ou /Users/voce/Projetos" />
+          </div>
+          <hr style="border:none; border-top:1px solid var(--tc-border); margin:16px 0"/>
+          <div class="grid cols-2">
+            <div>
+              <label for="freq">Frequência</label>
+              <select id="freq"><option value="cont">Contínuo</option><option value="hourly">De hora em hora</option><option value="daily" selected>Diário</option><option value="weekly">Semanal</option></select>
+            </div>
+            <div>
+              <label for="time">Horário (se aplicável)</label>
+              <input id="time" type="time" value="22:00" />
+            </div>
+          </div>
+          <div class="grid cols-2" style="margin-top:12px">
+            <div>
+              <label for="retDays">Retenção (dias)</label>
+              <input id="retDays" type="number" min="7" max="365" value="90" />
+            </div>
+            <div>
+              <label for="maxVer">Máx. versões por arquivo</label>
+              <input id="maxVer" type="number" min="3" max="500" value="50" />
+            </div>
+          </div>
+          <div class="grid cols-2" style="margin-top:12px">
+            <div class="switch"><input id="zkOn" type="checkbox" checked /> <label for="zkOn">Ensure Zero‑Knowledge</label></div>
+            <div class="switch"><input id="bwOn" type="checkbox" /> <label for="bwOn">Limitar largura de banda</label></div>
+          </div>
+          <div id="bwWrap" style="display:none; margin-top:10px">
+            <label for="bw">Upload máx. (Mbps)</label>
+            <input id="bw" type="number" min="1" max="1000" value="20" />
+          </div>
+          <div style="margin-top:14px; display:flex; gap:10px; align-items:center">
+            <button id="plan" class="btn" type="button">Gerar plano</button>
+            <span class="small">Placeholder: em produção, chamar API do agente de backup.</span>
+          </div>
+        </div>
+        <!-- Right: summary/estimator -->
+        <div class="card">
+          <h3 style="margin:0 0 10px">Resumo do plano</h3>
+          <div class="grid cols-2">
+            <div class="pill" id="srcPill">Desktop, Documentos</div>
+            <div class="pill" id="freqPill">Diário às 22:00</div>
+          </div>
+          <div class="grid cols-2" style="margin-top:8px">
+            <div class="pill" id="retPill">90 dias</div>
+            <div class="pill" id="verPill">50 versões</div>
+          </div>
+          <div class="grid cols-2" style="margin-top:8px">
+            <div class="pill" id="zkPill">ZK: ativado</div>
+            <div class="pill" id="bwPill">BW: ilimitado</div>
+          </div>
+
+          <hr style="border:none; border-top:1px solid var(--tc-border); margin:16px 0"/>
+          <h3 style="margin:0 0 10px">Estimador de armazenamento</h3>
+          <div class="grid cols-2">
+            <div>
+              <label for="sizeGB">Tamanho inicial (GB)</label>
+              <input id="sizeGB" type="number" min="1" value="120" />
+            </div>
+            <div>
+              <label for="dailyCh">Mudança diária (%)</label>
+              <input id="dailyCh" type="number" min="0" max="100" value="3" />
+            </div>
+          </div>
+          <div class="grid cols-2" style="margin-top:12px">
+            <div>
+              <label for="retEst">Retenção (dias)</label>
+              <input id="retEst" type="number" min="7" max="365" value="90" />
+            </div>
+            <div>
+              <label for="dedupe">Dedupe/compactação</label>
+              <select id="dedupe"><option value="0.9">Baixa</option><option value="0.7" selected>Média</option><option value="0.5">Alta</option></select>
+            </div>
+          </div>
+          <div class="result" id="estOut" style="margin-top:10px">
+            <div class="small">Estimativa mensal (ilustrativa):</div>
+            <div id="estTxt"><strong>~ R$ 0,00</strong> (preencha os campos)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RETENÇÃO ===== -->
+  <section id="retencao" class="section">
+    <div class="container">
+      <h2>Políticas de retenção e versões</h2>
+      <div class="table">
+        <table aria-label="Retenção por plano (exemplo)">
+          <thead><tr><th>Plano</th><th>Retenção padrão</th><th>Máx. versões</th><th>Recuperação Ransomware</th></tr></thead>
+          <tbody>
+            <tr><td>Pessoal</td><td>30 dias</td><td>20</td><td class="check">✔</td></tr>
+            <tr><td>Família</td><td>90 dias</td><td>100</td><td class="check">✔</td></tr>
+            <tr><td>Business</td><td>Config. por equipe</td><td>Até 500</td><td class="check">✔ (padrões corporativos)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small" style="margin-top:8px">Ajuste estes limites conforme sua oferta real antes do lançamento.</p>
+    </div>
+  </section>
+
+  <!-- ===== RESTAURAÇÃO (DEMO) ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Restauração ponto‑no‑tempo (demonstração)</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <label for="when">Data/hora do ponto</label>
+          <input id="when" type="datetime-local" />
+          <label for="scope" style="margin-top:10px">Escopo</label>
+          <select id="scope"><option value="folder" selected>Pasta</option><option value="file">Arquivo</option><option value="device">Dispositivo inteiro</option></select>
+          <label for="path" style="margin-top:10px">Caminho</label>
+          <input id="path" type="text" placeholder="Ex.: /Documentos/ProjetoX" />
+          <div style="margin-top:12px"><button id="genRestore" class="btn" type="button">Gerar link de restauração</button></div>
+        </div>
+        <div class="card">
+          <div class="result" id="restoreOut" style="display:none">
+            <div class="small">Link de restauração</div>
+            <div id="restoreLink"></div>
+            <div style="margin-top:10px">
+              <button id="copyRestore" class="btn" type="button">Copiar</button>
+              <button id="openRestore" class="btn ghost" type="button">Abrir</button>
+            </div>
+          </div>
+          <p class="small">Simulação: em produção, este fluxo iniciaria um job de restauração ou forneceria um ZIP com as versões selecionadas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section">
+    <div class="container">
+      <h2>Perguntas frequentes</h2>
+      <details><summary>O backup é contínuo?</summary><p>Sim. Você pode escolher contínuo (observando alterações) ou agendado (hora/dias específicos).</p></details>
+      <details><summary>Posso excluir arquivos localmente e manter no backup?</summary><p>Sim, conforme política de retenção definida para a pasta. Use “somente nuvem” se desejar.</p></details>
+      <details><summary>Como funciona a proteção contra ransomware?</summary><p>Detectamos picos de alteração e permitimos voltar a um ponto anterior rapidamente, preservando versões saudáveis.</p></details>
+      <details><summary>Zero‑Knowledge vale para o backup?</summary><p>Sim. Com criptografia no dispositivo, os dados são enviados cifrados e armazenados de forma ilegível no servidor.</p></details>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section id="cta" class="section">
+    <div class="container card" style="display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center">
+      <div>
+        <h2>Ative o Backup TCloud</h2>
+        <p class="subtitle">Proteja seus dados hoje e restaure com tranquilidade quando precisar.</p>
+      </div>
+      <div>
+        <a class="btn" href="download.html">Baixar apps</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container foot">
+      <div>
+        <div class="brand" style="margin-bottom:10px">
+          <img src="logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block;"/>
+          <strong>TCloud</strong>
+        </div>
+        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero‑Knowledge de verdade.</p>
+      </div>
+      <div>
+        <strong>Produto</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="index.html">Início</a></li>
+          <li><a href="encrypted.html">Zero‑Knowledge</a></li>
+          <li><a href="about.html">Sobre</a></li>
+          <li><a href="features.html">Recursos</a></li>
+          <li><a href="data-regions.html">Regiões</a></li>
+          <li><a href="pricing.html">Preços</a></li>
+          <li><a href="affiliate.html">Afiliados</a></li>
+          <li><a href="reseller.html">Revenda</a></li>
+          <li><a href="download.html">Download</a></li>
+          <li><a href="business.html">Empresarial</a></li>
+          <li><a href="pass.html">Pass</a></li>
+          <li><a href="transfer.html">Transferir</a></li>
+          <li><a href="sharing.html">Compartilhar</a></li>
+          <li><a href="security.html">Segurança</a></li>
+          <li><a href="#">Backup</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Suporte</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="help-faq.html">FAQ</a></li>
+          <li><a href="privacy-options.html">Opções de Privacidade</a></li>
+          <li><a href="contact.html">Contate‑nos</a></li>
+          <li><a href="release-notes.html">Notas de Versão</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Community</strong>
+        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
+          <li><a href="affiliate.html">Programa de Afiliados</a></li>
+          <li><a href="reseller.html">Revendedores</a></li>
+          <li><a href="developers.html">Para Desenvolvedores</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ===== Setup logic =====
+    const srcDesktop = document.getElementById('srcDesktop');
+    const srcDocs = document.getElementById('srcDocs');
+    const srcPics = document.getElementById('srcPics');
+    const srcCustomOn = document.getElementById('srcCustomOn');
+    const customWrap = document.getElementById('customWrap');
+    const customPath = document.getElementById('customPath');
+
+    const freq = document.getElementById('freq');
+    const time = document.getElementById('time');
+    const retDays = document.getElementById('retDays');
+    const maxVer = document.getElementById('maxVer');
+    const zkOn = document.getElementById('zkOn');
+    const bwOn = document.getElementById('bwOn');
+    const bwWrap = document.getElementById('bwWrap');
+    const bw = document.getElementById('bw');
+
+    const planBtn = document.getElementById('plan');
+    const srcPill = document.getElementById('srcPill');
+    const freqPill = document.getElementById('freqPill');
+    const retPill = document.getElementById('retPill');
+    const verPill = document.getElementById('verPill');
+    const zkPill = document.getElementById('zkPill');
+    const bwPill = document.getElementById('bwPill');
+
+    srcCustomOn.addEventListener('change',()=>{ customWrap.style.display = srcCustomOn.checked ? 'block':'none'; });
+    bwOn.addEventListener('change',()=>{ bwWrap.style.display = bwOn.checked ? 'block':'none'; });
+
+    function renderPlan(){
+      const src = [srcDesktop.checked?'Desktop':null, srcDocs.checked?'Documentos':null, srcPics.checked?'Imagens':null].filter(Boolean);
+      if(srcCustomOn.checked && customPath.value) src.push(customPath.value);
+      srcPill.textContent = src.length? src.join(', ') : 'Nenhuma pasta selecionada';
+      const ftxt = {cont:'Contínuo', hourly:'De hora em hora', daily:'Diário', weekly:'Semanal'}[freq.value];
+      freqPill.textContent = ftxt + (freq.value==='cont'?'':` às ${time.value}`);
+      retPill.textContent = `${retDays.value} dias`;
+      verPill.textContent = `${maxVer.value} versões`;
+      zkPill.textContent = `ZK: ${zkOn.checked?'ativado':'desativado'}`;
+      bwPill.textContent = bwOn.checked? `BW: ${bw.value} Mbps` : 'BW: ilimitado';
+    }
+    [srcDesktop,srcDocs,srcPics,srcCustomOn,customPath,freq,time,retDays,maxVer,zkOn,bwOn,bw].forEach(el=>el.addEventListener('input', renderPlan));
+    renderPlan();
+    planBtn.addEventListener('click',()=>{ alert('Plano gerado! (demonstração)'); });
+
+    // ===== Estimator =====
+    const sizeGB = document.getElementById('sizeGB');
+    const dailyCh = document.getElementById('dailyCh');
+    const retEst = document.getElementById('retEst');
+    const dedupe = document.getElementById('dedupe');
+    const estTxt = document.getElementById('estTxt');
+
+    function est(){
+      const s0 = Math.max(1, Number(sizeGB.value||0));
+      const ch = Math.max(0, Number(dailyCh.value||0)) / 100; // fraction/day
+      const days = Math.max(1, Number(retEst.value||1));
+      const factor = Number(dedupe.value||0.7); // 0.5..0.9
+      // Approx: total = base + sum of daily changed data within retention, less dedupe
+      const changed = s0 * ch * days * factor;
+      const total = s0 + changed; // GB
+      const monthly = total; // simplificação para vídeo
+      estTxt.innerHTML = `<strong>~ ${monthly.toFixed(1)} GB</strong> armazenados para ${days} dias de retenção`;
+    }
+    [sizeGB,dailyCh,retEst,dedupe].forEach(el=>el.addEventListener('input', est));
+    est();
+
+    // ===== Restore demo =====
+    function slug(n=10){ const c='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; let s=''; for(let i=0;i<n;i++) s+=c[Math.floor(crypto.getRandomValues(new Uint32Array(1))[0]/2**32*c.length)]; return s; }
+
+    const when = document.getElementById('when');
+    const scope = document.getElementById('scope');
+    const path = document.getElementById('path');
+    const genRestore = document.getElementById('genRestore');
+    const restoreOut = document.getElementById('restoreOut');
+    const restoreLink = document.getElementById('restoreLink');
+    const copyRestore = document.getElementById('copyRestore');
+    const openRestore = document.getElementById('openRestore');
+
+    genRestore.addEventListener('click',()=>{
+      const p = new URLSearchParams();
+      if(when.value) p.set('t', new Date(when.value).toISOString());
+      if(scope.value) p.set('s', scope.value);
+      if(path.value) p.set('p', path.value);
+      const url = `https://tcloud.link/restore/${slug(12)}?${p.toString()}`;
+      restoreLink.textContent = url;
+      restoreOut.style.display='block';
+    });
+    copyRestore.addEventListener('click',()=>{ const r=document.createRange(); r.selectNode(restoreLink); const sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(r); document.execCommand('copy'); sel.removeAllRanges(); copyRestore.textContent='Copiado!'; setTimeout(()=>copyRestore.textContent='Copiar',900); });
+    openRestore.addEventListener('click',()=>{ const u=restoreLink.textContent; if(u) window.open(u,'_blank'); });
+  </script>
+</body>
+</html>
