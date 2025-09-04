@@ -83,6 +83,22 @@
     @media (max-width:900px){.hero-grid{grid-template-columns:1fr}.pricing{grid-template-columns:1fr 1fr}.foot{grid-template-columns:1fr 1fr}}
     @media (max-width:600px){h1{font-size:34px}.pricing{grid-template-columns:1fr}.foot{grid-template-columns:1fr}}
   </style>
+
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+<!-- Google tag (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9DWZF8HNH3');
+</script>
+
+<link rel="canonical" href="https://www.tclouddrive.com.br/precos">
 </head>
 <body>
   <!-- ===== NAV ===== -->
@@ -93,11 +109,11 @@
         <span class="name">TCloud</span>
       </div>
       <div class="nav-links">
-        <a class="btn ghost" href="index.html">Início</a>
-        <a class="btn ghost" href="encrypted.html">Zero‑Knowledge</a>
-        <a class="btn ghost" href="about.html">Sobre</a>
-        <a class="btn ghost" href="features.html">Recursos</a>
-        <a class="btn ghost" href="data-regions.html">Regiões</a>
+        <a class="btn ghost" href="/">Início</a>
+        <a class="btn ghost" href="/zero-knowledge">Zero‑Knowledge</a>
+        <a class="btn ghost" href="/sobre">Sobre</a>
+        <a class="btn ghost" href="/recursos">Recursos</a>
+        <a class="btn ghost" href="/regioes">Regiões</a>
         <a class="btn ghost active" href="#">Preços</a>
         <a class="btn" href="#cta">Começar</a>
       </div>
@@ -277,11 +293,11 @@
       <div>
         <strong>Produto</strong>
         <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
-          <li><a href="index.html">Início</a></li>
-          <li><a href="encrypted.html">Zero‑Knowledge</a></li>
-          <li><a href="about.html">Sobre</a></li>
-          <li><a href="features.html">Recursos</a></li>
-          <li><a href="data-regions.html">Regiões</a></li>
+          <li><a href="/">Início</a></li>
+          <li><a href="/zero-knowledge">Zero‑Knowledge</a></li>
+          <li><a href="/sobre">Sobre</a></li>
+          <li><a href="/recursos">Recursos</a></li>
+          <li><a href="/regioes">Regiões</a></li>
           <li><a href="#">Preços</a></li>
         </ul>
       </div>
@@ -354,5 +370,65 @@
 
     render();
   </script>
+
+
+<script id="pricing-toggle-script">
+(function(){
+  function norm(s){return (s||'').normalize('NFD').replace(/\p{Diacritic}/gu,'').toLowerCase();}
+  function setPlan(plan){
+    // Containers labelled
+    document.querySelectorAll('[data-plan]').forEach(el=>{
+      el.style.display = norm(el.getAttribute('data-plan'))===plan ? '' : 'none';
+    });
+    // Price spans inside cards
+    document.querySelectorAll('[data-price-monthly],[data-price-annual],[data-price-lifetime]').forEach(el=>{
+      el.style.display = 'none';
+      if(plan==='mensal' && el.hasAttribute('data-price-monthly')) el.style.display='';
+      if(plan==='anual' && el.hasAttribute('data-price-annual')) el.style.display='';
+      if(plan==='vitalicio' && el.hasAttribute('data-price-lifetime')) el.style.display='';
+    });
+    // CSS class naming
+    document.querySelectorAll('.mensal,.monthly,.anual,.annual,.yearly,.vitalicio,.lifetime').forEach(el=>{
+      const c = norm(el.className);
+      const show = (plan==='mensal' && (c.includes('mensal')||c.includes('monthly')))
+                || (plan==='anual' && (c.includes('anual')||c.includes('annual')||c.includes('yearly')))
+                || (plan==='vitalicio' && (c.includes('vitalicio')||c.includes('lifetime')));
+      el.style.display = show ? '' : 'none';
+    });
+    document.querySelectorAll('[data-billing]').forEach(b=>{
+      b.classList.toggle('active', norm(b.getAttribute('data-billing'))===plan);
+      b.setAttribute('aria-pressed', b.classList.contains('active')?'true':'false');
+    });
+    // Update URL hash without reloading
+    if(history.replaceState) history.replaceState(null, '', '#' + plan);
+  }
+
+  // Wire buttons/tabs
+  document.addEventListener('click', function(e){
+    const t = e.target.closest('[data-billing], .billing-toggle button, .billing-toggle a');
+    if(!t) return;
+    const txt = norm(t.getAttribute('data-billing')||t.textContent);
+    if(txt.includes('mensal')) { e.preventDefault(); setPlan('mensal'); }
+    if(txt.includes('anual') || txt.includes('annual') || txt.includes('year')) { e.preventDefault(); setPlan('anual'); }
+    if(txt.includes('vital') || txt.includes('life')) { e.preventDefault(); setPlan('vitalicio'); }
+  });
+
+  // Initial plan (hash or query)
+  let plan = 'anual';
+  const h = norm(location.hash);
+  if(h.includes('mensal')) plan='mensal';
+  if(h.includes('anual')) plan='anual';
+  if(h.includes('vital')) plan='vitalicio';
+  const q = new URLSearchParams(location.search);
+  if(q.get('plan')){
+    const p = norm(q.get('plan'));
+    if(p.includes('mensal')) plan='mensal';
+    if(p.includes('anual')||p.includes('annual')||p.includes('year')) plan='anual';
+    if(p.includes('vital')||p.includes('life')) plan='vitalicio';
+  }
+  setPlan(plan);
+})();
+</script>
+
 </body>
 </html>
