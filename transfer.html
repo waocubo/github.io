@@ -4,8 +4,32 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>TCloud — Transferir arquivos grandes com link seguro</title>
-  <meta name="description" content="Envie arquivos grandes pela TCloud com link seguro, senha e expiração. Funciona sem conta. Opção de criptografia no cliente para Zero‑Knowledge no link." />
+  <meta name="description" content="Envie arquivos grandes pela TCloud com link seguro, senha e expiração. Funciona sem conta. Opção de criptografia no cliente para Zero-Knowledge no link." />
   <meta name="color-scheme" content="dark light">
+
+  <!-- Header dinâmico + normalizador de links -->
+  <script defer src="/include.js"></script>
+
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <!-- Google tag (GA4 dual tag) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    // ID antigo
+    gtag('config', 'G-9DWZF8HNH3');
+    // ID novo
+    gtag('config', 'G-7XVQLCM381');
+  </script>
+
+  <link rel="canonical" href="https://www.tclouddrive.com.br/transferir">
+
   <style>
     :root{
       --tc-primary:#00A3FF; --tc-primary-600:#0086D1; --tc-accent:#6EE7FF;
@@ -17,7 +41,8 @@
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial; color:var(--tc-text);
+    body{
+      margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial; color:var(--tc-text);
       background:radial-gradient(1200px 600px at 60% -10%, rgba(0,163,255,.15), transparent 60%),
                  radial-gradient(800px 500px at 10% 10%, rgba(110,231,255,.08), transparent 55%),
                  linear-gradient(180deg, #0b1220, #0a0f1b 35%, #0b1220);
@@ -25,17 +50,7 @@
     a{color:var(--tc-accent); text-decoration:none}
     a:hover{text-decoration:underline}
     .container{max-width:var(--grid-max); margin:0 auto; padding:0 20px}
-    /* NAV */
-    nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(130%) blur(14px); background:color-mix(in oklab, var(--tc-surface) 65%, transparent); border-bottom:1px solid var(--tc-border)}
-    .nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
-    .brand{display:flex; gap:12px; align-items:center}
-    .brand .name{font-weight:800; letter-spacing:.2px; font-size:18px}
-    .nav-links{display:flex; gap:20px; align-items:center}
-    .nav-links a.active{color:#fff; font-weight:800}
-    .btn{border:1px solid transparent; background:var(--tc-primary); color:#001425; padding:10px 16px; border-radius:999px; font-weight:800; box-shadow:var(--shadow-md); cursor:pointer}
-    .btn:hover{background:var(--tc-primary-600); color:#001425}
-    .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text); font-weight:700}
-    .btn.ghost:hover{border-color:var(--tc-primary)}
+
     /* HERO */
     .hero{padding:64px 0 24px}
     .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center}
@@ -43,6 +58,7 @@
     h1{font-size:42px; line-height:1.1; margin:12px 0 14px}
     .lead{font-size:18px; color:var(--tc-text-muted); max-width:60ch}
     .hero-card{background:linear-gradient(180deg, #0f172a, #111a30); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-lg)}
+
     /* SECTIONS */
     .section{padding:48px 0}
     .section h2{font-size:28px; margin:0 0 12px}
@@ -61,6 +77,13 @@
     .check{color:var(--tc-success); font-weight:800}
     .dash{color:var(--tc-text-muted)}
     .small{font-size:13px; color:var(--tc-text-muted)}
+
+    /* BOTÕES / CONTROLES */
+    .btn{border:1px solid transparent; background:var(--tc-primary); color:#001425; padding:10px 16px; border-radius:999px; font-weight:800; box-shadow:var(--shadow-md); cursor:pointer}
+    .btn:hover{background:var(--tc-primary-600); color:#001425}
+    .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text); font-weight:700}
+    .btn.ghost:hover{border-color:var(--tc-primary)}
+
     /* TRANSFER UI */
     .transfer{display:grid; grid-template-columns:1.2fr .8fr; gap:20px}
     .drop{border:2px dashed var(--tc-border); border-radius:16px; padding:18px; text-align:center; transition:.2s}
@@ -77,56 +100,30 @@
     .switch input{transform:scale(1.2)}
     .result{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:12px; padding:16px; word-break:break-all}
     .copy{margin-left:8px}
+
     /* FOOTER */
     footer{padding:40px 0; border-top:1px solid var(--tc-border); background:color-mix(in oklab, var(--tc-surface) 65%, transparent)}
     .foot{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:20px}
     .credits{color:var(--tc-text-muted); font-size:13px}
+
     /* RWD */
-    @media (max-width:1024px){.hero-grid{grid-template-columns:1fr}.transfer{grid-template-columns:1fr}.grid.cols-4{grid-template-columns:1fr 1fr}.grid.cols-3{grid-template-columns:1fr 1fr}.grid.cols-2{grid-template-columns:1fr}.foot{grid-template-columns:1fr 1fr}}
-    @media (max-width:640px){h1{font-size:34px}.foot{grid-template-columns:1fr}}
+    @media (max-width:1024px){
+      .hero-grid{grid-template-columns:1fr}
+      .transfer{grid-template-columns:1fr}
+      .grid.cols-4{grid-template-columns:1fr 1fr}
+      .grid.cols-3{grid-template-columns:1fr 1fr}
+      .grid.cols-2{grid-template-columns:1fr}
+      .foot{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:640px){
+      h1{font-size:34px}
+      .foot{grid-template-columns:1fr}
+    }
   </style>
-
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-
-<!-- Google tag (GA4) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-9DWZF8HNH3');
-</script>
-
-<link rel="canonical" href="https://www.tclouddrive.com.br/transferir">
 </head>
 <body>
-  <!-- ===== NAV ===== -->
-  <nav>
-    <div class="container nav-wrap">
-      <div class="brand">
-        <img src="logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block;"/>
-        <span class="name">TCloud</span>
-      </div>
-      <div class="nav-links">
-        <a class="btn ghost" href="/">Início</a>
-        <a class="btn ghost" href="/zero-knowledge">Zero‑Knowledge</a>
-        <a class="btn ghost" href="/sobre">Sobre</a>
-        <a class="btn ghost" href="/recursos">Recursos</a>
-        <a class="btn ghost" href="/regioes">Regiões</a>
-        <a class="btn ghost" href="/precos">Preços</a>
-        <a class="btn ghost" href="/afiliados">Afiliados</a>
-        <a class="btn ghost" href="/revenda">Revenda</a>
-        <a class="btn ghost" href="/download">Download</a>
-        <a class="btn ghost" href="/empresarial">Empresarial</a>
-        <a class="btn ghost" href="/pass">Pass</a>
-        <a class="btn ghost active" href="#">Transferir</a>
-        <a class="btn" href="#cta">Começar</a>
-      </div>
-    </div>
-  </nav>
+  <!-- Header dinâmico -->
+  <div id="site-header" data-active="transfer"></div>
 
   <!-- ===== HERO ===== -->
   <header class="hero">
@@ -134,7 +131,7 @@
       <div>
         <span class="chip">TCloud Transfer</span>
         <h1>Envie arquivos grandes com link, senha e expiração</h1>
-        <p class="lead">Funciona mesmo sem conta. Para envios maiores, crie uma conta TCloud e acompanhe downloads. Opção de criptografia no cliente para Zero‑Knowledge no link.</p>
+        <p class="lead">Funciona mesmo sem conta. Para envios maiores, crie uma conta TCloud e acompanhe downloads. Opção de criptografia no cliente para Zero-Knowledge no link.</p>
         <div style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap">
           <a class="btn" href="#transfer">Criar link agora</a>
           <a class="btn ghost" href="#solicitar">Solicitar arquivos</a>
@@ -155,7 +152,7 @@
   <section id="transfer" class="section">
     <div class="container">
       <h2>Crie seu link de transferência</h2>
-      <p class="subtitle">Demonstração front‑end para gravação de vídeo. Substitua por sua API de upload ao publicar.</p>
+      <p class="subtitle">Demonstração front-end para gravação de vídeo. Substitua por sua API de upload ao publicar.</p>
       <div class="transfer">
         <!-- Left: form -->
         <div class="card">
@@ -170,7 +167,7 @@
               <label for="mode">Modo de envio</label>
               <select id="mode">
                 <option value="link" selected>Gerar link</option>
-                <option value="email">Enviar por e‑mail</option>
+                <option value="email">Enviar por e-mail</option>
               </select>
             </div>
             <div>
@@ -194,11 +191,11 @@
           </div>
           <div class="row" id="emails" style="margin-top:12px; display:none">
             <div>
-              <label for="to">Para (e‑mail)</label>
+              <label for="to">Para (e-mail)</label>
               <input id="to" type="email" placeholder="destinatario@exemplo.com" />
             </div>
             <div>
-              <label for="from">De (seu e‑mail)</label>
+              <label for="from">De (seu e-mail)</label>
               <input id="from" type="email" placeholder="voce@exemplo.com" />
             </div>
           </div>
@@ -238,7 +235,7 @@
               <button id="open" class="btn ghost" type="button">Abrir</button>
             </div>
           </div>
-          <p class="small" style="margin-top:12px">Demonstração sem upload real. Para produção: integre armazenamento, geração de link e e‑mail transacional.</p>
+          <p class="small" style="margin-top:12px">Demonstração sem upload real. Para produção: integre armazenamento, geração de link e e-mail transacional.</p>
         </div>
       </div>
     </div>
@@ -251,10 +248,10 @@
       <div class="grid cols-3">
         <div class="card"><h3>Sem conta (grátis)</h3><p>Envie rapidamente com senha e expiração. Compartilhe o link por qualquer app.</p></div>
         <div class="card"><h3>Com conta</h3><p>Acompanhe downloads, aumente limites e reutilize contatos.</p></div>
-        <div class="card"><h3>Zero‑Knowledge opcional</h3><p>Ative senha para criptografar no cliente; apenas quem tem a senha abre.</p></div>
+        <div class="card"><h3>Zero-Knowledge opcional</h3><p>Ative senha para criptografar no cliente; apenas quem tem a senha abre.</p></div>
         <div class="card"><h3>Links profissionais</h3><p>Personalize expiração, limite de downloads e página de destino.</p></div>
         <div class="card"><h3>Multiplataforma</h3><p>Funciona no navegador, desktop e mobile. Sem plugins.</p></div>
-        <div class="card"><h3>Comprovante</h3><p>Receba confirmação quando o arquivo for baixado (modo e‑mail).</p></div>
+        <div class="card"><h3>Comprovante</h3><p>Receba confirmação quando o arquivo for baixado (modo e-mail).</p></div>
       </div>
     </div>
   </section>
@@ -333,13 +330,13 @@
           <img src="logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block;"/>
           <strong>TCloud</strong>
         </div>
-        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero‑Knowledge de verdade.</p>
+        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero-Knowledge de verdade.</p>
       </div>
       <div>
         <strong>Produto</strong>
         <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
           <li><a href="/">Início</a></li>
-          <li><a href="/zero-knowledge">Zero‑Knowledge</a></li>
+          <li><a href="/zero-knowledge">Zero-Knowledge</a></li>
           <li><a href="/sobre">Sobre</a></li>
           <li><a href="/recursos">Recursos</a></li>
           <li><a href="/regioes">Regiões</a></li>
@@ -357,7 +354,7 @@
         <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
           <li><a href="/faq">FAQ</a></li>
           <li><a href="/opcoes-de-privacidade">Opções de Privacidade</a></li>
-          <li><a href="/contato">Contate‑nos</a></li>
+          <li><a href="/contato">Contate-nos</a></li>
           <li><a href="/notas-de-versao">Notas de Versão</a></li>
         </ul>
       </div>
@@ -416,7 +413,12 @@
     let fileList = [];
 
     function renderFiles(){
-      if(!fileList.length){ filesEl.style.display='none'; countEl.textContent='0 arquivo(s)'; sizeEl.textContent='0 B'; return; }
+      if(!fileList.length){
+        filesEl.style.display='none';
+        countEl.textContent='0 arquivo(s)';
+        sizeEl.textContent='0 B';
+        return;
+      }
       filesEl.style.display='block';
       filesEl.innerHTML='';
       let total=0;
@@ -427,7 +429,7 @@
         row.innerHTML=`<div>${f.name}</div><div class="small">${fmtBytes(f.size||0)}</div><button class="btn ghost" data-rm="${idx}" type="button">Remover</button>`;
         filesEl.appendChild(row);
       });
-      filesEl.querySelectorAll('button[data-rm]').forEach(b=>b.onclick=(e)=>{ const i=Number(b.dataset.rm); fileList.splice(i,1); renderFiles(); });
+      filesEl.querySelectorAll('button[data-rm]').forEach(b=>b.onclick=()=>{ const i=Number(b.dataset.rm); fileList.splice(i,1); renderFiles(); });
       countEl.textContent=`${fileList.length} arquivo(s)`;
       sizeEl.textContent=fmtBytes(total);
     }
@@ -445,7 +447,7 @@
       const linkMode = mode.value==='link';
       emails.style.display = linkMode? 'none':'grid';
       msgwrap.style.display = linkMode? 'none':'block';
-      modePill.textContent = `Modo: ${linkMode? 'link':'e‑mail'}`;
+      modePill.textContent = `Modo: ${linkMode? 'link':'e-mail'}`;
     });
 
     gen.addEventListener('click',()=>{
