@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://www.tclouddrive.com.br/</loc><lastmod>2025-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tclouddrive.com.br/zero-knowledge</loc><lastmod>2025-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tclouddrive.com.br/sobre</loc><lastmod>2025-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tclouddrive.com.br/recursos</loc><lastmod>2025-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tclouddrive.com.br/recursos/gerenciamento-de-arquivos</loc><lastmod>2025-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tclouddrive.com.br/regioes</loc><lastmod>2025-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tclouddrive.com.br/precos</loc><lastmod>2025-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tclouddrive.com.br/afiliados</loc><lastmod>2025-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tclouddrive.com.br/revenda</loc><lastmod>2025-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tclouddrive.com.br/download</loc><lastmod>2025-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tclouddrive.com.br/empresarial</loc><lastmod>2025-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tclouddrive.com.br/pass</loc><lastmod>2025-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tclouddrive.com.br/transferir</loc><lastmod>2025-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tclouddrive.com.br/compartilhar</loc><lastmod>2025-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tclouddrive.com.br/seguranca</loc><lastmod>2025-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tclouddrive.com.br/backup</loc><lastmod>2025-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tclouddrive.com.br/dam</loc><lastmod>2025-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.tclouddrive.com.br/familia</loc><lastmod>2025-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- Home -->
+  <url>
+    <loc>https://www.tclouddrive.com.br/</loc>
+    <lastmod>2025-09-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Páginas principais -->
+  <url><loc>https://www.tclouddrive.com.br/encrypted.html</loc><lastmod>2025-09-05</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tclouddrive.com.br/features.html</loc><lastmod>2025-09-05</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tclouddrive.com.br/data-regions.html</loc><lastmod>2025-09-05</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tclouddrive.com.br/pricing.html</loc><lastmod>2025-09-05</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.tclouddrive.com.br/affiliate.html</loc><lastmod>2025-09-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tclouddrive.com.br/reseller.html</loc><lastmod>2025-09-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tclouddrive.com.br/downloads.html</loc><lastmod>2025-09-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tclouddrive.com.br/business.html</loc><lastmod>2025-09-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tclouddrive.com.br/pass.html</loc><lastmod>2025-09-05</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tclouddrive.com.br/transfer.html</loc><lastmod>2025-09-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tclouddrive.com.br/sharing.html</loc><lastmod>2025-09-05</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tclouddrive.com.br/security.html</loc><lastmod>2025-09-05</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tclouddrive.com.br/backup.html</loc><lastmod>2025-09-05</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.tclouddrive.com.br/dam.html</loc><lastmod>2025-09-05</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.tclouddrive.com.br/about.html</loc><lastmod>2025-09-05</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+
+  <!-- Suporte / Legal / Utilidade -->
+  <url><loc>https://www.tclouddrive.com.br/help-faq.html</loc><lastmod>2025-09-05</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.tclouddrive.com.br/privacy-options.html</loc><lastmod>2025-09-05</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.tclouddrive.com.br/releases-notes.html</loc><lastmod>2025-09-05</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
 </urlset>
