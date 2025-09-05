@@ -4,8 +4,31 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>TCloud — Compartilhamento de Arquivos e Pastas</title>
-  <meta name="description" content="Compartilhe com segurança: links com senha e expiração, permissões granulares, pastas de equipe, solicitações de arquivo e auditoria. Zero‑Knowledge por padrão." />
+  <meta name="description" content="Compartilhe com segurança: links com senha e expiração, permissões granulares, pastas de equipe, solicitações de arquivo e auditoria. Zero-Knowledge por padrão." />
   <meta name="color-scheme" content="dark light">
+
+  <!-- Header dinâmico + normalizador de links -->
+  <script defer src="/include.js"></script>
+
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <!-- Google tag (GA4 dual tag) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    // ID antigo + ID novo
+    gtag('config', 'G-9DWZF8HNH3');
+    gtag('config', 'G-7XVQLCM381');
+  </script>
+
+  <link rel="canonical" href="https://www.tclouddrive.com.br/compartilhar">
+
   <style>
     :root{
       --tc-primary:#00A3FF; --tc-primary-600:#0086D1; --tc-accent:#6EE7FF;
@@ -17,7 +40,8 @@
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial; color:var(--tc-text);
+    body{
+      margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial; color:var(--tc-text);
       background:radial-gradient(1200px 600px at 60% -10%, rgba(0,163,255,.15), transparent 60%),
                  radial-gradient(800px 500px at 10% 10%, rgba(110,231,255,.08), transparent 55%),
                  linear-gradient(180deg, #0b1220, #0a0f1b 35%, #0b1220);
@@ -25,17 +49,7 @@
     a{color:var(--tc-accent); text-decoration:none}
     a:hover{text-decoration:underline}
     .container{max-width:var(--grid-max); margin:0 auto; padding:0 20px}
-    /* NAV */
-    nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(130%) blur(14px); background:color-mix(in oklab, var(--tc-surface) 65%, transparent); border-bottom:1px solid var(--tc-border)}
-    .nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
-    .brand{display:flex; gap:12px; align-items:center}
-    .brand .name{font-weight:800; letter-spacing:.2px; font-size:18px}
-    .nav-links{display:flex; gap:20px; align-items:center}
-    .nav-links a.active{color:#fff; font-weight:800}
-    .btn{border:1px solid transparent; background:var(--tc-primary); color:#001425; padding:10px 16px; border-radius:999px; font-weight:800; box-shadow:var(--shadow-md); cursor:pointer}
-    .btn:hover{background:var(--tc-primary-600); color:#001425}
-    .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text); font-weight:700}
-    .btn.ghost:hover{border-color:var(--tc-primary)}
+
     /* HERO */
     .hero{padding:64px 0 24px}
     .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center}
@@ -43,6 +57,7 @@
     h1{font-size:42px; line-height:1.1; margin:12px 0 14px}
     .lead{font-size:18px; color:var(--tc-text-muted); max-width:60ch}
     .hero-card{background:linear-gradient(180deg, #0f172a, #111a30); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-lg)}
+
     /* SECTIONS */
     .section{padding:48px 0}
     .section h2{font-size:28px; margin:0 0 12px}
@@ -61,65 +76,47 @@
     tr:last-child td{border-bottom:none}
     .check{color:var(--tc-success); font-weight:800}
     .dash{color:var(--tc-text-muted)}
+
     /* BUILDER */
     .builder{display:grid; grid-template-columns:1.2fr .8fr; gap:20px}
     label{font-weight:700; margin-bottom:6px; display:block}
-    input[type="text"], input[type="password"], input[type="number"], input[type="email"], select{width:100%; padding:10px 12px; border-radius:12px; border:1px solid var(--tc-border); background:transparent; color:var(--tc-text)}
+    input[type="text"], input[type="password"], input[type="number"], input[type="email"], select{
+      width:100%; padding:10px 12px; border-radius:12px; border:1px solid var(--tc-border); background:transparent; color:var(--tc-text)
+    }
     .switch{display:flex; align-items:center; gap:10px}
     .switch input{transform:scale(1.2)}
     .result{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:12px; padding:16px; word-break:break-all}
     .pill{display:inline-block; padding:2px 8px; border-radius:999px; border:1px solid var(--tc-border); font-size:12px; color:var(--tc-text-muted)}
+
+    /* Buttons */
+    .btn{border:1px solid transparent; background:var(--tc-primary); color:#001425; padding:10px 16px; border-radius:999px; font-weight:800; box-shadow:var(--shadow-md); cursor:pointer}
+    .btn:hover{background:var(--tc-primary-600); color:#001425}
+    .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text); font-weight:700}
+    .btn.ghost:hover{border-color:var(--tc-primary)}
+
     /* FOOTER */
     footer{padding:40px 0; border-top:1px solid var(--tc-border); background:color-mix(in oklab, var(--tc-surface) 65%, transparent)}
     .foot{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:20px}
     .credits{color:var(--tc-text-muted); font-size:13px}
+
     /* RWD */
-    @media (max-width:1024px){.hero-grid{grid-template-columns:1fr}.builder{grid-template-columns:1fr}.grid.cols-4{grid-template-columns:1fr 1fr}.grid.cols-3{grid-template-columns:1fr 1fr}.grid.cols-2{grid-template-columns:1fr}.foot{grid-template-columns:1fr 1fr}}
-    @media (max-width:640px){h1{font-size:34px}.foot{grid-template-columns:1fr}}
+    @media (max-width:1024px){
+      .hero-grid{grid-template-columns:1fr}
+      .builder{grid-template-columns:1fr}
+      .grid.cols-4{grid-template-columns:1fr 1fr}
+      .grid.cols-3{grid-template-columns:1fr 1fr}
+      .grid.cols-2{grid-template-columns:1fr}
+      .foot{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:640px){
+      h1{font-size:34px}
+      .foot{grid-template-columns:1fr}
+    }
   </style>
-
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-
-<!-- Google tag (GA4) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-9DWZF8HNH3');
-</script>
-
-<link rel="canonical" href="https://www.tclouddrive.com.br/compartilhar">
 </head>
 <body>
-  <!-- ===== NAV ===== -->
-  <nav>
-    <div class="container nav-wrap">
-      <div class="brand">
-        <img src="logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block;"/>
-        <span class="name">TCloud</span>
-      </div>
-      <div class="nav-links">
-        <a class="btn ghost" href="/">Início</a>
-        <a class="btn ghost" href="/zero-knowledge">Zero‑Knowledge</a>
-        <a class="btn ghost" href="/sobre">Sobre</a>
-        <a class="btn ghost" href="/recursos">Recursos</a>
-        <a class="btn ghost" href="/regioes">Regiões</a>
-        <a class="btn ghost" href="/precos">Preços</a>
-        <a class="btn ghost" href="/afiliados">Afiliados</a>
-        <a class="btn ghost" href="/revenda">Revenda</a>
-        <a class="btn ghost" href="/download">Download</a>
-        <a class="btn ghost" href="/empresarial">Empresarial</a>
-        <a class="btn ghost" href="/pass">Pass</a>
-        <a class="btn ghost" href="/transferir">Transferir</a>
-        <a class="btn ghost active" href="#">Compartilhar</a>
-        <a class="btn" href="#cta">Começar</a>
-      </div>
-    </div>
-  </nav>
+  <!-- Header dinâmico -->
+  <div id="site-header" data-active="sharing"></div>
 
   <!-- ===== HERO ===== -->
   <header class="hero">
@@ -127,7 +124,7 @@
       <div>
         <span class="chip">Compartilhamento seguro</span>
         <h1>Links com senha, expiração e permissões<br/>pastas de equipe e auditoria completa</h1>
-        <p class="lead">Controle total sobre quem vê, edita ou baixa. Zero‑Knowledge por padrão e opções avançadas para equipes.</p>
+        <p class="lead">Controle total sobre quem vê, edita ou baixa. Zero-Knowledge por padrão e opções avançadas para equipes.</p>
         <div style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap">
           <a class="btn" href="#builder">Criar link (demo)</a>
           <a class="btn ghost" href="#permissoes">Ver permissões</a>
@@ -138,7 +135,7 @@
         <ul style="margin:0; padding-left:18px; color:var(--tc-text-muted)">
           <li>Senha e expiração por link</li>
           <li>Limite de downloads</li>
-          <li>Leitura, edição ou upload‑apenas</li>
+          <li>Leitura, edição ou upload-apenas</li>
           <li>Pastas de equipe</li>
           <li>Branding e domínio custom (Business)</li>
         </ul>
@@ -150,7 +147,7 @@
   <section id="builder" class="section">
     <div class="container">
       <h2>Crie um link de compartilhamento (demonstração)</h2>
-      <p class="subtitle">Interface front‑end para gravação. Troque os pontos marcados por sua API ao publicar.</p>
+      <p class="subtitle">Esta demonstração gera um link local no navegador. Em produção, a TCloud usa endpoints próprios com proteção Zero-Knowledge.</p>
       <div class="builder">
         <div class="card">
           <div class="grid cols-2">
@@ -166,7 +163,7 @@
               <select id="perm">
                 <option value="view" selected>Somente leitura</option>
                 <option value="edit">Leitura e edição</option>
-                <option value="upload">Upload‑apenas (coleta)</option>
+                <option value="upload">Upload-apenas (coleta)</option>
               </select>
             </div>
           </div>
@@ -185,7 +182,7 @@
             </div>
           </div>
           <div style="margin-top:12px" class="grid cols-2">
-            <div class="switch"><input id="pwdOn" type="checkbox" /><label for="pwdOn">Proteger com senha (Zero‑Knowledge no link)</label></div>
+            <div class="switch"><input id="pwdOn" type="checkbox" /><label for="pwdOn">Proteger com senha (Zero-Knowledge no link)</label></div>
             <div id="pwdWrap" style="display:none"><input id="pwd" type="password" placeholder="Mínimo 8 caracteres" /></div>
           </div>
           <div style="margin-top:12px" class="grid cols-2">
@@ -194,7 +191,7 @@
           </div>
           <div style="margin-top:14px; display:flex; gap:10px; align-items:center">
             <button id="gen" class="btn" type="button">Gerar link</button>
-            <span class="small">Placeholder: gere a URL via API no lançamento.</span>
+            <span class="small">Geração local para demonstração.</span>
           </div>
         </div>
         <div class="card">
@@ -219,7 +216,7 @@
               <button id="open" class="btn ghost" type="button">Abrir</button>
             </div>
           </div>
-          <p class="small" style="margin-top:10px">Dica: para coleta de arquivos, use “Upload‑apenas” ou <a href="/transferir#solicitar">Solicitar arquivos</a>.</p>
+          <p class="small" style="margin-top:10px">Dica: para coleta de arquivos, use “Upload-apenas” ou <a href="/transfer.html#solicitar">Solicitar arquivos</a>.</p>
         </div>
       </div>
     </div>
@@ -231,7 +228,7 @@
       <h2>Permissões e controles</h2>
       <div class="table">
         <table aria-label="Matriz de permissões">
-          <thead><tr><th>Ação</th><th>Somente leitura</th><th>Edição</th><th>Upload‑apenas</th></tr></thead>
+          <thead><tr><th>Ação</th><th>Somente leitura</th><th>Edição</th><th>Upload-apenas</th></tr></thead>
           <tbody>
             <tr><td>Visualizar/baixar</td><td class="check">✔</td><td class="check">✔</td><td class="dash">—</td></tr>
             <tr><td>Enviar/atualizar</td><td class="dash">—</td><td class="check">✔</td><td class="check">✔ (novo arquivo)</td></tr>
@@ -263,9 +260,9 @@
       <h2>Opções avançadas</h2>
       <div class="grid cols-2">
         <div class="card"><h3>Branding</h3><p>Cor, logo e domínio customizado nos links públicos (ex.: <code>links.suaempresa.com</code>).</p></div>
-        <div class="card"><h3>Visualizador seguro</h3><p>Pré‑visualize PDFs, imagens e vídeos sem baixar. Opção de bloquear download.</p></div>
-        <div class="card"><h3>Watermark</h3><p>Sobreposição com e‑mail/data do receptor para dissuadir repasse indevido.</p></div>
-        <div class="card"><h3>Proteção por senha</h3><p>Senhas fortes aplicam criptografia no cliente (ajuste conforme implementação).</p></div>
+        <div class="card"><h3>Visualizador seguro</h3><p>Pré-visualize PDFs, imagens e vídeos sem baixar. Opção de bloquear download.</p></div>
+        <div class="card"><h3>Watermark</h3><p>Sobreposição com e-mail/data do receptor para dissuadir repasse indevido.</p></div>
+        <div class="card"><h3>Proteção por senha</h3><p>Senhas de link aplicam criptografia no cliente (Zero-Knowledge) — conteúdo só abre para quem possui a senha.</p></div>
       </div>
     </div>
   </section>
@@ -274,10 +271,10 @@
   <section class="section">
     <div class="container">
       <h2>Perguntas frequentes</h2>
-      <details><summary>Posso compartilhar sem criar conta?</summary><p>Sim, via <a href="/transferir">TCloud Transfer</a>. Para controles extras (branding, auditoria), use uma conta TCloud.</p></details>
+      <details><summary>Posso compartilhar sem criar conta?</summary><p>Sim, via <a href="/transfer.html">TCloud Transfer</a>. Para controles extras (branding, auditoria), use uma conta TCloud.</p></details>
       <details><summary>O que acontece após a expiração?</summary><p>O link deixa de funcionar. Você pode renovar ou criar um novo link a qualquer momento.</p></details>
       <details><summary>Como impedir downloads?</summary><p>Use o visualizador seguro com bloqueio de download e/ou watermark. Ideal para revisões rápidas.</p></details>
-      <details><summary>Zero‑Knowledge vale para links?</summary><p>Com senha, o link pode aplicar criptografia no cliente (Zero‑Knowledge). Sem senha, os controles permanecem, mas ajuste a política de dados conforme sua oferta.</p></details>
+      <details><summary>Zero-Knowledge vale para links?</summary><p>Com senha, o link aplica criptografia no cliente (Zero-Knowledge). Sem senha, os controles permanecem, mas sem proteção de conteúdo por senha.</p></details>
     </div>
   </section>
 
@@ -289,7 +286,7 @@
         <p class="subtitle">Crie sua conta TCloud e habilite controles avançados de compartilhamento.</p>
       </div>
       <div>
-        <a class="btn" href="/precos">Começar agora</a>
+        <a class="btn" href="/pricing.html">Começar agora</a>
       </div>
     </div>
   </section>
@@ -301,41 +298,40 @@
           <img src="logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block;"/>
           <strong>TCloud</strong>
         </div>
-        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero‑Knowledge de verdade.</p>
+        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero-Knowledge de verdade.</p>
       </div>
       <div>
         <strong>Produto</strong>
         <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
-          <li><a href="/">Início</a></li>
-          <li><a href="/zero-knowledge">Zero‑Knowledge</a></li>
-          <li><a href="/sobre">Sobre</a></li>
-          <li><a href="/recursos">Recursos</a></li>
-          <li><a href="/regioes">Regiões</a></li>
-          <li><a href="/precos">Preços</a></li>
-          <li><a href="/afiliados">Afiliados</a></li>
-          <li><a href="/revenda">Revenda</a></li>
-          <li><a href="/download">Download</a></li>
-          <li><a href="/empresarial">Empresarial</a></li>
-          <li><a href="/pass">Pass</a></li>
-          <li><a href="/transferir">Transferir</a></li>
-          <li><a href="#">Compartilhar</a></li>
+          <li><a href="/index.html">Início</a></li>
+          <li><a href="/encrypted.html">Zero-Knowledge</a></li>
+          <li><a href="/features.html">Recursos</a></li>
+          <li><a href="/data-regions.html">Regiões</a></li>
+          <li><a href="/pricing.html">Preços</a></li>
+          <li><a href="/affiliate.html">Afiliados</a></li>
+          <li><a href="/reseller.html">Revenda</a></li>
+          <li><a href="/downloads.html">Download</a></li>
+          <li><a href="/business.html">Empresarial</a></li>
+          <li><a href="/pass.html">Pass</a></li>
+          <li><a href="/transfer.html">Transferir</a></li>
+          <li><a href="/sharing.html">Compartilhar</a></li>
         </ul>
       </div>
       <div>
         <strong>Suporte</strong>
         <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
-          <li><a href="/faq">FAQ</a></li>
-          <li><a href="/opcoes-de-privacidade">Opções de Privacidade</a></li>
-          <li><a href="/contato">Contate‑nos</a></li>
-          <li><a href="/notas-de-versao">Notas de Versão</a></li>
+          <li><a href="/help-faq.html">FAQ</a></li>
+          <li><a href="/privacy-options.html">Opções de Privacidade</a></li>
+          <li><a href="/contact.html">Contate-nos</a></li>
+          <li><a href="/releases-notes.html">Notas de Versão</a></li>
         </ul>
       </div>
       <div>
         <strong>Community</strong>
         <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
-          <li><a href="/afiliados">Programa de Afiliados</a></li>
-          <li><a href="/revenda">Revendedores</a></li>
-          <li><a href="/para-desenvolvedores">Para Desenvolvedores</a></li>
+          <li><a href="/affiliate.html">Programa de Afiliados</a></li>
+          <li><a href="/reseller.html">Revendedores</a></li>
+          <li><a href="/developers.html">Para Desenvolvedores</a></li>
         </ul>
       </div>
     </div>
@@ -402,14 +398,14 @@
       result.style.display='block';
     });
 
-    copy.addEventListener('click',()=>{ const r=document.createRange(); r.selectNode(link); const sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(r); document.execCommand('copy'); sel.removeAllRanges(); copy.textContent='Copiado!'; setTimeout(()=>copy.textContent='Copiar',900); });
+    copy.addEventListener('click',()=>{
+      const r=document.createRange(); r.selectNode(link);
+      const sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      document.execCommand('copy'); sel.removeAllRanges();
+      copy.textContent='Copiado!'; setTimeout(()=>copy.textContent='Copiar',900);
+    });
+
     openBtn.addEventListener('click',()=>{ const u=link.textContent; if(u) window.open(u,'_blank'); });
   </script>
 </body>
 </html>
-
-#Como usar
-#Salve como sharing.html (ou features-sharing.html, se preferir).
-#Garanta logo-tcloud.png na mesma pasta.
-#Para vídeo, a página já funciona (links de exemplo tcloud.link/...).
-#Em produção, troque a geração de link pelos endpoints reais (upload/shortlink/branding).
