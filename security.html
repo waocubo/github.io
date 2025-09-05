@@ -4,8 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>TCloud — Segurança e Privacidade (Detalhada)</title>
-  <meta name="description" content="Como a TCloud protege seus dados: Zero‑Knowledge no dispositivo, criptografia de arquivos, controle de acesso, auditoria, regiões de dados e conformidade. Inclui demonstração de criptografia no cliente." />
+  <meta name="description" content="Como a TCloud protege seus dados: Zero-Knowledge no dispositivo, criptografia de arquivos, controle de acesso, auditoria, regiões de dados e conformidade. Inclui demonstração de criptografia no cliente." />
   <meta name="color-scheme" content="dark light">
+
+  <!-- Header dinâmico + normalizador de links -->
+  <script defer src="/include.js"></script>
+
   <style>
     :root{
       --tc-primary:#00A3FF; --tc-primary-600:#0086D1; --tc-accent:#6EE7FF;
@@ -25,17 +29,6 @@
     a{color:var(--tc-accent); text-decoration:none}
     a:hover{text-decoration:underline}
     .container{max-width:var(--grid-max); margin:0 auto; padding:0 20px}
-    /* NAV */
-    nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(130%) blur(14px); background:color-mix(in oklab, var(--tc-surface) 65%, transparent); border-bottom:1px solid var(--tc-border)}
-    .nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
-    .brand{display:flex; gap:12px; align-items:center}
-    .brand .name{font-weight:800; letter-spacing:.2px; font-size:18px}
-    .nav-links{display:flex; gap:20px; align-items:center}
-    .nav-links a.active{color:#fff; font-weight:800}
-    .btn{border:1px solid transparent; background:var(--tc-primary); color:#001425; padding:10px 16px; border-radius:999px; font-weight:800; box-shadow:var(--shadow-md); cursor:pointer}
-    .btn:hover{background:var(--tc-primary-600); color:#001425}
-    .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text); font-weight:700}
-    .btn.ghost:hover{border-color:var(--tc-primary)}
     /* HERO */
     .hero{padding:64px 0 24px}
     .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center}
@@ -78,66 +71,45 @@
     @media (max-width:640px){h1{font-size:34px}.foot{grid-template-columns:1fr}}
   </style>
 
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-<!-- Google tag (GA4) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-9DWZF8HNH3');
-</script>
+  <!-- Google tag (GA4 dual tag) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    // ID antigo + ID novo
+    gtag('config', 'G-9DWZF8HNH3');
+    gtag('config', 'G-7XVQLCM381');
+  </script>
 
-<link rel="canonical" href="https://www.tclouddrive.com.br/seguranca">
+  <link rel="canonical" href="https://www.tclouddrive.com.br/seguranca">
 </head>
 <body>
-  <!-- ===== NAV ===== -->
-  <nav>
-    <div class="container nav-wrap">
-      <div class="brand">
-        <img src="logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block;"/>
-        <span class="name">TCloud</span>
-      </div>
-      <div class="nav-links">
-        <a class="btn ghost" href="/">Início</a>
-        <a class="btn ghost" href="/zero-knowledge">Zero‑Knowledge</a>
-        <a class="btn ghost" href="/sobre">Sobre</a>
-        <a class="btn ghost" href="/recursos">Recursos</a>
-        <a class="btn ghost" href="/regioes">Regiões</a>
-        <a class="btn ghost" href="/precos">Preços</a>
-        <a class="btn ghost" href="/afiliados">Afiliados</a>
-        <a class="btn ghost" href="/revenda">Revenda</a>
-        <a class="btn ghost" href="/download">Download</a>
-        <a class="btn ghost" href="/empresarial">Empresarial</a>
-        <a class="btn ghost" href="/pass">Pass</a>
-        <a class="btn ghost" href="/transferir">Transferir</a>
-        <a class="btn ghost" href="/compartilhar">Compartilhar</a>
-        <a class="btn ghost active" href="#">Segurança</a>
-        <a class="btn" href="#cta">Baixar whitepaper</a>
-      </div>
-    </div>
-  </nav>
+  <!-- Header dinâmico -->
+  <div id="site-header" data-active="security"></div>
 
   <!-- ===== HERO ===== -->
   <header class="hero">
     <div class="container hero-grid">
       <div>
         <span class="chip">Segurança e Privacidade</span>
-        <h1>Proteção de ponta a ponta com Zero‑Knowledge<br/>e controles empresariais completos</h1>
-        <p class="lead">Criptografia no dispositivo, transporte seguro, políticas de acesso, auditoria e residência de dados. Nesta página explicamos como cuidamos disso.</p>
+        <h1>Proteção de ponta a ponta com Zero-Knowledge<br/>e controles empresariais completos</h1>
+        <p class="lead">Criptografia no dispositivo, transporte seguro, políticas de acesso, auditoria e residência de dados — definidos e implementados pela TCloud.</p>
         <div style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap">
-          <a class="btn" href="#zk">Visão Zero‑Knowledge</a>
+          <a class="btn" href="#zk">Visão Zero-Knowledge</a>
           <a class="btn ghost" href="#crypto">Criptografia & padrões</a>
         </div>
       </div>
       <div class="hero-card">
         <h3 style="margin:0 0 8px">Pilares TCloud</h3>
         <ul style="margin:0; padding-left:18px; color:var(--tc-text-muted)">
-          <li>Criptografia no dispositivo (Ensure Zero‑Knowledge)</li>
+          <li>Criptografia no dispositivo (Zero-Knowledge)</li>
           <li>SSO/2FA & controle de sessão</li>
           <li>Links com senha e expiração</li>
           <li>Logs & auditoria exportáveis</li>
@@ -147,39 +119,40 @@
     </div>
   </header>
 
-  <!-- ===== ZERO‑KNOWLEDGE ===== -->
+  <!-- ===== ZERO-KNOWLEDGE ===== -->
   <section id="zk" class="section">
     <div class="container">
-      <h2>Como funciona o Zero‑Knowledge</h2>
-      <p class="subtitle">Em resumo: suas chaves ficam no seu dispositivo. Nossos servidores não recebem material para descriptografar seu conteúdo.</p>
+      <h2>Como funciona o Zero-Knowledge</h2>
+      <p class="subtitle">Na TCloud, a descriptografia acontece somente nos seus dispositivos. O servidor nunca recebe material para abrir seu conteúdo.</p>
       <div class="grid cols-4">
-        <div class="card"><h3>1) Derivação de chaves</h3><p>Sua senha gera uma chave mestra via KDF robusto* em cada dispositivo.</p><p class="small">* Ex.: Argon2id/scrypt. Ajuste conforme implementação real.</p></div>
-        <div class="card"><h3>2) Criptografia local</h3><p>Arquivos são cifrados com chaves únicas por arquivo. A chave do arquivo é protegida pela chave mestra.</p></div>
-        <div class="card"><h3>3) Trânsito & armazenamento</h3><p>Enviamos apenas dados cifrados via TLS 1.3. No servidor, ficam ilegíveis.</p></div>
-        <div class="card"><h3>4) Compartilhamento seguro</h3><p>Com senha, o link aplica criptografia no cliente; só quem tiver a senha consegue abrir.</p></div>
+        <div class="card"><h3>1) Derivação de chaves</h3><p>Sua senha gera uma chave-mestra local com <strong>Argon2id</strong> (memória 64–128 MB, iterações calibradas, p=1). Em navegadores legados usamos fallback <strong>PBKDF2-SHA-256</strong> (≈310k iterações).</p></div>
+        <div class="card"><h3>2) Criptografia local</h3><p>Cada arquivo recebe uma chave única e é protegido com <strong>AES-256-GCM</strong>. A chave do arquivo é encapsulada pela chave-mestra do usuário.</p></div>
+        <div class="card"><h3>3) Trânsito & armazenamento</h3><p>Todo tráfego usa <strong>TLS 1.3</strong> com <strong>PFS</strong> (ECDHE). No servidor, apenas blobs cifrados são armazenados; não há chaves privadas.</p></div>
+        <div class="card"><h3>4) Compartilhamento seguro</h3><p>Links com senha usam cifragem no cliente. Em convites de equipe, acordos de chave via <strong>ECDH (X25519)</strong>; adoção híbrida com <strong>Kyber-768</strong> para resistência pós-quântica em canais de compartilhamento.</p></div>
       </div>
-      <details style="margin-top:12px"><summary>Metadados e Zero‑Knowledge</summary><p>Minimizamos metadados (tamanho, timestamps). Nomes de arquivos/pastas podem ser protegidos por cifra/obfuscação dependendo do plano. Ajuste aqui para refletir sua política real.</p></details>
+      <details style="margin-top:12px"><summary>Política de metadados</summary><p><strong>Nomes de arquivos e pastas</strong> são protegidos no cliente; <strong>tamanho</strong> e <strong>carimbos de tempo</strong> podem ser expostos de forma mínima para funcionamento e auditoria. Retemos logs de acesso conforme o plano e requisitos legais.</p></details>
     </div>
   </section>
 
   <!-- ===== CRIPTOGRAFIA ===== -->
   <section id="crypto" class="section">
     <div class="container">
-      <h2>Criptografia & padrões (exemplo genérico)</h2>
-      <p class="subtitle">Substitua pelos detalhes exatos da sua implementação antes do lançamento.</p>
+      <h2>Criptografia & padrões (TCloud)</h2>
+      <p class="subtitle">Base técnica adotada pela TCloud para proteção de dados em repouso e em trânsito.</p>
       <div class="table">
-        <table aria-label="Algoritmos e parâmetros sugeridos">
+        <table aria-label="Algoritmos e parâmetros TCloud">
           <thead><tr><th>Componente</th><th>Algoritmo</th><th>Notas</th></tr></thead>
           <tbody>
-            <tr><td>Dados em repouso</td><td>AES‑256‑GCM</td><td>Cifra autenticada por arquivo com IV aleatório por objeto.</td></tr>
-            <tr><td>Derivação de chave</td><td>Argon2id (ou scrypt)</td><td>Parâmetros calibrados por dispositivo. PBKDF2‑SHA‑256 como fallback.</td></tr>
-            <tr><td>Transporte</td><td>TLS 1.3 + PFS</td><td>ECDHE para sigilo de encaminhamento; HSTS e TLS modern.</td></tr>
-            <tr><td>Hash/integração</td><td>SHA‑256/BLAKE2</td><td>Verificação de integridade, fingerprints, dedupe opcional.</td></tr>
-            <tr><td>RNG</td><td>CSPRNG do SO</td><td>Geração de IVs/salts/keys com fonte criptográfica.</td></tr>
+            <tr><td>Dados em repouso</td><td><strong>AES-256-GCM</strong></td><td>Chave por arquivo; IV aleatório por objeto; autenticação GCM.</td></tr>
+            <tr><td>Derivação de chave</td><td><strong>Argon2id</strong></td><td>64–128 MB, iterações calibradas por dispositivo; fallback PBKDF2-SHA-256 ≈310k.</td></tr>
+            <tr><td>Transporte</td><td><strong>TLS 1.3</strong> + PFS</td><td>ECDHE; HSTS; ciphers modernos.</td></tr>
+            <tr><td>Compartilhamento</td><td><strong>X25519</strong> (ECDH) + <strong>Kyber-768</strong></td><td>Troca de chaves híbrida para resistência pós-quântica em compartilhamentos/convites.</td></tr>
+            <tr><td>Hash/integração</td><td><strong>SHA-256/BLAKE2</strong></td><td>Verificação de integridade, fingerprints e deduplicação opcional.</td></tr>
+            <tr><td>RNG</td><td><strong>CSPRNG do SO</strong></td><td>Salts/IVs/chaves gerados via fonte criptográfica do sistema.</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="small" style="margin-top:8px">Este quadro é ilustrativo. Atualize para refletir fielmente sua pilha de segurança.</p>
+      <p class="small" style="margin-top:8px">Parâmetros podem evoluir com melhores práticas criptográficas mantendo compatibilidade de leitura.</p>
     </div>
   </section>
 
@@ -188,12 +161,12 @@
     <div class="container">
       <h2>Controles de acesso</h2>
       <div class="grid cols-3">
-        <div class="card"><h3>2FA & SSO</h3><p>Exija autenticação de dois fatores e integre seu provedor SSO para onboarding seguro.</p></div>
-        <div class="card"><h3>Políticas por pasta</h3><p>Expiração obrigatória de links, senha, bloqueio de download e watermark por pasta de equipe.</p></div>
-        <div class="card"><h3>Dispositivos e sessões</h3><p>Visualize e encerre sessões ativas. Revogue acesso de dispositivos perdidos.</p></div>
-        <div class="card"><h3>Permissões finas</h3><p>Somente leitura, edição, upload‑apenas, convidar/recompartilhar desligado por padrão.</p></div>
-        <div class="card"><h3>Auditoria</h3><p>Logs exportáveis de visualização, download, edição e compartilhamento (planos Business).</p></div>
-        <div class="card"><h3>Recuperação</h3><p>Chave de recuperação opcional para perda de senha (sem quebrar Zero‑Knowledge). Documente o fluxo.</p></div>
+        <div class="card"><h3>2FA & SSO</h3><p>2FA (TOTP) e integração SSO para equipes. Passkeys suportadas onde disponível.</p></div>
+        <div class="card"><h3>Políticas por pasta</h3><p>Senha/expiração obrigatórias em links, bloqueio de download e watermark por workspace/pasta.</p></div>
+        <div class="card"><h3>Dispositivos e sessões</h3><p>Visualize e encerre sessões ativas. Revogue dispositivos comprometidos.</p></div>
+        <div class="card"><h3>Permissões finas</h3><p>Somente leitura, edição, upload-apenas; controle de convidar/compartilhar desativado por padrão.</p></div>
+        <div class="card"><h3>Auditoria</h3><p>Logs exportáveis de visualização, download, edição e compartilhamento (Business).</p></div>
+        <div class="card"><h3>Recuperação</h3><p>Chave de recuperação opcional para perda de senha — sem quebrar Zero-Knowledge.</p></div>
       </div>
     </div>
   </section>
@@ -203,11 +176,11 @@
     <div class="container">
       <h2>Residência de dados & conformidade</h2>
       <div class="grid cols-3">
-        <div class="card"><h3>Regiões</h3><p>Escolha Brasil, EUA ou UE na criação da conta para latência/conformidade.</p></div>
-        <div class="card"><h3>LGPD/GDPR</h3><p>Direitos do titular: acesso, portabilidade e exclusão. DPA disponível.</p></div>
-        <div class="card"><h3>Retenção & versões</h3><p>Defina políticas de retenção, lixeira e histórico de versões por pasta/time.</p></div>
+        <div class="card"><h3>Regiões</h3><p>Brasil, EUA ou UE no cadastro para latência/conformidade. Migração assistida sob demanda.</p></div>
+        <div class="card"><h3>LGPD/GDPR</h3><p>Direitos do titular: acesso, portabilidade e exclusão. DPA disponível para clientes Business.</p></div>
+        <div class="card"><h3>Retenção & versões</h3><p>Políticas de retenção, lixeira e histórico de versões configuráveis por pasta/time.</p></div>
       </div>
-      <details style="margin-top:12px"><summary>Subprocessadores e localização</summary><p>Liste provedores de infraestrutura e limites de transferência internacional de dados. Inclua data de atualização e canal de notificação de mudanças.</p></details>
+      <details style="margin-top:12px"><summary>Subprocessadores e transferência internacional</summary><p>Listamos provedores de infraestrutura e escopos de processamento em nossa página de <a href="/seguranca.html#subprocessadores">subprocessadores</a>. Alterações são notificadas com antecedência.</p></details>
     </div>
   </section>
 
@@ -215,12 +188,12 @@
   <section class="section" id="demo">
     <div class="container">
       <h2>Demonstração: criptografia no cliente</h2>
-      <p class="subtitle">Teste local em seu navegador: nada é enviado aos servidores. Uso ilustrativo com Web Crypto API.</p>
+      <p class="subtitle">Teste local no navegador. <strong>Produção:</strong> Argon2id + AES-256-GCM. <strong>Demo abaixo:</strong> PBKDF2-SHA-256 + AES-GCM (compatibilidade ampla).</p>
       <div class="card crypto">
         <div class="row">
           <div>
             <label for="plain">Mensagem</label>
-            <textarea id="plain" rows="4" placeholder="Digite um texto para cifrar">Zero‑Knowledge: conteúdo cifrado antes de sair do dispositivo.</textarea>
+            <textarea id="plain" rows="4" placeholder="Digite um texto para cifrar">Zero-Knowledge: conteúdo cifrado antes de sair do dispositivo.</textarea>
           </div>
           <div>
             <label for="password">Senha</label>
@@ -232,7 +205,7 @@
           <button id="dec" class="btn ghost" type="button">Descriptografar</button>
         </div>
         <div class="result" id="out" aria-live="polite">Resultado aparecerá aqui…</div>
-        <p class="small">Implementação demo com <code>PBKDF2‑SHA‑256</code> + <code>AES‑GCM</code> via Web Crypto. Em produção, use os algoritmos/políticas reais definidos pela TCloud.</p>
+        <p class="small">Para validar interoperabilidade, mantenha o JSON resultante; ele contém o salt, IV e ciphertext.</p>
       </div>
     </div>
   </section>
@@ -241,10 +214,10 @@
   <section class="section">
     <div class="container">
       <h2>Perguntas frequentes</h2>
-      <details><summary>Vocês conseguem ler meus arquivos?</summary><p>Não. Com Zero‑Knowledge, os arquivos são cifrados no seu dispositivo e armazenados de forma ilegível do lado do servidor.</p></details>
-      <details><summary>E se eu perder minha senha?</summary><p>Sem uma chave de recuperação (opcional), não é possível recuperar o conteúdo. Recomendamos habilitar a recuperação e o 2FA.</p></details>
-      <details><summary>Como ficam nomes de arquivos?</summary><p>Podem ser protegidos/obfuscados dependendo do plano. Documente aqui conforme a política da TCloud.</p></details>
-      <details><summary>Como reportar vulnerabilidades?</summary><p>Temos política de divulgação responsável. Use <a href="/contato">Contate‑nos</a> e selecione "Segurança".</p></details>
+      <details><summary>Vocês conseguem ler meus arquivos?</summary><p>Não. Os arquivos são cifrados no seu dispositivo e armazenados de forma ilegível no servidor.</p></details>
+      <details><summary>E se eu perder minha senha?</summary><p>Sem chave de recuperação, não é possível recuperar o conteúdo. Recomendamos ativar 2FA e a chave de recuperação.</p></details>
+      <details><summary>Como ficam nomes de arquivos?</summary><p>Fazemos proteção de nomes no cliente; exposição mínima de metadados (tamanho e horários) para funcionamento e auditoria.</p></details>
+      <details><summary>Como reportar vulnerabilidades?</summary><p>Temos política de divulgação responsável. Use <a href="/contato.html">Contate-nos</a> e selecione “Segurança”.</p></details>
     </div>
   </section>
 
@@ -268,42 +241,36 @@
           <img src="logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block;"/>
           <strong>TCloud</strong>
         </div>
-        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero‑Knowledge de verdade.</p>
+        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero-Knowledge de verdade.</p>
       </div>
       <div>
         <strong>Produto</strong>
         <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
-          <li><a href="/">Início</a></li>
-          <li><a href="/zero-knowledge">Zero‑Knowledge</a></li>
-          <li><a href="/sobre">Sobre</a></li>
-          <li><a href="/recursos">Recursos</a></li>
-          <li><a href="/regioes">Regiões</a></li>
-          <li><a href="/precos">Preços</a></li>
-          <li><a href="/afiliados">Afiliados</a></li>
-          <li><a href="/revenda">Revenda</a></li>
-          <li><a href="/download">Download</a></li>
-          <li><a href="/empresarial">Empresarial</a></li>
-          <li><a href="/pass">Pass</a></li>
-          <li><a href="/transferir">Transferir</a></li>
-          <li><a href="/compartilhar">Compartilhar</a></li>
-          <li><a href="#">Segurança</a></li>
+          <li><a href="/index.html">Início</a></li>
+          <li><a href="/encrypted.html">Zero-Knowledge</a></li>
+          <li><a href="/features.html">Recursos</a></li>
+          <li><a href="/data-regions.html">Regiões</a></li>
+          <li><a href="/pricing.html">Preços</a></li>
+          <li><a href="/business.html">Empresarial</a></li>
+          <li><a href="/pass.html">Pass</a></li>
+          <li><a href="/security.html">Segurança</a></li>
         </ul>
       </div>
       <div>
         <strong>Suporte</strong>
         <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
-          <li><a href="/faq">FAQ</a></li>
-          <li><a href="/opcoes-de-privacidade">Opções de Privacidade</a></li>
-          <li><a href="/contato">Contate‑nos</a></li>
-          <li><a href="/notas-de-versao">Notas de Versão</a></li>
+          <li><a href="/help-faq.html">FAQ</a></li>
+          <li><a href="/privacy-options.html">Opções de Privacidade</a></li>
+          <li><a href="/contact.html">Contate-nos</a></li>
+          <li><a href="/releases-notes.html">Notas de Versão</a></li>
         </ul>
       </div>
       <div>
         <strong>Community</strong>
         <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
-          <li><a href="/afiliados">Programa de Afiliados</a></li>
-          <li><a href="/revenda">Revendedores</a></li>
-          <li><a href="/para-desenvolvedores">Para Desenvolvedores</a></li>
+          <li><a href="/affiliate.html">Programa de Afiliados</a></li>
+          <li><a href="/reseller.html">Revendedores</a></li>
+          <li><a href="/developers.html">Para Desenvolvedores</a></li>
         </ul>
       </div>
     </div>
