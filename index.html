@@ -20,21 +20,24 @@
   <meta name="twitter:card" content="summary_large_image">
 
   <!-- Favicons -->
-  <link rel="icon" href="favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
   <!-- Header injector & link normalizer -->
   <script defer src="/include.js" data-base="/" data-v="1"></script>
 
-  <!-- GA4 -->
+  <!-- GA4 (dual tag) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
+    // ID antigo
     gtag('config', 'G-9DWZF8HNH3');
+    // ID novo
+    gtag('config', 'G-7XVQLCM381');
   </script>
 
   <style>
@@ -144,8 +147,8 @@
         <h1>Armazenamento em nuvem criptografado.<br>Privacidade que só você desbloqueia.</h1>
         <p class="lead">Na TCloud, sua chave nunca sai do seu dispositivo. Nem mesmo nossos servidores conseguem ver o conteúdo. É assim que Zero-Knowledge deve ser: simples, seguro e seu.</p>
         <div class="cta" role="group" aria-label="Chamadas principais">
-          <a class="btn" href="pricing">Ver planos</a>
-          <a class="btn ghost" href="encrypted">Entenda o Zero-Knowledge</a>
+          <a class="btn" href="/precos">Ver planos</a>
+          <a class="btn ghost" href="/zero-knowledge">Entenda o Zero-Knowledge</a>
         </div>
       </div>
       <div class="hero-card" aria-label="Resumo de segurança">
@@ -221,7 +224,7 @@
       <p class="subtitle">Em três passos simples — com suas chaves sempre sob seu controle.</p>
       <div class="grid cols-3">
         <div class="card"><h3>1) Geração de chaves</h3><p>Seu app cria chaves de forma segura no dispositivo. A chave privada nunca sai do seu aparelho.</p></div>
-        <div class="card"><h3>2) Criptografia local</h3><p>Antes do upload, arquivos são cifrados no cliente. O servidor recebe apenas dados embaralhados.</p></div>
+        <div class="card"><h3>2) Criptografia local</h3><p>Antes do upload, arquivos são cifrados no cliente. O servidor recebe apenas dados cifrados.</p></div>
         <div class="card"><h3>3) Descriptografia sob demanda</h3><p>Só quem possui a chave correta consegue abrir. Nem equipe TCloud, nem terceiros.</p></div>
       </div>
       <div class="compare" style="margin-top:24px">
@@ -241,11 +244,10 @@
         <div class="card">
           <h3>Detalhes de criptografia</h3>
           <ul class="small" style="margin:0; padding-left:18px; line-height:1.6">
-            <li><strong>Criptografia de dados:</strong> arquivos protegidos com cifragem moderna no cliente.</li>
-            <li><strong>Senha fortalecida:</strong> derivação de chaves (KDF) com sal e parâmetros robustos.</li>
+            <li><strong>Criptografia de dados:</strong> arquivos protegidos no cliente com cifra autenticada.</li>
+            <li><strong>Senha fortalecida:</strong> derivação de chaves (KDF) robusta com sal por dispositivo.</li>
             <li><strong>Troca de chaves:</strong> acordo seguro para que a chave privada não saia do dispositivo.</li>
           </ul>
-          <p class="small" style="margin-top:10px">Observação: ajuste estes pontos conforme sua implementação real.</p>
         </div>
       </div>
     </div>
@@ -261,32 +263,33 @@
         <div class="card price" role="listitem">
           <h3>Básico</h3>
           <div class="amount">R$ 32,90<span class="small">/mês</span></div>
-          <p class="small">1 TB • Zero-Knowledge • Backup</p>
-          <div class="cta"><a class="btn" href="/precos">Assinar</a></div>
+          <p class="small">1&nbsp;TB • Zero-Knowledge • Backup de arquivos</p>
+          <div class="cta"><a class="btn" href="/precos#basico">Assinar</a></div>
         </div>
         <!-- Essencial -->
         <div class="card price" role="listitem">
           <span class="ribbon" aria-hidden="true">Popular</span>
           <h3>Essencial</h3>
           <div class="amount">R$ 44,90<span class="small">/mês</span></div>
-          <p class="small">2 TB • Zero-Knowledge • Senha em links • GDPR • 2FA • CLI/WebDAV</p>
-          <div class="cta"><a class="btn" href="/precos">Assinar</a></div>
+          <p class="small">2&nbsp;TB • Zero-Knowledge • 2FA • Links com senha • GDPR • CLI/WebDAV</p>
+          <div class="cta"><a class="btn" href="/precos#essencial">Assinar</a></div>
         </div>
-        <!-- Business -->
+        <!-- Prêmio -->
         <div class="card price" role="listitem">
-          <h3>Business</h3>
-          <div class="amount">R$ 144,90<span class="small">/mês</span></div>
-          <p class="small">8 TB • Zero-Knowledge • Colaboração avançada • Auditoria</p>
-          <div class="cta"><a class="btn" href="/precos">Assinar</a></div>
+          <h3>Prêmio</h3>
+          <div class="amount">R$ 64,90<span class="small">/mês</span></div>
+          <p class="small">3&nbsp;TB • Zero-Knowledge • Colaboração e compartilhamento avançado</p>
+          <div class="cta"><a class="btn" href="/precos#premio">Assinar</a></div>
         </div>
       </div>
+
       <!-- CTA: ver tabela completa de preços -->
       <div style="margin-top:16px; display:flex; justify-content:center">
-      <a class="btn ghost" href="/precos" aria-label="Ver todos os planos e preços">
-    Conferir todos os planos
-  </a>
-</div>
-</div>
+        <a class="btn ghost" href="/precos" aria-label="Ver todos os planos e preços">
+          Conferir todos os planos
+        </a>
+      </div>
+    </div>
   </section>
 
   <!-- ===== FAQ ===== -->
@@ -316,7 +319,7 @@
         <p class="subtitle">Instale os apps, sincronize pastas e ative o Zero-Knowledge em minutos.</p>
       </div>
       <div>
-        <a class="btn" href="downloads">Baixar app</a>
+        <a class="btn" href="/download">Baixar app</a>
       </div>
     </div>
   </section>
@@ -334,17 +337,17 @@
       <div>
         <strong>Produto</strong>
         <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
-          <li><a href="features">Recursos</a></li>
-          <li><a href="encrypted">Como funciona</a></li>
-          <li><a href="pricing">Planos</a></li>
+          <li><a href="/recursos">Recursos</a></li>
+          <li><a href="/zero-knowledge">Como funciona</a></li>
+          <li><a href="/precos">Planos</a></li>
         </ul>
       </div>
       <div>
         <strong>Suporte</strong>
         <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
-          <li><a href="help-faq">Central de ajuda</a></li>
+          <li><a href="/faq">Central de ajuda</a></li>
           <li><a href="#">Status</a></li>
-          <li><a href="encrypted">Segurança</a></li>
+          <li><a href="/seguranca">Segurança</a></li>
         </ul>
       </div>
       <div>
@@ -362,7 +365,7 @@
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 
-  <!-- (Opcional) Structured data básico -->
+  <!-- Structured data básico -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
