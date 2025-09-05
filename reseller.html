@@ -1,307 +1,62 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TCloud — Programa de Revenda</title>
-  <meta name="description" content="Seja revendedor oficial TCloud. Margens competitivas, suporte técnico e materiais prontos. Cadastre-se e comece a vender armazenamento Zero‑Knowledge." />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>TCloud — Revenda</title>
+  <meta name="description" content="Programa de Revenda TCloud: em breve você poderá oferecer planos de armazenamento seguro com Zero-Knowledge para seus clientes.">
   <meta name="color-scheme" content="dark light">
+
+  <!-- Header dinâmico + normalizador de links -->
+  <script defer src="/include.js"></script>
+
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <!-- Google tag (GA4 dual tag) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    // ID antigo
+    gtag('config', 'G-9DWZF8HNH3');
+    // ID novo
+    gtag('config', 'G-7XVQLCM381');
+  </script>
+
+  <link rel="canonical" href="https://www.tclouddrive.com.br/reseller">
+
   <style>
-    :root{
-      --tc-primary:#00A3FF; --tc-primary-600:#0086D1; --tc-accent:#6EE7FF;
-      --tc-success:#22c55e; --tc-warning:#f59e0b; --tc-danger:#ef4444;
-      --tc-bg:#0B1220; --tc-surface:#0F172A; --tc-muted:#1F2A44; --tc-border:#23304d;
-      --tc-text:#E6F0FF; --tc-text-muted:#A7B4D4; --radius:16px;
-      --shadow-lg:0 20px 50px rgba(0,0,0,.45); --shadow-md:0 10px 30px rgba(0,0,0,.35);
-      --grid-max:1200px;
+    body{
+      margin:0;
+      background:#0B1220;
+      color:#E6F0FF;
+      font-family:system-ui;
+      display:grid;
+      place-items:center;
+      min-height:100vh
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial; color:var(--tc-text);
-      background:radial-gradient(1200px 600px at 60% -10%, rgba(0,163,255,.15), transparent 60%),
-                 radial-gradient(800px 500px at 10% 10%, rgba(110,231,255,.08), transparent 55%),
-                 linear-gradient(180deg, #0b1220, #0a0f1b 35%, #0b1220);
+    .card{
+      padding:24px;
+      border:1px solid #23304d;
+      border-radius:16px;
+      background:#0F172A;
+      max-width:600px
     }
-    a{color:var(--tc-accent); text-decoration:none}
-    a:hover{text-decoration:underline}
-    .container{max-width:var(--grid-max); margin:0 auto; padding:0 20px}
-    /* NAV */
-    nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(130%) blur(14px); background:color-mix(in oklab, var(--tc-surface) 65%, transparent); border-bottom:1px solid var(--tc-border)}
-    .nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
-    .brand{display:flex; gap:12px; align-items:center}
-    .brand .name{font-weight:800; letter-spacing:.2px; font-size:18px}
-    .nav-links{display:flex; gap:20px; align-items:center}
-    .nav-links a.active{color:#fff; font-weight:800}
-    .btn{border:1px solid transparent; background:var(--tc-primary); color:#fff; padding:10px 16px; border-radius:999px; font-weight:700; box-shadow:var(--shadow-md)}
-    .btn:hover{background:var(--tc-primary-600)}
-    .btn.ghost{background:transparent; border-color:var(--tc-border); color:var(--tc-text)}
-    .btn.ghost:hover{border-color:var(--tc-primary)}
-    /* HERO */
-    .hero{padding:64px 0 32px}
-    .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center}
-    .chip{display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; background:color-mix(in oklab, var(--tc-muted) 70%, transparent); border:1px solid var(--tc-border); color:var(--tc-text-muted); font-weight:600; font-size:12px}
-    h1{font-size:42px; line-height:1.1; margin:12px 0 14px}
-    .lead{font-size:18px; color:var(--tc-text-muted); max-width:60ch}
-    .hero-card{background:linear-gradient(180deg, #0f172a, #111a30); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-lg)}
-    /* SECTIONS */
-    .section{padding:48px 0}
-    .section h2{font-size:28px; margin:0 0 12px}
-    .subtitle{color:var(--tc-text-muted); margin:0 0 20px}
-    .grid{display:grid; gap:20px}
-    .grid.cols-3{grid-template-columns:repeat(3, 1fr)}
-    .grid.cols-4{grid-template-columns:repeat(4, 1fr)}
-    .grid.cols-2{grid-template-columns:repeat(2, 1fr)}
-    .card{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:var(--radius); padding:20px}
-    .icon{width:28px; height:28px; color:var(--tc-accent)}
-    .note{color:var(--tc-text-muted); font-size:14px}
-    /* TABLE */
-    .table{border:1px solid var(--tc-border); border-radius:var(--radius); overflow:hidden}
-    table{width:100%; border-collapse:collapse}
-    th, td{padding:14px 16px; border-bottom:1px solid var(--tc-border)}
-    th{background:color-mix(in oklab, var(--tc-muted) 70%, transparent); text-align:left}
-    tr:last-child td{border-bottom:none}
-    /* CALC */
-    .calc{display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; align-items:end}
-    .calc label{display:block; font-weight:700; margin-bottom:6px}
-    .calc input, .calc select{width:100%; padding:10px 12px; border-radius:12px; border:1px solid var(--tc-border); background:transparent; color:var(--tc-text)}
-    .calc .result{background:linear-gradient(180deg, #0f172a, #0d1528); border:1px solid var(--tc-border); border-radius:12px; padding:16px}
-    .amount{font-size:28px; font-weight:800}
-    /* FOOTER */
-    footer{padding:40px 0; border-top:1px solid var(--tc-border); background:color-mix(in oklab, var(--tc-surface) 65%, transparent)}
-    .foot{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:20px}
-    .credits{color:var(--tc-text-muted); font-size:13px}
-    /* RWD */
-    @media (max-width:1024px){.hero-grid{grid-template-columns:1fr}.grid.cols-4{grid-template-columns:1fr 1fr}.grid.cols-3{grid-template-columns:1fr 1fr}.grid.cols-2{grid-template-columns:1fr}.calc{grid-template-columns:1fr 1fr}.foot{grid-template-columns:1fr 1fr}}
-    @media (max-width:640px){h1{font-size:34px}.calc{grid-template-columns:1fr}.foot{grid-template-columns:1fr}}
+    a{color:#6EE7FF}
   </style>
-
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-
-<!-- Google tag (GA4) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DWZF8HNH3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-9DWZF8HNH3');
-</script>
-
-<link rel="canonical" href="https://www.tclouddrive.com.br/revenda">
 </head>
 <body>
-  <!-- ===== NAV ===== -->
-  <nav>
-    <div class="container nav-wrap">
-      <div class="brand">
-        <img src="logo-tcloud.png" alt="TCloud" style="height:36px; width:auto; display:block;"/>
-        <span class="name">TCloud</span>
-      </div>
-      <div class="nav-links">
-        <a class="btn ghost" href="/">Início</a>
-        <a class="btn ghost" href="/zero-knowledge">Zero‑Knowledge</a>
-        <a class="btn ghost" href="/sobre">Sobre</a>
-        <a class="btn ghost" href="/recursos">Recursos</a>
-        <a class="btn ghost" href="/regioes">Regiões</a>
-        <a class="btn ghost" href="/precos">Preços</a>
-        <a class="btn ghost" href="/afiliados">Afiliados</a>
-        <a class="btn ghost active" href="#">Revenda</a>
-        <a class="btn" href="#cta">Quero revender</a>
-      </div>
-    </div>
-  </nav>
+  <div id="site-header" data-active="reseller"></div>
 
-  <!-- ===== HERO ===== -->
-  <header class="hero">
-    <div class="container hero-grid">
-      <div>
-        <span class="chip">Programa de Revenda</span>
-        <h1>Venda TCloud para seus clientes<br/>com margens competitivas</h1>
-        <p class="lead">Portfólio valorizado com armazenamento Zero‑Knowledge, suporte dedicado e materiais de vendas prontos para uso.</p>
-        <div style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap">
-          <a class="btn" href="#cta">Aplicar para revenda</a>
-          <a class="btn ghost" href="#beneficios">Benefícios</a>
-        </div>
-      </div>
-      <div class="hero-card">
-        <h3 style="margin:0 0 8px">Para quem é</h3>
-        <p style="margin:0; color:var(--tc-text-muted)">Integradores, MSPs, agências, consultorias de TI e varejistas de software que desejam oferecer nuvem segura aos seus clientes.</p>
-      </div>
-    </div>
-  </header>
-
-  <!-- ===== BENEFÍCIOS ===== -->
-  <section id="beneficios" class="section">
-    <div class="container">
-      <h2>Benefícios do parceiro revendedor</h2>
-      <div class="grid cols-3">
-        <div class="card"><h3>Margens escalonadas</h3><p>Descontos por nível com potencial de ganhos recorrentes.</p></div>
-        <div class="card"><h3>Materiais e kits</h3><p>Apresentações, comparativos e guias de implantação.</p></div>
-        <div class="card"><h3>Suporte técnico</h3><p>Canal dedicado para dúvidas e incidentes dos seus clientes.</p></div>
-        <div class="card"><h3>Registro de oportunidades</h3><p>Proteção de deal e acompanhamento do funil.</p></div>
-        <div class="card"><h3>Treinamentos</h3><p>Capacitação comercial e técnica para sua equipe.</p></div>
-        <div class="card"><h3>Co‑marketing</h3><p>Campanhas conjuntas e presença em eventos selecionados.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== NÍVEIS ===== -->
-  <section class="section">
-    <div class="container">
-      <h2>Níveis de parceria</h2>
-      <p class="subtitle">Exemplo de estrutura (ajuste conforme sua política).</p>
-      <div class="table">
-        <table aria-label="Níveis do programa de revenda">
-          <thead><tr><th>Nível</th><th>Margem sugerida</th><th>Requisitos</th><th>Benefícios extra</th></tr></thead>
-          <tbody>
-            <tr><td>Registered</td><td>10%</td><td>Cadastro aprovado</td><td>Materiais básicos</td></tr>
-            <tr><td>Silver</td><td>15%</td><td>2 deals/trim. ou R$ 10k/trim.</td><td>Suporte prioritário</td></tr>
-            <tr><td>Gold</td><td>20%</td><td>4 deals/trim. ou R$ 30k/trim.</td><td>Co‑marketing + treinamento</td></tr>
-            <tr><td>Platinum</td><td>25%</td><td>6 deals/trim. ou R$ 60k/trim.</td><td>Leads qualificados + roadmap</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="note" style="margin-top:8px">* Percentuais e requisitos são ilustrativos e devem ser trocados pelos seus valores reais.</p>
-    </div>
-  </section>
-
-  <!-- ===== CALCULADORA ===== -->
-  <section class="section">
-    <div class="container">
-      <h2>Calculadora de margem</h2>
-      <p class="subtitle">Simule sua receita por venda com desconto de parceiro.</p>
-      <div class="calc" aria-label="Calculadora de margem para revenda">
-        <div>
-          <label for="preco">Preço de venda (R$)</label>
-          <input id="preco" type="number" inputmode="decimal" min="0" step="10" value="399" />
-        </div>
-        <div>
-          <label for="desconto">Desconto do parceiro (%)</label>
-          <input id="desconto" type="number" inputmode="decimal" min="0" max="90" step="1" value="20" />
-        </div>
-        <div>
-          <label for="qtd">Quantidade</label>
-          <input id="qtd" type="number" min="1" step="1" value="1" />
-        </div>
-        <div class="result" role="status" aria-live="polite">
-          <div class="note">Margem estimada</div>
-          <div class="amount" id="resultado">R$ 79</div>
-        </div>
-      </div>
-      <p class="note" style="margin-top:8px">A simulação é informativa; valores finais podem variar por impostos, câmbio e negociação.</p>
-    </div>
-  </section>
-
-  <!-- ===== REQUISITOS & ONBOARDING ===== -->
-  <section class="section">
-    <div class="container">
-      <h2>Requisitos & Onboarding</h2>
-      <div class="grid cols-2">
-        <div class="card"><h3>Elegibilidade</h3><p>CNPJ ativo, área de atuação compatível e aceite das políticas do programa.</p></div>
-        <div class="card"><h3>Onboarding</h3><p>Kickoff comercial, acesso ao portal do parceiro e treinamento inicial.</p></div>
-        <div class="card"><h3>Registro de oportunidade</h3><p>Cadastro no portal; análise e aprovação dentro do SLA do programa.</p></div>
-        <div class="card"><h3>Suporte & SLA</h3><p>Canal dedicado, base de conhecimento e escalonamento técnico.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== FAQ ===== -->
-  <section class="section">
-    <div class="container">
-      <h2>Perguntas frequentes</h2>
-      <details>
-        <summary>Como é calculada a margem?</summary>
-        <p>A margem é o desconto de parceiro aplicado sobre o preço de venda. Ex.: preço R$ 400 com 20% → você compra a R$ 320 e fatura R$ 80 de margem.</p>
-      </details>
-      <details>
-        <summary>Posso combinar comissões de afiliado e revenda?</summary>
-        <p>Não recomendamos. Escolha o modelo que melhor se encaixa ao seu go‑to‑market para evitar sobreposição.</p>
-      </details>
-      <details>
-        <summary>Existe meta mínima?</summary>
-        <p>Metas variam por nível. Níveis mais altos incluem requisitos trimestrais de volume ou faturamento.</p>
-      </details>
-      <details>
-        <summary>Quais materiais recebo?</summary>
-        <p>Apresentações, comparativos, guias de implantação, logos e exemplos de campanhas.</p>
-      </details>
-    </div>
-  </section>
-
-  <!-- ===== CTA ===== -->
-  <section id="cta" class="section">
-    <div class="container card" style="display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center">
-      <div>
-        <h2>Quero revender TCloud</h2>
-        <p class="subtitle">Preencha o formulário e nossa equipe entrará em contato para habilitar seu acesso ao portal do parceiro.</p>
-      </div>
-      <div>
-        <a class="btn" href="#">Aplicar agora</a>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="container foot">
-      <div>
-        <div class="brand" style="margin-bottom:10px">
-          <img src="logo-tcloud.png" alt="TCloud" style="height:32px; width:auto; display:block;"/>
-          <strong>TCloud</strong>
-        </div>
-        <p class="credits">© <span id="year"></span> TCloud. Privacidade por padrão. Zero‑Knowledge de verdade.</p>
-      </div>
-      <div>
-        <strong>Produto</strong>
-        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
-          <li><a href="/">Início</a></li>
-          <li><a href="/zero-knowledge">Zero‑Knowledge</a></li>
-          <li><a href="/sobre">Sobre</a></li>
-          <li><a href="/recursos">Recursos</a></li>
-          <li><a href="/regioes">Regiões</a></li>
-          <li><a href="/precos">Preços</a></li>
-          <li><a href="/afiliados">Afiliados</a></li>
-          <li><a href="#">Revenda</a></li>
-        </ul>
-      </div>
-      <div>
-        <strong>Suporte</strong>
-        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
-          <li><a href="#">Central de ajuda</a></li>
-          <li><a href="#">Status</a></li>
-          <li><a href="#">Segurança</a></li>
-        </ul>
-      </div>
-      <div>
-        <strong>Legal</strong>
-        <ul style="list-style:none; padding:0; margin:8px 0 0; line-height:1.9">
-          <li><a href="#">Termos</a></li>
-          <li><a href="#">Privacidade</a></li>
-          <li><a href="#">DPA</a></li>
-        </ul>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // ===== Calculadora de margem =====
-    const preco = document.getElementById('preco');
-    const desconto = document.getElementById('desconto');
-    const qtd = document.getElementById('qtd');
-    const resultado = document.getElementById('resultado');
-    function render(){
-      const p = Math.max(0, Number(preco.value||0));
-      const d = Math.min(90, Math.max(0, Number(desconto.value||0)))/100;
-      const q = Math.max(1, Number(qtd.value||1));
-      const margemUni = p * d; // compra por p*(1-d)
-      const total = margemUni * q;
-      resultado.textContent = new Intl.NumberFormat('pt-BR', {style:'currency', currency:'BRL', maximumFractionDigits:2}).format(total);
-    }
-    [preco, desconto, qtd].forEach(el=>el.addEventListener('input', render));
-    render();
-  </script>
+  <div class="card">
+    <h1>Revenda</h1>
+    <p>Programa de revenda em preparação.</p>
+    <p><a href="/">← Voltar ao início</a></p>
+  </div>
 </body>
 </html>
