@@ -1,14 +1,68 @@
-// include.js (v3) — injeta header, marca link ativo e NORMALIZA LINKS .html
+// include.js (v3.1) — injeta header, marca link ativo e NORMALIZA LINKS .html + mapeia slugs PT->EN
 (() => {
   // ====== CONFIG ======
-  // Descobre basePath automaticamente (se o site estiver hospedado em /app/ por ex.)
-  // ➜ define <script src="/app/assets/include.js" data-base="/app"></script> para forçar
   const currentScript = document.currentScript || [...document.scripts].pop();
   const FORCED_BASE = (currentScript?.dataset?.base || '').replace(/\/+$/,'');
   const basePath = FORCED_BASE || '';
 
   // Helper: junta caminho com base (evita // e respeita raiz)
   const withBase = (p) => (basePath + '/' + String(p||'').replace(/^\/+/,'')).replace(/\/{2,}/g,'/');
+
+  // ====== MAPA DE ROTAS (PT -> EN/.html reais) ======
+  // Obs.: mantenha apenas os slugs que existem no site. Ajuste conforme seus arquivos reais.
+  const PT2EN = {
+    '/': '/index',
+    '/inicio': '/index',
+    '/sobre': '/about',
+    '/recursos': '/features',
+    '/regioes': '/regions',
+    '/precos': '/pricing',
+    '/planos': '/pricing',
+    '/afiliados': '/affiliates',
+    '/revenda': '/reseller',
+    '/download': '/download',
+    '/empresarial': '/business',
+    '/pass': '/pass',
+    '/transferir': '/transfer',
+    '/compartilhar': '/share',
+    '/seguranca': '/security',
+    '/backup': '/backup',
+    '/dam': '/dam',
+    '/zero-knowledge': '/zero-knowledge'
+  };
+
+  // Normaliza barras e remove trailing slash (exceto raiz)
+  const cleanPathname = (p) => {
+    if (!p) return '/';
+    let out = p.replace(/\/{2,}/g,'/');
+    if (out.length > 1) out = out.replace(/\/+$/,'');
+    return out || '/';
+  };
+
+  // Traduz slug PT para caminho-alvo (sem .html); mantém se já for EN
+  const translatePath = (pathname) => {
+    const p = cleanPathname(pathname);
+    // tenta match exato
+    if (PT2EN[p]) return PT2EN[p];
+    // tenta sem trailing slash
+    const noSlash = p.replace(/\/+$/,'');
+    if (PT2EN[noSlash]) return PT2EN[noSlash];
+    return p; // já está em EN ou não mapeado
+  };
+
+  // Aplica base e garante extensão .html quando apropriado
+  const finalizeLocalHref = (pathname, search='', hash='') => {
+    let p = translatePath(pathname);
+    // raiz deve virar /index.html
+    if (p === '/') p = '/index';
+    // se não termina com .html nem com /, adiciona .html
+    const isHTML = /\.html?$/i.test(p);
+    const isDir  = /\/$/.test(p);
+    if (!isHTML && !isDir) p = p + '.html';
+    // aplica base
+    const finalPath = withBase(p);
+    return finalPath + (search || '') + (hash || '');
+  };
 
   // ====== NORMALIZADOR ======
   function normalizeLinks(root) {
@@ -22,24 +76,14 @@
       if (a.hasAttribute('download')) return;
 
       try {
-        // Resolve relativo a partir do path atual (não só origin) p/ manter navegação previsível em subpastas
         const u = new URL(href, location.href);
         // Só normaliza se for mesmo host + dentro do basePath (quando configurado)
         if (u.origin !== location.origin) return;
-        if (basePath && !u.pathname.startsWith(basePath+'/')) return;
+        if (basePath && !u.pathname.startsWith(basePath+'/') && u.pathname !== basePath) return;
 
-        // Já é .html, termina com /, ou é raiz do basePath?
-        const isHTML = /\.html?$/i.test(u.pathname);
-        const isDir  = /\/$/.test(u.pathname);
-        const isRoot = u.pathname === (basePath || '/') || u.pathname === (basePath + '/');
-
-        if (!isHTML && !isDir && !isRoot) {
-          u.pathname = u.pathname + '.html';
-        }
-
-        // Reaplica base (garantia extra)
-        u.pathname = withBase(u.pathname);
-        a.setAttribute('href', u.pathname + u.search + u.hash);
+        // Reescreve usando tradutor + .html + base
+        const finalHref = finalizeLocalHref(u.pathname, u.search, u.hash);
+        a.setAttribute('href', finalHref);
       } catch (e) { /* silencia URLs não resolvíveis */ }
     });
   }
@@ -51,7 +95,6 @@
   const host = document.getElementById('site-header');
   if (host) {
     const headerURL = host.getAttribute('data-header-url') || withBase('/header.html');
-    // Use cache default do navegador; adicione versão se quiser bust:
     const v = currentScript?.dataset?.v ? `?v=${encodeURIComponent(currentScript.dataset.v)}` : '';
     fetch(headerURL + v)
       .then(r => r.ok ? r.text() : Promise.reject(r.status))
@@ -75,16 +118,19 @@
           a.addEventListener('click', ()=> setExpanded(false));
         });
 
-        // Marcar link ativo (por arquivo, por data-route e por prefixo)
-        const path = (location.pathname || '/');
-        // Remove query/hash e normaliza trailing slash
-        const cleanPath = path.replace(/\/{2,}/g,'/').replace(/\/+$/,'/');
-
-        // Deriva "arquivo" (ex.: /features -> features.html ou /a/b/ -> b/index.html)
-        const lastSeg = cleanPath.split('/').filter(Boolean).pop() || 'index';
-        const file = /\.html?$/i.test(lastSeg) ? lastSeg : (lastSeg + '.html');
+        // --- Marcar link ativo (considera tradução e .html) ---
+        const rawPath = location.pathname || '/';
+        const cleanPath = cleanPathname(rawPath);
+        // Normaliza o "caminho atual" do browser como se fosse um link local nosso
+        const currentNormalized = (() => {
+          try {
+            const u = new URL(location.href);
+            return finalizeLocalHref(u.pathname, '', ''); // sem query/hash p/ match de href
+          } catch { return finalizeLocalHref(cleanPath, '', ''); }
+        })().toLowerCase();
 
         const links = host.querySelectorAll('.tc-links a');
+
         // 1) Regra por data-route, se host tiver data-active
         const forced = (host.dataset?.active || '').trim();
         if (forced) {
@@ -93,28 +139,36 @@
           });
         }
 
-        // 2) Match por arquivo exato
+        // 2) Match exato por href normalizado
         links.forEach(a => {
-          const href = a.getAttribute('href') || '';
-          if (href.toLowerCase().endsWith('/' + file.toLowerCase())) a.classList.add('active');
-          if ((file === 'index.html') && /\/index\.html$/i.test(href)) a.classList.add('active');
+          const href = (a.getAttribute('href') || '').toLowerCase();
+          try {
+            const u = new URL(href, location.origin);
+            const normalized = finalizeLocalHref(u.pathname, '', '').toLowerCase();
+            if (normalized === currentNormalized) a.classList.add('active');
+            // Tratar index.html como raiz
+            if (currentNormalized.endsWith('/index.html') && normalized.endsWith('/index.html')) {
+              a.classList.add('active');
+            }
+          } catch { /* ignore */ }
         });
 
-        // 3) Match por prefixo de caminho (ex.: /recursos/... marca “Recursos”)
-        // Evita marcar múltiplos: pega o link com path mais longo que seja prefixo do atual.
+        // 3) Match por prefixo (ex.: /recursos/... marca “Recursos”)
         const candidates = [...links]
           .map(a => {
             try {
               const u = new URL(a.getAttribute('href') || '', location.origin);
-              return {a, p: u.pathname.replace(/\/index\.html$/i,'/').toLowerCase()};
+              const normalized = finalizeLocalHref(u.pathname, '', '');
+              // Remover /index.html para não “achatar” home versus subpaths
+              const p = normalized.replace(/\/index\.html$/i,'/').toLowerCase();
+              return {a, p};
             } catch { return null; }
           })
           .filter(Boolean);
 
-        const current = cleanPath.toLowerCase();
         let best = null;
         candidates.forEach(({a,p})=>{
-          if (p !== '/' && current.startsWith(p)) {
+          if (p !== '/' && currentNormalized.startsWith(p)) {
             if (!best || p.length > best.p.length) best = {a,p};
           }
         });
@@ -138,7 +192,7 @@
     normalizeLinks(document);
   }
 
-  // “Rede de proteção”: normaliza o link no clique
+  // “Rede de proteção”: normaliza o link no clique (antes da navegação)
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a[href]');
     if (!a) return;
@@ -148,10 +202,14 @@
     try {
       const u = new URL(href, location.href);
       if (u.origin !== location.origin) return;
-      if (basePath && !u.pathname.startsWith(basePath+'/')) return;
-      if (u.pathname !== withBase('/') && !/\.html?$/i.test(u.pathname) && !/\/$/.test(u.pathname)) {
-        u.pathname = u.pathname + '.html';
-        a.setAttribute('href', u.pathname + u.search + u.hash);
+      if (basePath && !u.pathname.startsWith(basePath+'/') && u.pathname !== basePath) return;
+
+      const finalHref = finalizeLocalHref(u.pathname, u.search, u.hash);
+      if (finalHref !== href) {
+        e.preventDefault();
+        a.setAttribute('href', finalHref);
+        // força navegação já corrigida
+        location.href = finalHref;
       }
     } catch(_) {}
   }, true);
